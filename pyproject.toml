@@ -9,7 +9,7 @@ description = "A Python toolkit and CLI for managing Asset Administration Shells
 authors = [{ name = "Peter Stein", email = "peterstein@dfki.de" }]
 license = { file = "LICENSE" }
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
