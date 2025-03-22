@@ -28,13 +28,13 @@ def test_cli_upload(capsys, semitrailer):
     commands.upload(Path("aas"))
     captured = capsys.readouterr()
     assert "Failed to upload 'Semitrailer.json'" in captured.out
-    assert "Failed to upload 'WST_A_1.json'" in captured.out
+    assert "Failed to upload 'WST_A_1.aasx'" in captured.out
 
     commands.shell_delete(semitrailer.id, cascade=True)
     commands.upload(Path("aas"))
     captured = capsys.readouterr()
     assert "Failed to upload 'Semitrailer.json'" not in captured.out
-    assert "Failed to upload 'WST_A_1.json'" in captured.out
+    assert "Failed to upload 'WST_A_1.aasx'" in captured.out
 
     commands.shell_delete(semitrailer.id, cascade=True)
     commands.upload(Path("aas") / "Semitrailer.json")
