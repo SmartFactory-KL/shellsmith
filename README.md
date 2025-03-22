@@ -1,3 +1,5 @@
+[![Python Package](https://github.com/ptrstn/shellsmith/actions/workflows/python-package.yaml/badge.svg)](https://github.com/ptrstn/shellsmith/actions/workflows/python-package.yaml)
+[![codecov](https://codecov.io/gh/ptrstn/shellsmith/branch/main/graph/badge.svg)](https://codecov.io/gh/ptrstn/shellsmith)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # Shellsmith
