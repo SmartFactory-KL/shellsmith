@@ -2,8 +2,8 @@ from typing import Dict, List
 
 import requests
 
-from aastools.settings import settings
-from aastools.utils import base64_encoded
+from shellsmith.settings import settings
+from shellsmith.utils import base64_encoded
 
 
 def get_shells(host: str = settings.host) -> List[Dict]:

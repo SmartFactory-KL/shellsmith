@@ -1,4 +1,4 @@
-from aastools.utils import base64_decode, base64_encode
+from shellsmith.utils import base64_decode, base64_encode
 
 
 def test_base64_encode():

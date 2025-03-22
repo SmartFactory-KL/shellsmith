@@ -1,6 +1,6 @@
 import requests
 
-from aastools import crud, services
+from shellsmith import crud, services
 
 
 def submodel_delete(submodel_id: str, unlink: bool = False):

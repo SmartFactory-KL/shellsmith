@@ -1,7 +1,7 @@
 import requests
 
-from aastools import __version__, services
-from aastools.settings import settings
+from shellsmith import __version__, services
+from shellsmith.settings import settings
 
 from .commands import info, nuke, shell_delete, submodel_delete, upload
 from .parser import build_parser
@@ -9,7 +9,7 @@ from .parser import build_parser
 
 def print_header():
     print("===============================================")
-    print(f"Asset Administration Shell Tools v{__version__}")
+    print(f"Shellsmith - AAS Toolkit v{__version__}")
     print(f"Host: {settings.host} ({services.health()})")
     print("===============================================")
     print()

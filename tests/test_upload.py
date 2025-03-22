@@ -1,5 +1,5 @@
-from aastools import crud, services
-from aastools.upload import upload_aas_folder
+from shellsmith import crud, services
+from shellsmith.upload import upload_aas_folder
 
 
 def test_upload():

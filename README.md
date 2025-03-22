@@ -1,15 +1,15 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-# aas-tools
+# Shellsmith
 
-A lightweight command-line toolkit to interact with Asset Administration Shells (AAS), Submodels, and related resources.
+A Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources.
 
 ## 🚀 Installation
 
 Install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/ptrstn/aas-tools
+pip install git+https://github.com/ptrstn/shellsmith
 ```
 
 ## 🛠️ Usage
@@ -37,8 +37,8 @@ aas submodel delete <id> --unlink    # Remove references from shells
 ## ⚙️ Development
 
 ```bash
-git clone https://github.com/ptrstn/aas-tools
-cd aas-tools
+git clone https://github.com/ptrstn/shellsmith
+cd shellsmith
 python -m venv .venv
 source .venv/bin/activate    # or .venv\Scripts\activate on Windows
 pip install -e .[test]

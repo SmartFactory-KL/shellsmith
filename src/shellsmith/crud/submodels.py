@@ -3,8 +3,8 @@ from urllib.parse import quote
 
 import requests
 
-from aastools.settings import settings
-from aastools.utils import base64_encoded
+from shellsmith.settings import settings
+from shellsmith.utils import base64_encoded
 
 
 def get_submodels(host: str = settings.host) -> List[Dict]:

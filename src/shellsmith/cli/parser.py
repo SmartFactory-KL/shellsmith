@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from aastools import __version__
+from shellsmith import __version__
 
 
 def build_parser():

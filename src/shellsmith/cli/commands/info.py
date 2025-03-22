@@ -1,4 +1,4 @@
-from aastools import crud, services
+from shellsmith import crud, services
 
 
 def info():

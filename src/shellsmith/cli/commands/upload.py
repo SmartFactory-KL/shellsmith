@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from aastools.upload import upload_aas, upload_aas_folder
+from shellsmith.upload import upload_aas, upload_aas_folder
 
 
 def upload(path: Path):

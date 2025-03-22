@@ -1,4 +1,4 @@
-from aastools import crud, services
+from shellsmith import crud, services
 
 
 def shell_delete(shell_id: str, cascade: bool = False):

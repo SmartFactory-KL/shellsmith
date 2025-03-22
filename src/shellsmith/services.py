@@ -2,8 +2,8 @@ from typing import Dict, List
 
 import requests
 
-from aastools import crud
-from aastools.settings import settings
+from shellsmith import crud
+from shellsmith.settings import settings
 
 
 def get_shell_submodels(shell_id: str) -> List[Dict]:

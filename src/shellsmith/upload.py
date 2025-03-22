@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from aastools.settings import settings
+from shellsmith.settings import settings
 
 
 def upload_aas_folder(path: Path | str):
