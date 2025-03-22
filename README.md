@@ -104,11 +104,19 @@ Before running the tests, make sure the BaSyx stack is up and running:
 docker compose up -d
 ```
 
-Then run:
+Then run the test suite with coverage:
 
 ```bash
 pytest --cov
 ```
+
+To view a detailed, visual coverage report:
+
+```bash
+pytest --cov --cov-report=html
+```
+
+Then open `htmlcov/index.html` in your web browser to explore which lines are covered and which are missing.
 
 ## References
 
