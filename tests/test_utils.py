@@ -1,3 +1,5 @@
+import pytest
+
 from shellsmith.utils import base64_decode, base64_encode
 
 
@@ -7,6 +9,7 @@ def test_base64_encode():
     encoded = base64_encode(text)
     assert encoded == expected
     assert base64_encode("A") == "QQ"
+    assert base64_encode(None) is None
 
 
 def test_base64_decode():
@@ -19,3 +22,6 @@ def test_base64_decode():
     assert base64_decode("QQ==") == "A"
     assert base64_decode("QQ=") == "A"
     assert base64_decode("QQ") == "A"
+    assert base64_decode(None) is None
+    with pytest.raises(UnicodeDecodeError):
+        base64_decode("asdf")
