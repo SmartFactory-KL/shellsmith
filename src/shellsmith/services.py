@@ -77,12 +77,6 @@ def delete_all_shells(host: str = config.host):
         crud.delete_shell(shell["id"], host=host)
 
 
-def delete_all_shells_cascading(host: str = config.host):
-    shells = crud.get_shells()
-    for shell in shells:
-        delete_shell_cascading(shell["id"], host=host)
-
-
 def health(timeout: float = 0.1) -> str:
     url = f"{config.host}/actuator/health"
 
@@ -93,10 +87,6 @@ def health(timeout: float = 0.1) -> str:
         return data["status"]
     except requests.exceptions.ConnectionError:
         return "DOWN"
-
-
-def healthy() -> bool:
-    return health() == "UP"
 
 
 def extract_shell_submodel_refs(shell: Dict) -> List[str]:
