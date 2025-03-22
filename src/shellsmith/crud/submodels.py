@@ -121,6 +121,6 @@ def delete_submodel_element(
     submodel_id = base64_encoded(submodel_id, encode)
     id_short_path = quote(id_short_path)
 
-    url = f"{host}/submodels/{submodel_id}" f"/submodel-elements/{id_short_path}/$value"
+    url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
     response = requests.delete(url, json=value)
     response.raise_for_status()
