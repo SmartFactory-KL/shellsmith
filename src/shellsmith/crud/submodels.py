@@ -86,26 +86,6 @@ def get_submodel_element(
     return element
 
 
-def set_submodel_element_value(
-    submodel_id: str,
-    id_short_path: str,
-    value: str,
-    encode=True,
-    host: str = config.host,
-):
-    """
-    Updates the value of an existing Submodel Element
-
-    PATCH /submodels/{submodel_id}/submodel-elements/{id_short_path}/$value
-    """
-    submodel_id = base64_encoded(submodel_id, encode)
-    id_short_path = quote(id_short_path)
-    url = f"{host}/submodels/{submodel_id}" f"/submodel-elements/{id_short_path}/$value"
-
-    response = requests.patch(url, json=value)
-    response.raise_for_status()
-
-
 def delete_submodel_element(
     submodel_id: str,
     id_short_path: str,
@@ -123,4 +103,24 @@ def delete_submodel_element(
 
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
     response = requests.delete(url, json=value)
+    response.raise_for_status()
+
+
+def patch_submodel_element_value(
+    submodel_id: str,
+    id_short_path: str,
+    value: str,
+    encode=True,
+    host: str = config.host,
+):
+    """
+    Updates the value of an existing Submodel Element
+
+    PATCH /submodels/{submodel_id}/submodel-elements/{id_short_path}/$value
+    """
+    submodel_id = base64_encoded(submodel_id, encode)
+    id_short_path = quote(id_short_path)
+    url = f"{host}/submodels/{submodel_id}" f"/submodel-elements/{id_short_path}/$value"
+
+    response = requests.patch(url, json=value)
     response.raise_for_status()

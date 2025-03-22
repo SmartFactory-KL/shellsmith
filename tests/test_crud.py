@@ -68,7 +68,7 @@ def test_set_submodel_element(
     old_product_name = "Semitrailer"
     new_product_name = "A New Product Name"
 
-    crud.set_submodel_element_value(
+    crud.patch_submodel_element_value(
         submodel_id=workpiece_carrier_a1.good_information.id,
         id_short_path="ProductName",
         value=new_product_name,
@@ -78,7 +78,7 @@ def test_set_submodel_element(
     assert elements[2]["value"] == new_product_name
 
     # Reset
-    crud.set_submodel_element_value(
+    crud.patch_submodel_element_value(
         submodel_id=workpiece_carrier_a1.good_information.id,
         id_short_path="ProductName",
         value=old_product_name,
@@ -95,7 +95,7 @@ def test_set_current_fence_name(
     old_fence_name = "TSN-Module"
     new_fence_name = "New-Fence-001"
 
-    crud.set_submodel_element_value(
+    crud.patch_submodel_element_value(
         submodel_id=workpiece_carrier_a1.asset_location.id,
         id_short_path="CurrentFences[0].FenceName",
         value=new_fence_name,
@@ -106,7 +106,7 @@ def test_set_current_fence_name(
     assert elements[0]["value"][0]["value"][0]["idShort"] == "FenceName"
     assert elements[0]["value"][0]["value"][0]["value"] == new_fence_name
 
-    crud.set_submodel_element_value(
+    crud.patch_submodel_element_value(
         submodel_id=workpiece_carrier_a1.asset_location.id,
         id_short_path="CurrentFences[0].FenceName",
         value=old_fence_name,
