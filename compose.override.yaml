@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  aas-gui:
+    image: eclipsebasyx/aas-gui:SNAPSHOT
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      AAS_REPO_PATH: "http://localhost:8081/shells"
+      SUBMODEL_REPO_PATH: "http://localhost:8081/submodels"
+      AAS_REGISTRY_PATH: "http://localhost:8082/shell-descriptors"
+      SUBMODEL_REGISTRY_PATH: "http://localhost:8083/submodel-descriptors"
+    depends_on:
+      aas-environment:
+        condition: service_healthy

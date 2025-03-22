@@ -96,6 +96,14 @@ pip install -e .[test]
 
 ### ✅ Testing
 
+Before running the tests, make sure the BaSyx stack is up and running:
+
+```bash
+docker compose up -d
+```
+
+Then run:
+
 ```bash
 pytest --cov
 ```
