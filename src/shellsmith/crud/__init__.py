@@ -3,6 +3,7 @@ from .shells import (  # noqa: F401
     delete_submodel_ref,
     get_shell,
     get_shells,
+    get_submodel_refs,
 )
 from .submodels import (  # noqa: F401
     delete_submodel,

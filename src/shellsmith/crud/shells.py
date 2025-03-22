@@ -33,12 +33,26 @@ def delete_shell(shell_id: str, encode=True, host: str = config.host):
     response.raise_for_status()
 
 
+def get_submodel_refs(
+    shell_id: str,
+    encode=True,
+    host: str = config.host,
+):
+    shell_id = base64_encoded(shell_id, encode)
+
+    url = f"{host}/shells/{shell_id}/submodel-refs"
+    response = requests.get(url)
+    response.raise_for_status()
+    submodel_refs = response.json()["result"]
+    return submodel_refs
+
+
 def delete_submodel_ref(
     shell_id: str,
     submodel_id,
     encode=True,
     host: str = config.host,
-):
+) -> List[Dict]:
     shell_id = base64_encoded(shell_id, encode)
     submodel_id = base64_encoded(submodel_id, encode)
 
