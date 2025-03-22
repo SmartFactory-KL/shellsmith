@@ -2,12 +2,12 @@ from typing import Dict, List
 
 import requests
 
-from shellsmith import crud
+import shellsmith
 from shellsmith.config import config
 
 
 def get_shell_submodels(shell_id: str) -> List[Dict]:
-    shell = crud.get_shell(shell_id)
+    shell = shellsmith.get_shell(shell_id)
     if "submodels" not in shell:
         return []
 
@@ -16,7 +16,7 @@ def get_shell_submodels(shell_id: str) -> List[Dict]:
 
     for submodel_id in submodel_ids:
         try:
-            submodel = crud.get_submodel(submodel_id)
+            submodel = shellsmith.get_submodel(submodel_id)
             submodels.append(submodel)
         except requests.exceptions.HTTPError:
             print(f"⚠️  Submodel '{submodel_id}' not found")
@@ -29,52 +29,52 @@ def delete_shell_cascading(
     host: str = config.host,
 ):
     delete_submodels_of_shell(shell_id, host=host)
-    crud.delete_shell(shell_id, host=host)
+    shellsmith.delete_shell(shell_id, host=host)
 
 
 def delete_submodels_of_shell(
     shell_id: str,
     host: str = config.host,
 ):
-    shell = crud.get_shell(shell_id, host=host)
+    shell = shellsmith.get_shell(shell_id, host=host)
 
     if "submodels" in shell:
         for submodel in shell["submodels"]:
             submodel_id = submodel["keys"][0]["value"]
             try:
-                crud.delete_submodel(submodel_id, host=host)
+                shellsmith.delete_submodel(submodel_id, host=host)
             except requests.exceptions.HTTPError:
                 print(f"Warning: Submodel {submodel_id} doesn't exist")
 
 
 def remove_submodel_references(submodel_id: str):
-    shells = crud.get_shells()
+    shells = shellsmith.get_shells()
     for shell in shells:
         if submodel_id in extract_shell_submodel_refs(shell):
-            crud.delete_submodel_ref(shell["id"], submodel_id)
+            shellsmith.delete_submodel_ref(shell["id"], submodel_id)
 
 
 def remove_dangling_submodel_refs():
-    shells = crud.get_shells()
-    submodels = crud.get_submodels()
+    shells = shellsmith.get_shells()
+    submodels = shellsmith.get_submodels()
     submodel_ids = {submodel["id"] for submodel in submodels}
 
     for shell in shells:
         for submodel_id in extract_shell_submodel_refs(shell):
             if submodel_id not in submodel_ids:
-                crud.delete_submodel_ref(shell["id"], submodel_id)
+                shellsmith.delete_submodel_ref(shell["id"], submodel_id)
 
 
 def delete_all_submodels(host: str = config.host):
-    submodels = crud.get_submodels(host=host)
+    submodels = shellsmith.get_submodels(host=host)
     for submodel in submodels:
-        crud.delete_submodel(submodel["id"])
+        shellsmith.delete_submodel(submodel["id"])
 
 
 def delete_all_shells(host: str = config.host):
-    shells = crud.get_shells()
+    shells = shellsmith.get_shells()
     for shell in shells:
-        crud.delete_shell(shell["id"], host=host)
+        shellsmith.delete_shell(shell["id"], host=host)
 
 
 def health(timeout: float = 0.1) -> str:
@@ -98,8 +98,8 @@ def extract_shell_submodel_refs(shell: Dict) -> List[str]:
 
 
 def find_unreferenced_submodels() -> list[str]:
-    shells = crud.get_shells()
-    submodels = crud.get_submodels()
+    shells = shellsmith.get_shells()
+    submodels = shellsmith.get_submodels()
 
     submodel_ref_ids = {
         submodel_id
@@ -116,8 +116,8 @@ def find_dangling_submodel_refs() -> dict[str, list[str]]:
     Returns a mapping of shell_id -> list of submodel IDs
     that are referenced in the shell but do not exist anymore.
     """
-    shells = crud.get_shells()
-    submodels = crud.get_submodels()
+    shells = shellsmith.get_shells()
+    submodels = shellsmith.get_submodels()
     existing_submodel_ids = {submodel["id"] for submodel in submodels}
 
     dangling_refs: dict[str, list[str]] = {}

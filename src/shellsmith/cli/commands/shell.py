@@ -1,6 +1,7 @@
 import requests.exceptions
 
-from shellsmith import crud, services
+import shellsmith
+from shellsmith import services
 
 
 def shell_delete(shell_id: str, cascade: bool = False):
@@ -10,7 +11,7 @@ def shell_delete(shell_id: str, cascade: bool = False):
             services.delete_shell_cascading(shell_id)
             print(f"✅ Shell '{shell_id}' and its submodels deleted.")
         else:
-            crud.delete_shell(shell_id)
+            shellsmith.delete_shell(shell_id)
             print(f"✅ Shell '{shell_id}' deleted.")
     except requests.exceptions.HTTPError as e:
         print(f"❌ Failed to delete Shell '{shell_id}': {e}")

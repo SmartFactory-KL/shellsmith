@@ -1,4 +1,5 @@
-from shellsmith import crud, services
+import shellsmith
+from shellsmith import services
 
 
 def info():
@@ -15,13 +16,13 @@ def print_unreferenced_submodels():
         print()
         print("⚠️ Unreferenced Submodels:")
         for submodel_id in submodel_ids:
-            submodel = crud.get_submodel(submodel_id)
+            submodel = shellsmith.get_submodel(submodel_id)
             id_short = submodel["idShort"]
             print(f"- {id_short} ({submodel_id})")
 
 
 def print_shells_tree():
-    shells = crud.get_shells()
+    shells = shellsmith.get_shells()
     for shell in shells:
         print(f"{shell['idShort']}: {shell['id']}")
 
@@ -40,7 +41,7 @@ def print_dangling_submodel_refs():
         print()
         print("⚠️ Dangling Submodel References:")
         for shell_id, submodel_ids in dangling.items():
-            shell = crud.get_shell(shell_id)
+            shell = shellsmith.get_shell(shell_id)
             print(f"- {shell['idShort']}: {shell_id}")
             for submodel_id in submodel_ids:
                 print(f"  └── {submodel_id}")
