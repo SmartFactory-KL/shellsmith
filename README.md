@@ -4,14 +4,35 @@
 
 # Shellsmith
 
-A Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources.
+Shellsmith is a Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources. 
+It is designed to interact with [Eclipse BaSyx](https://www.eclipse.org/basyx/), a middleware platform for AAS that follows the [Industry 4.0 standard](https://industrialdigitaltwin.org/en/content-hub/aasspecifications).
+
+### Features
+
+- Python API for CRUD operations on shells, submodels, and submodel elements
+- CLI interface for quick scripting
+- `.env`-based configuration
 
 ## 🚀 Installation
 
-Install directly from GitHub:
+```bash
+pip install shellsmith
+```
+
+**Requires**: Python 3.10+
+
+## 🔧 Configuration
+
+The default AAS environment host is:
+
+```
+http://localhost:8081
+```
+
+You can override it by setting the `SHELLSMITH_BASYX_ENV_HOST` environment variable, or by creating a `.env` file in your project root with:
 
 ```bash
-pip install git+https://github.com/ptrstn/shellsmith
+SHELLSMITH_BASYX_ENV_HOST=http://your-host:1234
 ```
 
 ## 🛠️ Usage
@@ -38,7 +59,29 @@ aas submodel delete <id> --unlink    # Remove references from shells
 
 ## 📡 API Usage
 
-The table below shows the mapping between BaSyx AAS REST API endpoints and the implemented client functions:
+You can also use `shellsmith` as a Python package:
+
+```python
+import shellsmith
+
+# Get all available shells
+shells = shellsmith.get_shells()
+
+# Get a specific shell by ID (automatically base64-encoded)
+shell = shellsmith.get_shell("example_aas_id")
+
+# Disable base64 encoding if your ID is already encoded
+submodel = shellsmith.get_submodel("ZXhhbXBsZV9hYXNfaWQ=", encode=False)
+
+# Use a custom AAS environment host
+submodel_refs = shellsmith.get_submodel_refs("example_aas_id", host="http://localhost:8081")
+```
+
+> ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you set `encode=False`. This is required by the BaSyx API for identifier-based URLs.
+
+The tables below show the mapping between BaSyx AAS REST API endpoints and the implemented client functions.
+
+> 📚 See [Plattform_i40 API reference](https://app.swaggerhub.com/apis/Plattform_i40/Entire-API-Collection) for endpoint details.
 
 ### Shells
 
@@ -85,6 +128,7 @@ The table below shows the mapping between BaSyx AAS REST API endpoints and the i
 |--------|----------------|-----------------------------------------------------|
 | POST   | `/upload`      | `upload.upload_aas` <br> `upload.upload_aas_folder` |
 
+> ℹ️ Upload functions are available under the `shellsmith.upload` submodule.
 
 ## ⚙️ Development
 
@@ -118,7 +162,7 @@ pytest --cov --cov-report=html
 
 Then open `htmlcov/index.html` in your web browser to explore which lines are covered and which are missing.
 
-## References
+## Resources
 
 - https://github.com/eclipse-basyx/basyx-java-server-sdk
 - https://github.com/admin-shell-io/aas-specs-api
