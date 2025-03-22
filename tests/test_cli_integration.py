@@ -1,4 +1,8 @@
+import sys
 from unittest.mock import patch
+
+import requests
+
 from shellsmith.cli.main import main
 import pytest
 
@@ -40,3 +44,16 @@ def test_main_no_command(capsys):
         main()
     captured = capsys.readouterr()
     assert "usage" in captured.out
+
+
+def test_main_connection_error(capsys):
+    with patch(
+        "requests.get",
+        side_effect=requests.exceptions.ConnectionError("Mocked connection error"),
+    ):
+        with patch.object(sys, "argv", ["aas", "info"]):
+            main()
+
+    captured = capsys.readouterr()
+    assert "Cannot reach" in captured.out
+    assert "Mocked connection error" in captured.out
