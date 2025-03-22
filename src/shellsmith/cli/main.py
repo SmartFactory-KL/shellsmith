@@ -42,7 +42,3 @@ def main():
             parser.print_help()
     except requests.exceptions.ConnectionError as e:
         print(f"😩 Cannot reach {config.host}: {e}")
-
-
-if __name__ == "__main__":
-    main()
