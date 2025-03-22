@@ -52,7 +52,7 @@ def delete_submodel_ref(
     submodel_id,
     encode=True,
     host: str = config.host,
-) -> List[Dict]:
+):
     shell_id = base64_encoded(shell_id, encode)
     submodel_id = base64_encoded(submodel_id, encode)
 
