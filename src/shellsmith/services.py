@@ -109,3 +109,23 @@ def find_unreferenced_submodels() -> list[str]:
 
     submodel_ids = {submodel["id"] for submodel in submodels}
     return list(submodel_ids - submodel_ref_ids)
+
+
+def find_dangling_submodel_refs() -> dict[str, list[str]]:
+    """
+    Returns a mapping of shell_id -> list of submodel IDs
+    that are referenced in the shell but do not exist anymore.
+    """
+    shells = crud.get_shells()
+    submodels = crud.get_submodels()
+    existing_submodel_ids = {submodel["id"] for submodel in submodels}
+
+    dangling_refs: dict[str, list[str]] = {}
+
+    for shell in shells:
+        shell_id = shell["id"]
+        for submodel_id in extract_shell_submodel_refs(shell):
+            if submodel_id not in existing_submodel_ids:
+                dangling_refs.setdefault(shell_id, []).append(submodel_id)
+
+    return dangling_refs

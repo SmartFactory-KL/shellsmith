@@ -5,6 +5,7 @@ def info():
     print("ℹ️ Showing all shells")
     print_shells_tree()
     print_unreferenced_submodels()
+    print_dangling_submodel_refs()
 
 
 def print_unreferenced_submodels():
@@ -30,3 +31,16 @@ def print_shells_tree():
             is_last = i == len(submodels) - 1
             prefix = "└──" if is_last else "├──"
             print(f"{prefix} {submodel['idShort']}: {submodel['id']}")
+
+
+def print_dangling_submodel_refs():
+    dangling = services.find_dangling_submodel_refs()
+
+    if dangling:
+        print()
+        print("⚠️ Dangling Submodel References:")
+        for shell_id, submodel_ids in dangling.items():
+            shell = crud.get_shell(shell_id)
+            print(f"- {shell['idShort']}: {shell_id}")
+            for submodel_id in submodel_ids:
+                print(f"  └── {submodel_id}")
