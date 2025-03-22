@@ -12,4 +12,4 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_prefix="SHELLSMITH_")
 
 
-settings = Settings()
+config = Settings()

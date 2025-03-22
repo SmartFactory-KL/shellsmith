@@ -3,7 +3,7 @@ from typing import Dict, List
 import requests
 
 from shellsmith import crud
-from shellsmith.settings import settings
+from shellsmith.config import config
 
 
 def get_shell_submodels(shell_id: str) -> List[Dict]:
@@ -26,7 +26,7 @@ def get_shell_submodels(shell_id: str) -> List[Dict]:
 
 def delete_shell_cascading(
     shell_id: str,
-    host: str = settings.host,
+    host: str = config.host,
 ):
     delete_submodels_of_shell(shell_id, host=host)
     crud.delete_shell(shell_id, host=host)
@@ -34,7 +34,7 @@ def delete_shell_cascading(
 
 def delete_submodels_of_shell(
     shell_id: str,
-    host: str = settings.host,
+    host: str = config.host,
 ):
     shell = crud.get_shell(shell_id, host=host)
 
@@ -65,26 +65,26 @@ def remove_dangling_submodel_refs():
                 crud.delete_submodel_ref(shell["id"], submodel_id)
 
 
-def delete_all_submodels(host: str = settings.host):
+def delete_all_submodels(host: str = config.host):
     submodels = crud.get_submodels(host=host)
     for submodel in submodels:
         crud.delete_submodel(submodel["id"])
 
 
-def delete_all_shells(host: str = settings.host):
+def delete_all_shells(host: str = config.host):
     shells = crud.get_shells()
     for shell in shells:
         crud.delete_shell(shell["id"], host=host)
 
 
-def delete_all_shells_cascading(host: str = settings.host):
+def delete_all_shells_cascading(host: str = config.host):
     shells = crud.get_shells()
     for shell in shells:
         delete_shell_cascading(shell["id"], host=host)
 
 
 def health(timeout: float = 0.1) -> str:
-    url = f"{settings.host}/actuator/health"
+    url = f"{config.host}/actuator/health"
 
     try:
         response = requests.get(url, timeout=timeout)

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from shellsmith.settings import settings
+from shellsmith.config import config
 
 
 def upload_aas_folder(path: Path | str):
@@ -20,7 +20,7 @@ def upload_aas_folder(path: Path | str):
 
 def upload_aas(path: Path | str):
     path = Path(path)
-    url = f"{settings.host}/upload"
+    url = f"{config.host}/upload"
 
     mime_type, _ = mimetypes.guess_type(path)
     if mime_type is None:

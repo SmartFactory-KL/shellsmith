@@ -1,7 +1,7 @@
 import requests
 
 from shellsmith import __version__, services
-from shellsmith.settings import settings
+from shellsmith.config import config
 
 from .commands import info, nuke, shell_delete, submodel_delete, upload
 from .parser import build_parser
@@ -10,7 +10,7 @@ from .parser import build_parser
 def print_header():
     print("===============================================")
     print(f"Shellsmith - AAS Toolkit v{__version__}")
-    print(f"Host: {settings.host} ({services.health()})")
+    print(f"Host: {config.host} ({services.health()})")
     print("===============================================")
     print()
 
@@ -41,7 +41,7 @@ def main():
         else:
             parser.print_help()
     except requests.exceptions.ConnectionError as e:
-        print(f"😩 Cannot reach {settings.host}: {e}")
+        print(f"😩 Cannot reach {config.host}: {e}")
 
 
 if __name__ == "__main__":

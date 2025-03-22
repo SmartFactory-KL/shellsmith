@@ -3,11 +3,11 @@ from urllib.parse import quote
 
 import requests
 
-from shellsmith.settings import settings
+from shellsmith.config import config
 from shellsmith.utils import base64_encoded
 
 
-def get_submodels(host: str = settings.host) -> List[Dict]:
+def get_submodels(host: str = config.host) -> List[Dict]:
     """
     Returns all Submodels
 
@@ -22,7 +22,7 @@ def get_submodels(host: str = settings.host) -> List[Dict]:
     return submodels
 
 
-def get_submodel(submodel_id: str, encode=True, host: str = settings.host) -> Dict:
+def get_submodel(submodel_id: str, encode=True, host: str = config.host) -> Dict:
     """
     Returns a specific Submodel
 
@@ -37,7 +37,7 @@ def get_submodel(submodel_id: str, encode=True, host: str = settings.host) -> Di
     return submodel
 
 
-def delete_submodel(submodel_id: str, encode=True, host: str = settings.host):
+def delete_submodel(submodel_id: str, encode=True, host: str = config.host):
     """
     Deletes a specific Submodel
 
@@ -53,7 +53,7 @@ def delete_submodel(submodel_id: str, encode=True, host: str = settings.host):
 # ─────────────────────────── Submodel elements ───────────────────────────
 
 
-def get_submodel_elements(submodel_id: str, encode=True, host: str = settings.host):
+def get_submodel_elements(submodel_id: str, encode=True, host: str = config.host):
     """
     Returns all submodel elements of a specific Submodel
 
@@ -70,7 +70,7 @@ def get_submodel_elements(submodel_id: str, encode=True, host: str = settings.ho
 
 
 def get_submodel_element(
-    submodel_id: str, id_short_path: str, encode=True, host: str = settings.host
+    submodel_id: str, id_short_path: str, encode=True, host: str = config.host
 ):
     """
     Returns all submodel elements including their hierarchy
@@ -91,7 +91,7 @@ def set_submodel_element_value(
     id_short_path: str,
     value: str,
     encode=True,
-    host: str = settings.host,
+    host: str = config.host,
 ):
     """
     Updates the value of an existing Submodel Element
@@ -111,7 +111,7 @@ def delete_submodel_element(
     id_short_path: str,
     value: str,
     encode=True,
-    host: str = settings.host,
+    host: str = config.host,
 ):
     """
     Deletes a submodel element at a specified path
