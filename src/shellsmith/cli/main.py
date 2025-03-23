@@ -3,20 +3,20 @@ import requests
 from shellsmith import __version__, services
 from shellsmith.config import config
 
-from .commands import base64, info, nuke, shell_delete, submodel_delete, upload
+from .commands import info, nuke, shell_delete, submodel_delete, upload
 from .parser import build_parser
+from ..utils import base64_decode, base64_encode
 
 
 def print_header():
     print("===============================================")
-    print(f"Shellsmith - AAS Toolkit v{__version__}")
-    print(f"Host: {config.host} ({services.health()})")
+    print(f" Shellsmith - AAS Toolkit v{__version__}")
+    print(f" Host: {config.host} ({services.health()})")
     print("===============================================")
     print()
 
 
 def main():
-    print_header()
     parser = build_parser()
     args = parser.parse_args()
 
@@ -26,8 +26,8 @@ def main():
         "nuke": lambda _args: nuke(),
         "shell.delete": lambda _args: shell_delete(args.id, cascade=args.cascade),
         "submodel.delete": lambda _args: submodel_delete(args.id, unlink=args.unlink),
-        "base64.encode": lambda _args: print(base64.encode(args.text)),
-        "base64.decode": lambda _args: print(base64.decode(args.text)),
+        "encode": lambda _args: print(base64_encode(args.id)),
+        "decode": lambda _args: print(base64_decode(args.value)),
     }
 
     try:
@@ -36,10 +36,11 @@ def main():
             key += f".{args.shell_command}"
         elif key == "submodel" and args.submodel_command:
             key += f".{args.submodel_command}"
-        elif key == "base64" and args.base64_command:
-            key += f".{args.base64_command}"
+
         handler = commands.get(key)
         if handler:
+            if key not in ("encode", "decode"):
+                print_header()
             handler(args)
         else:
             parser.print_help()

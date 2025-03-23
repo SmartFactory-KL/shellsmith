@@ -60,20 +60,12 @@ def build_parser():
         help="Remove all Shell references to this Submodel",
     )
 
-    # ───────────────────────────── base64 ─────────────────────────────
-    base64_parser = subparsers.add_parser("base64", help="Base64 encode/decode")
-    base64_subparsers = base64_parser.add_subparsers(dest="base64_command")
+    # ───────────────────────────── encode ─────────────────────────────
+    encode_parser = subparsers.add_parser("encode", help="Encode a string to base64")
+    encode_parser.add_argument("id", type=str, help="Text to encode")
 
-    base64_encode_parser = base64_subparsers.add_parser(
-        "encode",
-        help="Encode a string to base64",
-    )
-    base64_encode_parser.add_argument("text", type=str, help="Text to encode")
-
-    base64_decode_parser = base64_subparsers.add_parser(
-        "decode",
-        help="Decode a base64 string",
-    )
-    base64_decode_parser.add_argument("text", type=str, help="Base64 string to decode")
+    # ───────────────────────────── decode ─────────────────────────────
+    decode_parser = subparsers.add_parser("decode", help="Decode a base64 string")
+    decode_parser.add_argument("value", type=str, help="Base64 string to decode")
 
     return parser
