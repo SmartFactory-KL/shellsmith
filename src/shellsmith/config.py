@@ -9,7 +9,11 @@ class Settings(BaseSettings):
     def host(self):
         return self.basyx_env_host
 
-    model_config = SettingsConfigDict(env_file=".env", env_prefix="SHELLSMITH_")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_prefix="SHELLSMITH_",
+        extra="ignore",
+    )
 
 
 config = Settings()
