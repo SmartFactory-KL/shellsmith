@@ -26,6 +26,7 @@ def build_parser():
     # ──────────────────────────── shell ─────────────────────────────
     shell_parser = subparsers.add_parser(
         "shell",
+        aliases=["sh"],
         help="Manage Asset Administration Shells",
     )
     shell_subparsers = shell_parser.add_subparsers(dest="shell_command")
@@ -42,7 +43,9 @@ def build_parser():
     )
 
     # ───────────────────────────── submodel ─────────────────────────────
-    submodel_parser = subparsers.add_parser("submodel", help="Manage Submodels")
+    submodel_parser = subparsers.add_parser(
+        "submodel", aliases=["sm"], help="Manage Submodels"
+    )
     submodel_subparsers = submodel_parser.add_subparsers(dest="submodel_command")
     submodel_delete_parser = submodel_subparsers.add_parser(
         "delete",
@@ -59,6 +62,29 @@ def build_parser():
         action="store_true",
         help="Remove all Shell references to this Submodel",
     )
+
+    # ───────────────────── submodel-element ─────────────────────
+    sme_parser = subparsers.add_parser(
+        "submodel-element",
+        aliases=["sme"],
+        help="Manage Submodel Elements",
+    )
+    sme_subparsers = sme_parser.add_subparsers(dest="submodel_element_command")
+
+    sme_get_parser = sme_subparsers.add_parser(
+        "get",
+        help="Get value of a Submodel Element",
+    )
+    sme_get_parser.add_argument("id", type=str, help="Submodel ID")
+    sme_get_parser.add_argument("path", type=str, help="idShort path")
+
+    sme_patch_parser = sme_subparsers.add_parser(
+        "patch",
+        help="Patch value of a Submodel Element",
+    )
+    sme_patch_parser.add_argument("id", type=str, help="Submodel ID")
+    sme_patch_parser.add_argument("path", type=str, help="idShort path")
+    sme_patch_parser.add_argument("value", type=str, help="New value")
 
     # ───────────────────────────── encode ─────────────────────────────
     encode_parser = subparsers.add_parser("encode", help="Encode a string to base64")

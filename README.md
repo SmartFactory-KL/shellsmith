@@ -47,8 +47,12 @@ Common commands:
 ```bash
 aas info                  # Show all shells and submodels
 aas upload <file|folder>  # Upload AAS file or folder
+
 aas shell delete <id>     # Delete a shell
 aas submodel delete <id>  # Delete a submodel
+
+aas sme get <id> <path>               # Get Submodel element value
+aas sme patch <id> <path> <new_value> # Set Submodel element value
 ```
 
 Use `--cascade` or `--unlink` to control deletion behavior:

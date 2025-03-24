@@ -3,7 +3,15 @@ import requests
 from shellsmith import __version__, services
 from shellsmith.config import config
 
-from .commands import info, nuke, shell_delete, submodel_delete, upload
+from .commands import (
+    info,
+    nuke,
+    shell_delete,
+    submodel_delete,
+    submodel_element_get,
+    submodel_element_patch,
+    upload,
+)
 from .parser import build_parser
 from ..utils import base64_decode, base64_encode
 
@@ -26,6 +34,10 @@ def main():
         "nuke": lambda _args: nuke(),
         "shell.delete": lambda _args: shell_delete(args.id, cascade=args.cascade),
         "submodel.delete": lambda _args: submodel_delete(args.id, unlink=args.unlink),
+        "sme.get": lambda _args: submodel_element_get(args.id, args.path),
+        "sme.patch": lambda _args: submodel_element_patch(
+            args.id, args.path, args.value
+        ),
         "encode": lambda _args: print(base64_encode(args.id)),
         "decode": lambda _args: print(base64_decode(args.value)),
     }
@@ -36,6 +48,8 @@ def main():
             key += f".{args.shell_command}"
         elif key == "submodel" and args.submodel_command:
             key += f".{args.submodel_command}"
+        elif key == "sme" and args.submodel_element_command:
+            key += f".{args.submodel_element_command}"
 
         handler = commands.get(key)
         if handler:
