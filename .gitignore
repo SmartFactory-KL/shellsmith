@@ -4,6 +4,7 @@
 .venv
 *.egg-info
 __pycache__
+aasx
 coverage.xml
 dist
 db.sqlite3

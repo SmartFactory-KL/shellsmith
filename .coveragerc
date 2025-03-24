@@ -4,10 +4,9 @@ source =
 omit =
     .venv
     aas
-    config
     tests
     __main__.py
-    cli.py
+    neo4j.py
 
 [report]
 show_missing = True

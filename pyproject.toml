@@ -29,6 +29,10 @@ test = [
     "pytest-dotenv",
 ]
 
+neo4j = [
+    "neo4j",
+]
+
 [project.scripts]
 aas = "shellsmith.cli.main:main"
 
