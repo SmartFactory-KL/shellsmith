@@ -1,4 +1,4 @@
-[![Python Package](https://github.com/ptrstn/shellsmith/actions/workflows/python-package.yaml/badge.svg)](https://github.com/ptrstn/shellsmith/actions/workflows/python-package.yaml)
+[![Test](https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml/badge.svg)](https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml)
 [![codecov](https://codecov.io/gh/ptrstn/shellsmith/branch/main/graph/badge.svg)](https://codecov.io/gh/ptrstn/shellsmith)
 [![PyPI - Version](https://img.shields.io/pypi/v/shellsmith?color=%2334D058)](https://pypi.org/project/shellsmith)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
