@@ -24,6 +24,14 @@ def print_header():
     print()
 
 
+def normalize_command_alias(cmd: str) -> str:
+    return {
+        "sh": "shell",
+        "sm": "submodel",
+        "sme": "submodel-element",
+    }.get(cmd, cmd)
+
+
 def main():
     parser = build_parser()
     args = parser.parse_args()
@@ -34,8 +42,8 @@ def main():
         "nuke": lambda _args: nuke(),
         "shell.delete": lambda _args: shell_delete(args.id, cascade=args.cascade),
         "submodel.delete": lambda _args: submodel_delete(args.id, unlink=args.unlink),
-        "sme.get": lambda _args: submodel_element_get(args.id, args.path),
-        "sme.patch": lambda _args: submodel_element_patch(
+        "submodel-element.get": lambda _args: submodel_element_get(args.id, args.path),
+        "submodel-element.patch": lambda _args: submodel_element_patch(
             args.id, args.path, args.value
         ),
         "encode": lambda _args: print(base64_encode(args.id)),
@@ -43,12 +51,12 @@ def main():
     }
 
     try:
-        key = args.command
+        key = normalize_command_alias(args.command)
         if key == "shell" and args.shell_command:
             key += f".{args.shell_command}"
         elif key == "submodel" and args.submodel_command:
             key += f".{args.submodel_command}"
-        elif key == "sme" and args.submodel_element_command:
+        elif key == "submodel-element" and args.submodel_element_command:
             key += f".{args.submodel_element_command}"
 
         handler = commands.get(key)
