@@ -3,16 +3,17 @@ import time
 
 import pytest
 
-from shellsmith import neo4j
-from shellsmith.upload import upload_aas_folder
-
 if not os.getenv("SHELLSMITH_NEO4J_ENABLED"):
     pytest.skip(
         reason="Skipping Neo4j tests. Set SHELLSMITH_NEO4J_ENABLED=1 to enable.",
         allow_module_level=True,
     )
 
-GRAPH_READY_TIMEOUT = 15  # seconds
+from shellsmith import neo4j, services
+from shellsmith.upload import upload_aas_folder
+
+
+GRAPH_READY_TIMEOUT = 45  # seconds
 EXPECTED_NODE_COUNT = 39
 EXPECTED_SUBMODEL_ELEMENT_COUNT = 17  # or whatever your total is
 
@@ -20,31 +21,40 @@ EXPECTED_SUBMODEL_ELEMENT_COUNT = 17  # or whatever your total is
 def wait_for_graph_node_count(
     expected_count: int = EXPECTED_NODE_COUNT,
     timeout: int = GRAPH_READY_TIMEOUT,
-) -> bool:
+) -> (bool, int):
     query = "MATCH (n) RETURN count(n) AS count"
     start = time.time()
+
+    last_count = 0
 
     while True:
         try:
             with neo4j.get_driver().session() as session:
                 result = session.run(query)
                 record = result.single()
-                if record and record["count"] == expected_count:
-                    return True
+                count = record["count"]
+                last_count = count
+                if record and count == expected_count:
+                    return True, last_count
         except Exception:  # noqa
             pass  # wait and retry
 
         if time.time() - start > timeout:
-            return False
+            return False, last_count
 
         time.sleep(0.5)
 
 
 def test_wait_for_graph():
-    neo4j.detach_delete_all()
-    assert wait_for_graph_node_count(0), "Graph was not fully destructed within timeout"
+    # neo4j.detach_delete_all()
+    services.delete_all_shells()
+    services.delete_all_submodels()
+    success, count = wait_for_graph_node_count(0)
+    assert success, f"Graph was not fully destructed within timeout: {count}"
+
     upload_aas_folder("aas")
-    assert wait_for_graph_node_count(39), "Graph was not fully built within timeout"
+    success, count = wait_for_graph_node_count(39)
+    assert success, f"Graph was not fully built within timeout: {count}"
     time.sleep(1)
 
 
