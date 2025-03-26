@@ -6,7 +6,7 @@
   <a href="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml"><img src="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml/badge.svg" alt="Test"></a>
   <a href="https://codecov.io/gh/ptrstn/shellsmith"><img src="https://codecov.io/gh/ptrstn/shellsmith/branch/main/graph/badge.svg" alt="codecov"></a>
   <a href="https://pypi.org/project/shellsmith"><img src="https://img.shields.io/pypi/v/shellsmith?color=%2334D058" alt="PyPI - Version"></a>
-  <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
+  <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
 </p>
 
 Shellsmith is a Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources. 
@@ -170,6 +170,28 @@ pytest --cov --cov-report=html
 ```
 
 Then open `htmlcov/index.html` in your web browser to explore which lines are covered and which are missing.
+
+### 🧼 Code Quality
+
+We use [Ruff](https://docs.astral.sh/ruff/) for linting, formatting, and import sorting.
+
+Check code style:
+
+```bash
+ruff check
+```
+
+Auto-fix issues:
+
+```bash
+ruff check --fix
+```
+
+Format code:
+
+```bash
+ruff format
+```
 
 ## Resources
 

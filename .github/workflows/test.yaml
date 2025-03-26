@@ -24,9 +24,13 @@ jobs:
           pip install --upgrade pip
           pip install -e .[test]
 
-      - name: Lint with flake8
+      - name: Lint with Ruff
         run: |
-          flake8
+          ruff check
+
+      - name: Check code formatting
+        run: |
+          ruff format --check .
 
       - name: Start BaSyx stack
         run: docker compose -f compose.yaml up -d
