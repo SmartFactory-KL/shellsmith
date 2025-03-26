@@ -2,6 +2,16 @@ from dataclasses import dataclass
 
 import pytest
 
+from shellsmith import services
+from shellsmith.config import config
+
+
+def pytest_sessionstart(session):
+    if services.health() != "UP":
+        host = config.host
+        reason = f"❌ BaSyx AAS Environment is not running at {host}"
+        pytest.exit(reason, returncode=1)
+
 
 @dataclass
 class BaseModel:
