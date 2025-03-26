@@ -85,9 +85,7 @@ def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
         return [dict(record["sme"]) for record in result]
 
 
-def get_submodel_element(
-    submodel_id: str, id_short_path: str
-) -> dict[str, Any] | None:
+def get_submodel_element(submodel_id: str, id_short_path: str) -> dict[str, Any] | None:
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id, idShortPath: $id_short_path})
     RETURN sme;
