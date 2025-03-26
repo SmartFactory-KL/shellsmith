@@ -3,19 +3,20 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml">
+  <a href="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml" style="text-decoration: none;">
     <img src="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml/badge.svg" alt="Test">
   </a>
-  <a href="https://codecov.io/gh/ptrstn/shellsmith">
+  <a href="https://codecov.io/gh/ptrstn/shellsmith" style="text-decoration: none;">
     <img src="https://codecov.io/gh/ptrstn/shellsmith/branch/main/graph/badge.svg" alt="codecov">
   </a>
-  <a href="https://pypi.org/project/shellsmith">
+  <a href="https://pypi.org/project/shellsmith" style="text-decoration: none;">
     <img src="https://img.shields.io/pypi/v/shellsmith?color=%2334D058" alt="PyPI - Version">
   </a>
-  <a href="https://github.com/psf/black">
+  <a href="https://github.com/psf/black" style="text-decoration: none;">
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
   </a>
 </p>
+
 
 
 Shellsmith is a Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources. 
