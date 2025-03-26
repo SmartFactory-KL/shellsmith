@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from neo4j import Driver, GraphDatabase
 
@@ -26,7 +26,7 @@ def close_driver():
 ##################
 
 
-def get_shells() -> List[Dict[str, Any]]:
+def get_shells() -> list[dict[str, Any]]:
     query = """
     MATCH (shell:AssetAdministrationShell)
     RETURN shell;
@@ -37,7 +37,7 @@ def get_shells() -> List[Dict[str, Any]]:
         return shells
 
 
-def get_shell(shell_id: str) -> Optional[Dict[str, Any]]:
+def get_shell(shell_id: str) -> Optional[dict[str, Any]]:
     query = """
     MATCH (shell:AssetAdministrationShell {id: $shell_id})
     RETURN shell;
@@ -53,7 +53,7 @@ def get_shell(shell_id: str) -> Optional[Dict[str, Any]]:
 ##################
 
 
-def get_submodels() -> List[Dict[str, Any]]:
+def get_submodels() -> list[dict[str, Any]]:
     query = """
     MATCH (submodel:Submodel)
     RETURN submodel
@@ -64,7 +64,7 @@ def get_submodels() -> List[Dict[str, Any]]:
         return submodels
 
 
-def get_submodel(submodel_id: str) -> Dict[str, Any]:
+def get_submodel(submodel_id: str) -> dict[str, Any]:
     query = """
     MATCH (submodel:Submodel {id: $submodel_id})
     RETURN submodel
@@ -75,7 +75,7 @@ def get_submodel(submodel_id: str) -> Dict[str, Any]:
         return dict(record["submodel"]) if record else None
 
 
-def get_submodel_elements(submodel_id: str) -> List[Dict[str, Any]]:
+def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id})
     RETURN sme;
@@ -87,7 +87,7 @@ def get_submodel_elements(submodel_id: str) -> List[Dict[str, Any]]:
 
 def get_submodel_element(
     submodel_id: str, id_short_path: str
-) -> Optional[Dict[str, Any]]:
+) -> Optional[dict[str, Any]]:
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id, idShortPath: $id_short_path})
     RETURN sme;

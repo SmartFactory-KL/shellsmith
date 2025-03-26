@@ -1,12 +1,10 @@
-from typing import Dict, List
-
 import requests
 
 from shellsmith.config import config
 from shellsmith.utils import base64_encoded
 
 
-def get_shells(host: str = config.host) -> List[Dict]:
+def get_shells(host: str = config.host) -> list[dict]:
     url = f"{host}/shells"
     response = requests.get(url)
     response.raise_for_status()
@@ -15,7 +13,7 @@ def get_shells(host: str = config.host) -> List[Dict]:
     return shells
 
 
-def get_shell(shell_id, encode=True, host: str = config.host) -> Dict:
+def get_shell(shell_id, encode=True, host: str = config.host) -> dict:
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}"
 

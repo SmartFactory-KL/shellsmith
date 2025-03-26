@@ -1,4 +1,3 @@
-from typing import Dict, List
 from urllib.parse import quote
 
 import requests
@@ -7,7 +6,7 @@ from shellsmith.config import config
 from shellsmith.utils import base64_encoded
 
 
-def get_submodels(host: str = config.host) -> List[Dict]:
+def get_submodels(host: str = config.host) -> list[dict]:
     """
     Returns all Submodels
 
@@ -22,7 +21,7 @@ def get_submodels(host: str = config.host) -> List[Dict]:
     return submodels
 
 
-def get_submodel(submodel_id: str, encode=True, host: str = config.host) -> Dict:
+def get_submodel(submodel_id: str, encode=True, host: str = config.host) -> dict:
     """
     Returns a specific Submodel
 

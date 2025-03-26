@@ -1,18 +1,16 @@
-from typing import Dict, List
-
 import requests
 
 import shellsmith
 from shellsmith.config import config
 
 
-def get_shell_submodels(shell_id: str) -> List[Dict]:
+def get_shell_submodels(shell_id: str) -> list[dict]:
     shell = shellsmith.get_shell(shell_id)
     if "submodels" not in shell:
         return []
 
     submodel_ids = extract_shell_submodel_refs(shell)
-    submodels: List[Dict] = []
+    submodels: list[dict] = []
 
     for submodel_id in submodel_ids:
         try:
@@ -89,7 +87,7 @@ def health(timeout: float = 0.1) -> str:
         return "DOWN"
 
 
-def extract_shell_submodel_refs(shell: Dict) -> List[str]:
+def extract_shell_submodel_refs(shell: dict) -> list[str]:
     return [
         submodel["keys"][0]["value"]
         for submodel in shell["submodels"]
