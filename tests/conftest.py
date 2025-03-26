@@ -6,7 +6,7 @@ from shellsmith import services
 from shellsmith.config import config
 
 
-def pytest_sessionstart(session):
+def pytest_sessionstart(session) -> None:  # noqa: ANN001
     if services.health() != "UP":
         host = config.host
         reason = f"❌ BaSyx AAS Environment is not running at {host}"
