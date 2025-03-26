@@ -1,8 +1,7 @@
 import base64
-from typing import Optional
 
 
-def base64_encode(text: Optional[str]) -> Optional[str]:
+def base64_encode(text: str | None) -> str | None:
     try:
         return (
             base64.urlsafe_b64encode(text.encode("utf-8"))
@@ -15,7 +14,7 @@ def base64_encode(text: Optional[str]) -> Optional[str]:
         raise e
 
 
-def base64_decode(encoded_text: Optional[str]) -> Optional[str]:
+def base64_decode(encoded_text: str | None) -> str | None:
     try:
         missing_padding = 4 - (len(encoded_text) % 4)
         if missing_padding > 0:

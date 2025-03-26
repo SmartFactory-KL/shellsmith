@@ -1,10 +1,10 @@
-from typing import Any, Optional
+from typing import Any
 
 from neo4j import Driver, GraphDatabase
 
 from shellsmith.config import config
 
-_driver: Optional[Driver] = None
+_driver: Driver | None = None
 
 
 def get_driver() -> Driver:
@@ -37,7 +37,7 @@ def get_shells() -> list[dict[str, Any]]:
         return shells
 
 
-def get_shell(shell_id: str) -> Optional[dict[str, Any]]:
+def get_shell(shell_id: str) -> dict[str, Any] | None:
     query = """
     MATCH (shell:AssetAdministrationShell {id: $shell_id})
     RETURN shell;
@@ -87,7 +87,7 @@ def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
 
 def get_submodel_element(
     submodel_id: str, id_short_path: str
-) -> Optional[dict[str, Any]]:
+) -> dict[str, Any] | None:
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id, idShortPath: $id_short_path})
     RETURN sme;
