@@ -52,3 +52,6 @@ select = [
     "N",  # pep8-naming
     "UP", # pyupgrade
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
