@@ -12,7 +12,6 @@ if not os.getenv("SHELLSMITH_NEO4J_ENABLED"):
 from shellsmith import neo4j, services
 from shellsmith.upload import upload_aas_folder
 
-
 GRAPH_READY_TIMEOUT = 45  # seconds
 EXPECTED_NODE_COUNT = 39
 EXPECTED_SUBMODEL_ELEMENT_COUNT = 17  # or whatever your total is

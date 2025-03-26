@@ -2,6 +2,7 @@ import requests
 
 from shellsmith import __version__, services
 from shellsmith.config import config
+from shellsmith.utils import base64_decode, base64_encode
 
 from .commands import (
     info,
@@ -13,7 +14,6 @@ from .commands import (
     upload,
 )
 from .parser import build_parser
-from ..utils import base64_decode, base64_encode
 
 
 def print_header():

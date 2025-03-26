@@ -1,10 +1,10 @@
 import sys
 from unittest.mock import patch
 
+import pytest
 import requests
 
 from shellsmith.cli.main import main
-import pytest
 
 
 def test_main_info(capsys):
