@@ -5,6 +5,7 @@
 *.egg-info
 __pycache__
 aasx
+aas-*
 coverage.xml
 dist
 db.sqlite3
