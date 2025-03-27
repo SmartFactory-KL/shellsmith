@@ -32,9 +32,8 @@ def test_main_submodel_delete_with_unlink(workpiece_carrier_a1):
 
 
 def test_main_invalid_command(capsys):
-    with patch("sys.argv", ["aas", "unknown"]):
-        with pytest.raises(SystemExit):
-            main()
+    with patch("sys.argv", ["aas", "unknown"]), pytest.raises(SystemExit):
+        main()
     captured = capsys.readouterr()
     assert "usage" in captured.err
 
@@ -47,12 +46,12 @@ def test_main_no_command(capsys):
 
 
 def test_main_connection_error(capsys):
-    with patch(
-        "requests.get",
-        side_effect=requests.exceptions.ConnectionError("Mocked connection error"),
+    mocked_exception = requests.exceptions.ConnectionError("Mocked connection error")
+    with (
+        patch("requests.get", side_effect=mocked_exception),
+        patch.object(sys, "argv", ["aas", "info"]),
     ):
-        with patch.object(sys, "argv", ["aas", "info"]):
-            main()
+        main()
 
     captured = capsys.readouterr()
     assert "Cannot reach" in captured.out
