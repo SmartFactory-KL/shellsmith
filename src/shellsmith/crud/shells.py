@@ -23,7 +23,7 @@ def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> di
     return shell
 
 
-def delete_shell(shell_id: str, encode: bool = True, host: str = config.host):
+def delete_shell(shell_id: str, encode: bool = True, host: str = config.host) -> None:
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}"
@@ -35,7 +35,7 @@ def get_submodel_refs(
     shell_id: str,
     encode: bool = True,
     host: str = config.host,
-):
+) -> list[dict]:
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}/submodel-refs"
@@ -50,7 +50,7 @@ def delete_submodel_ref(
     submodel_id: str,
     encode: bool = True,
     host: str = config.host,
-):
+) -> None:
     shell_id = base64_encoded(shell_id, encode)
     submodel_id = base64_encoded(submodel_id, encode)
 

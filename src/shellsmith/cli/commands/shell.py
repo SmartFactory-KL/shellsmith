@@ -4,7 +4,7 @@ import shellsmith
 from shellsmith import services
 
 
-def shell_delete(shell_id: str, cascade: bool = False):
+def shell_delete(shell_id: str, cascade: bool = False) -> None:
     print(f"🗑️ Deleting Shell: {shell_id}")
     try:
         if cascade:

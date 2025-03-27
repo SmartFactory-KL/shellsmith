@@ -38,7 +38,11 @@ def get_submodel(
     return submodel
 
 
-def delete_submodel(submodel_id: str, encode: bool = True, host: str = config.host):
+def delete_submodel(
+    submodel_id: str,
+    encode: bool = True,
+    host: str = config.host,
+) -> None:
     """
     Deletes a specific Submodel
 
@@ -55,8 +59,10 @@ def delete_submodel(submodel_id: str, encode: bool = True, host: str = config.ho
 
 
 def get_submodel_elements(
-    submodel_id: str, encode: bool = True, host: str = config.host
-):
+    submodel_id: str,
+    encode: bool = True,
+    host: str = config.host,
+) -> list[dict]:
     """
     Returns all submodel elements of a specific Submodel
 
@@ -73,8 +79,11 @@ def get_submodel_elements(
 
 
 def get_submodel_element(
-    submodel_id: str, id_short_path: str, encode: bool = True, host: str = config.host
-):
+    submodel_id: str,
+    id_short_path: str,
+    encode: bool = True,
+    host: str = config.host,
+) -> dict:
     """
     Returns all submodel elements including their hierarchy
 
@@ -95,7 +104,7 @@ def delete_submodel_element(
     value: str,
     encode: bool = True,
     host: str = config.host,
-):
+) -> None:
     """
     Deletes a submodel element at a specified path
 
@@ -115,7 +124,7 @@ def patch_submodel_element_value(
     value: str,
     encode: bool = True,
     host: str = config.host,
-):
+) -> None:
     """
     Updates the value of an existing Submodel Element
 

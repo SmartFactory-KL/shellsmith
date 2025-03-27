@@ -4,7 +4,7 @@ import shellsmith
 from shellsmith import services
 
 
-def submodel_delete(submodel_id: str, unlink: bool = False):
+def submodel_delete(submodel_id: str, unlink: bool = False) -> None:
     print(f"🗑️ Deleting Submodel: {submodel_id}")
     try:
         shellsmith.delete_submodel(submodel_id)

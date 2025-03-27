@@ -2,13 +2,13 @@ import shellsmith
 from shellsmith import services
 
 
-def info():
+def info() -> None:
     print_shells_tree()
     print_unreferenced_submodels()
     print_dangling_submodel_refs()
 
 
-def print_unreferenced_submodels():
+def print_unreferenced_submodels() -> None:
     submodel_ids = services.find_unreferenced_submodels()
 
     if submodel_ids:
@@ -20,7 +20,7 @@ def print_unreferenced_submodels():
             print(f"- {id_short}: {submodel_id}")
 
 
-def print_shells_tree():
+def print_shells_tree() -> None:
     shells = shellsmith.get_shells()
     for shell in shells:
         shell_id = shell["id"]
@@ -37,7 +37,7 @@ def print_shells_tree():
             print(f"{prefix} {submodel_id_short}: {submodel_id}")
 
 
-def print_dangling_submodel_refs():
+def print_dangling_submodel_refs() -> None:
     dangling = services.find_dangling_submodel_refs()
 
     if dangling:

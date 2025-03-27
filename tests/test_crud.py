@@ -65,6 +65,13 @@ def test_get_submodel_elements(
     assert elements[0]["value"][0]["value"][0]["value"] == "TSN-Module"
 
 
+def test_get_submodel_element(workpiece_carrier_a1):
+    submodel_id = workpiece_carrier_a1.asset_location.id
+    id_short_path = "CurrentFences[0].FenceName"
+    fence_name = shellsmith.get_submodel_element(submodel_id, id_short_path)
+    assert fence_name["value"] == "TSN-Module"
+
+
 def test_set_submodel_element(
     workpiece_carrier_a1,
 ):

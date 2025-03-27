@@ -3,7 +3,7 @@ from pathlib import Path
 from shellsmith.upload import upload_aas, upload_aas_folder
 
 
-def upload(path: Path):
+def upload(path: Path) -> None:
     if path.is_file():
         print(f"ℹ️ Uploading file: {path}")
         upload_aas(path)

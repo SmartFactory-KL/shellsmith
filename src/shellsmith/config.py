@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     neo4j_uri: str = "neo4j://localhost:7687"
 
     @property
-    def host(self):
+    def host(self) -> str:
         return self.basyx_env_host
 
     model_config = SettingsConfigDict(

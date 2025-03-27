@@ -14,7 +14,7 @@ def get_driver() -> Driver:
     return _driver
 
 
-def close_driver():
+def close_driver() -> None:
     global _driver
     if _driver is not None:
         _driver.close()
@@ -100,7 +100,7 @@ def get_submodel_element(submodel_id: str, id_short_path: str) -> dict[str, Any]
         return dict(record["sme"]) if record else None
 
 
-def detach_delete_all():
+def detach_delete_all() -> None:
     """
     Dangerous!
     Deletes all nodes and relationships in the graph.

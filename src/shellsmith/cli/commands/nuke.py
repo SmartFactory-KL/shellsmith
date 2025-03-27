@@ -1,7 +1,7 @@
 from shellsmith import services
 
 
-def nuke():
+def nuke() -> None:
     print("☣️ Deleting all Shells and Submodels!")
     print("☢️ Deleting all Shells and Submodels!")
     print("⚠️ Deleting all Shells and Submodels!")

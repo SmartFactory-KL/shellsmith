@@ -6,7 +6,7 @@ import requests
 from shellsmith.config import config
 
 
-def upload_aas_folder(path: Path | str):
+def upload_aas_folder(path: Path | str) -> None:
     folder_path = Path(path)
 
     if not folder_path.is_dir():
@@ -18,7 +18,7 @@ def upload_aas_folder(path: Path | str):
             upload_aas(aas_file)
 
 
-def upload_aas(path: Path | str):
+def upload_aas(path: Path | str) -> bool:
     path = Path(path)
     url = f"{config.host}/upload"
 
@@ -32,7 +32,7 @@ def upload_aas(path: Path | str):
         try:
             response = requests.post(url, files=files)
             response.raise_for_status()
-            success = response.json()
+            success: bool = response.json()
             print(f"✅ Successfully uploaded '{path.name}': {success}")
             return success
         except requests.exceptions.HTTPError as e:

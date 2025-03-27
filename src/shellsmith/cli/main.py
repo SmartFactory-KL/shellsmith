@@ -16,7 +16,7 @@ from .commands import (
 from .parser import build_parser
 
 
-def print_header():
+def print_header() -> None:
     print("===============================================")
     print(f" Shellsmith - AAS Toolkit v{__version__}")
     print(f" Host: {config.host} ({services.health()})")
@@ -32,7 +32,7 @@ def normalize_command_alias(cmd: str) -> str:
     }.get(cmd, cmd)
 
 
-def main():
+def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 

@@ -25,7 +25,7 @@ def get_shell_submodels(shell_id: str) -> list[dict]:
 def delete_shell_cascading(
     shell_id: str,
     host: str = config.host,
-):
+) -> None:
     delete_submodels_of_shell(shell_id, host=host)
     shellsmith.delete_shell(shell_id, host=host)
 
@@ -33,7 +33,7 @@ def delete_shell_cascading(
 def delete_submodels_of_shell(
     shell_id: str,
     host: str = config.host,
-):
+) -> None:
     shell = shellsmith.get_shell(shell_id, host=host)
 
     if "submodels" in shell:
@@ -45,14 +45,14 @@ def delete_submodels_of_shell(
                 print(f"Warning: Submodel {submodel_id} doesn't exist")
 
 
-def remove_submodel_references(submodel_id: str):
+def remove_submodel_references(submodel_id: str) -> None:
     shells = shellsmith.get_shells()
     for shell in shells:
         if submodel_id in extract_shell_submodel_refs(shell):
             shellsmith.delete_submodel_ref(shell["id"], submodel_id)
 
 
-def remove_dangling_submodel_refs():
+def remove_dangling_submodel_refs() -> None:
     shells = shellsmith.get_shells()
     submodels = shellsmith.get_submodels()
     submodel_ids = {submodel["id"] for submodel in submodels}
@@ -63,13 +63,13 @@ def remove_dangling_submodel_refs():
                 shellsmith.delete_submodel_ref(shell["id"], submodel_id)
 
 
-def delete_all_submodels(host: str = config.host):
+def delete_all_submodels(host: str = config.host) -> None:
     submodels = shellsmith.get_submodels(host=host)
     for submodel in submodels:
         shellsmith.delete_submodel(submodel["id"])
 
 
-def delete_all_shells(host: str = config.host):
+def delete_all_shells(host: str = config.host) -> None:
     shells = shellsmith.get_shells()
     for shell in shells:
         shellsmith.delete_shell(shell["id"], host=host)

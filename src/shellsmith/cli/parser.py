@@ -4,7 +4,7 @@ from pathlib import Path
 from shellsmith import __version__
 
 
-def build_parser():
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="AAS Tools CLI")
     parser.add_argument(
         "--version",
