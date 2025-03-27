@@ -1,24 +1,20 @@
+from functools import cache
 from typing import Any
 
 from neo4j import Driver, GraphDatabase
 
 from shellsmith.config import config
 
-_driver: Driver | None = None
 
-
+@cache
 def get_driver() -> Driver:
-    global _driver
-    if _driver is None:
-        _driver = GraphDatabase.driver(config.neo4j_uri, auth=None)
-    return _driver
+    return GraphDatabase.driver(config.neo4j_uri, auth=None)
 
 
 def close_driver() -> None:
-    global _driver
-    if _driver is not None:
-        _driver.close()
-        _driver = None
+    driver = get_driver()
+    driver.close()
+    get_driver.cache_clear()
 
 
 ##################
