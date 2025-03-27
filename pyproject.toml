@@ -50,6 +50,7 @@ select = [
     "F",    # pyflakes
     "I",    # isort
     "N",    # pep8-naming
+    "SIM",  # flake8-simplify
     "UP",   # pyupgrade
     "W",    # pycodestyle warnings
 ]
