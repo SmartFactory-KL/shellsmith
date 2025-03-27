@@ -21,7 +21,9 @@ def get_submodels(host: str = config.host) -> list[dict]:
     return submodels
 
 
-def get_submodel(submodel_id: str, encode=True, host: str = config.host) -> dict:
+def get_submodel(
+    submodel_id: str, encode: bool = True, host: str = config.host
+) -> dict:
     """
     Returns a specific Submodel
 
@@ -36,7 +38,7 @@ def get_submodel(submodel_id: str, encode=True, host: str = config.host) -> dict
     return submodel
 
 
-def delete_submodel(submodel_id: str, encode=True, host: str = config.host):
+def delete_submodel(submodel_id: str, encode: bool = True, host: str = config.host):
     """
     Deletes a specific Submodel
 
@@ -52,7 +54,9 @@ def delete_submodel(submodel_id: str, encode=True, host: str = config.host):
 # ─────────────────────────── Submodel elements ───────────────────────────
 
 
-def get_submodel_elements(submodel_id: str, encode=True, host: str = config.host):
+def get_submodel_elements(
+    submodel_id: str, encode: bool = True, host: str = config.host
+):
     """
     Returns all submodel elements of a specific Submodel
 
@@ -69,7 +73,7 @@ def get_submodel_elements(submodel_id: str, encode=True, host: str = config.host
 
 
 def get_submodel_element(
-    submodel_id: str, id_short_path: str, encode=True, host: str = config.host
+    submodel_id: str, id_short_path: str, encode: bool = True, host: str = config.host
 ):
     """
     Returns all submodel elements including their hierarchy
@@ -89,7 +93,7 @@ def delete_submodel_element(
     submodel_id: str,
     id_short_path: str,
     value: str,
-    encode=True,
+    encode: bool = True,
     host: str = config.host,
 ):
     """
@@ -109,7 +113,7 @@ def patch_submodel_element_value(
     submodel_id: str,
     id_short_path: str,
     value: str,
-    encode=True,
+    encode: bool = True,
     host: str = config.host,
 ):
     """

@@ -13,7 +13,7 @@ def get_shells(host: str = config.host) -> list[dict]:
     return shells
 
 
-def get_shell(shell_id, encode=True, host: str = config.host) -> dict:
+def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> dict:
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}"
 
@@ -23,7 +23,7 @@ def get_shell(shell_id, encode=True, host: str = config.host) -> dict:
     return shell
 
 
-def delete_shell(shell_id: str, encode=True, host: str = config.host):
+def delete_shell(shell_id: str, encode: bool = True, host: str = config.host):
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}"
@@ -33,7 +33,7 @@ def delete_shell(shell_id: str, encode=True, host: str = config.host):
 
 def get_submodel_refs(
     shell_id: str,
-    encode=True,
+    encode: bool = True,
     host: str = config.host,
 ):
     shell_id = base64_encoded(shell_id, encode)
@@ -47,8 +47,8 @@ def get_submodel_refs(
 
 def delete_submodel_ref(
     shell_id: str,
-    submodel_id,
-    encode=True,
+    submodel_id: str,
+    encode: bool = True,
     host: str = config.host,
 ):
     shell_id = base64_encoded(shell_id, encode)
