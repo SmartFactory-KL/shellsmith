@@ -4,6 +4,7 @@ import pytest
 
 from shellsmith import services
 from shellsmith.config import config
+from shellsmith.upload import upload_aas_folder
 
 
 def pytest_sessionstart(session) -> None:  # noqa: ANN001
@@ -11,6 +12,16 @@ def pytest_sessionstart(session) -> None:  # noqa: ANN001
         host = config.host
         reason = f"❌ BaSyx AAS Environment is not running at {host}"
         pytest.exit(reason, returncode=1)
+
+
+@pytest.fixture(scope="module", autouse=True)
+def setup() -> None:
+    services.delete_all_submodels()
+    services.delete_all_shells()
+    upload_aas_folder("aas")
+    yield
+    services.delete_all_submodels()
+    services.delete_all_shells()
 
 
 @dataclass

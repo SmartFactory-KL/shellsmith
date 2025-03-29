@@ -29,6 +29,28 @@ def get_shells(host: str = config.host) -> list[dict]:
     return shells
 
 
+def post_shell(shell: dict, host: str = config.host) -> dict:
+    """Creates a new Shell on the AAS server.
+
+    Corresponds to:
+    POST /shells
+
+    Args:
+        shell: A dictionary representing the Shell to be created.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A dictionary representing the created Shell.
+
+    Raises:
+        HTTPError: If the POST request fails.
+    """
+    url = f"{host}/shells"
+    response = requests.post(url, json=shell)
+    response.raise_for_status()
+    return response.json()
+
+
 def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> dict:
     """Retrieves a specific Shell by its ID.
 
@@ -53,6 +75,29 @@ def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> di
     response.raise_for_status()
     shell = response.json()
     return shell
+
+
+def put_shell(
+    shell_id: str, shell: dict, encode: bool = True, host: str = config.host
+) -> None:
+    """Updates an existing Shell on the AAS server by its ID.
+
+    Corresponds to:
+    PUT /shells/{shell_id}
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        shell: A dictionary representing the updated Shell content.
+        encode: Whether to Base64-encode the Shell ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the PUT request fails.
+    """
+    shell_id = base64_encoded(shell_id, encode)
+    url = f"{host}/shells/{shell_id}"
+    response = requests.put(url, json=shell)
+    response.raise_for_status()
 
 
 def delete_shell(shell_id: str, encode: bool = True, host: str = config.host) -> None:
@@ -104,6 +149,32 @@ def get_submodel_refs(
     response.raise_for_status()
     submodel_refs = response.json()["result"]
     return submodel_refs
+
+
+def post_submodel_ref(
+    shell_id: str,
+    submodel_ref: dict,
+    encode: bool = True,
+    host: str = config.host,
+) -> None:
+    """Creates a submodel reference for a specific Shell.
+
+    Corresponds to:
+    POST /shells/{shell_id}/submodel-refs
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        submodel_ref: A dictionary representing the submodel reference to be added.
+        encode: Whether to Base64-encode the Shell ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the POST request fails.
+    """
+    shell_id = base64_encoded(shell_id, encode)
+    url = f"{host}/shells/{shell_id}/submodel-refs"
+    response = requests.post(url, json=submodel_ref)
+    response.raise_for_status()
 
 
 def delete_submodel_ref(

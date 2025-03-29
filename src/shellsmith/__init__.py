@@ -6,6 +6,9 @@ from .crud.shells import (
     get_shell,
     get_shells,
     get_submodel_refs,
+    post_shell,
+    post_submodel_ref,
+    put_shell,
 )
 from .crud.submodels import (
     delete_submodel,

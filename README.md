@@ -97,12 +97,12 @@ The tables below show the mapping between BaSyx AAS REST API endpoints and the i
 | Method | BaSyx Endpoint                                               | Shellsmith Function   |
 |--------|--------------------------------------------------------------|-----------------------|
 | GET    | `/shells`                                                    | `get_shells`          |
-| POST   | `/shells`                                                    | ❌                     |
+| POST   | `/shells`                                                    | `post_shell`          |
 | GET    | `/shells/{aasIdentifier}`                                    | `get_shell`           |
-| PUT    | `/shells/{aasIdentifier}`                                    | ❌                     |
+| PUT    | `/shells/{aasIdentifier}`                                    | `put_shell`           |
 | DELETE | `/shells/{aasIdentifier}`                                    | `delete_shell`        |
 | GET    | `/shells/{aasIdentifier}/submodel-refs`                      | `get_submodel_refs`   |
-| POST   | `/shells/{aasIdentifier}/submodel-refs`                      | ❌                     |
+| POST   | `/shells/{aasIdentifier}/submodel-refs`                      | `post_submodel_ref`   |
 | DELETE | `/shells/{aasIdentifier}/submodel-refs/{submodelIdentifier}` | `delete_submodel_ref` |
 
 ### Submodels
