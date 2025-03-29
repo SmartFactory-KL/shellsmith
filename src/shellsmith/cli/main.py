@@ -1,3 +1,5 @@
+"""Main CLI entry point for shellsmith."""
+
 import requests
 
 from shellsmith import __version__, services
@@ -17,6 +19,7 @@ from .parser import build_parser
 
 
 def print_header() -> None:
+    """Prints the CLI header with version and host info."""
     print("===============================================")
     print(f" Shellsmith - AAS Toolkit v{__version__}")
     print(f" Host: {config.host} ({services.health()})")
@@ -25,6 +28,14 @@ def print_header() -> None:
 
 
 def normalize_command_alias(cmd: str) -> str:
+    """Normalizes CLI command aliases to their full form.
+
+    Args:
+        cmd: The input command or alias from the CLI.
+
+    Returns:
+        The normalized full command name.
+    """
     return {
         "sh": "shell",
         "sm": "submodel",
@@ -33,6 +44,11 @@ def normalize_command_alias(cmd: str) -> str:
 
 
 def main() -> None:
+    """Parses CLI arguments and dispatches the corresponding command handler.
+
+    This is the main entry point for the shellsmith CLI. It handles command
+    alias normalization, argument parsing, and error handling.
+    """
     parser = build_parser()
     args = parser.parse_args()
 

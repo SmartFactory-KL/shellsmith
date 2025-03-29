@@ -1,3 +1,5 @@
+"""Module for interacting with the AAS Environment API."""
+
 import requests
 
 import shellsmith
@@ -5,6 +7,20 @@ from shellsmith.config import config
 
 
 def get_shell_submodels(shell_id: str) -> list[dict]:
+    """Retrieves all submodels associated with the specified shell.
+
+    For each referenced submodel, this function attempts to fetch its full data.
+    Submodels that cannot be retrieved are skipped with a warning.
+
+    Args:
+        shell_id: The unique identifier of the shell.
+
+    Returns:
+        A list of dictionaries representing the submodels associated with the shell.
+
+    Raises:
+        HTTPError: If the shell itself cannot be fetched.
+    """
     shell = shellsmith.get_shell(shell_id)
     if "submodels" not in shell:
         return []
@@ -26,6 +42,12 @@ def delete_shell_cascading(
     shell_id: str,
     host: str = config.host,
 ) -> None:
+    """Deletes a shell and all its associated submodels.
+
+    Args:
+        shell_id: The unique identifier of the shell.
+        host: The base URL of the AAS server. Defaults to the configured host.
+    """
     delete_submodels_of_shell(shell_id, host=host)
     shellsmith.delete_shell(shell_id, host=host)
 
@@ -34,6 +56,14 @@ def delete_submodels_of_shell(
     shell_id: str,
     host: str = config.host,
 ) -> None:
+    """Deletes all submodels associated with the specified shell.
+
+    Submodels that do not exist are skipped with a warning.
+
+    Args:
+        shell_id: The unique identifier of the shell.
+        host: The base URL of the AAS server. Defaults to the configured host.
+    """
     shell = shellsmith.get_shell(shell_id, host=host)
 
     if "submodels" in shell:
@@ -46,6 +76,11 @@ def delete_submodels_of_shell(
 
 
 def remove_submodel_references(submodel_id: str) -> None:
+    """Removes all references to a submodel from existing shells.
+
+    Args:
+        submodel_id: The unique identifier of the submodel.
+    """
     shells = shellsmith.get_shells()
     for shell in shells:
         if submodel_id in extract_shell_submodel_refs(shell):
@@ -53,6 +88,10 @@ def remove_submodel_references(submodel_id: str) -> None:
 
 
 def remove_dangling_submodel_refs() -> None:
+    """Removes all dangling submodel references from existing shells.
+
+    A dangling reference is one that points to a submodel which no longer exists.
+    """
     shells = shellsmith.get_shells()
     submodels = shellsmith.get_submodels()
     submodel_ids = {submodel["id"] for submodel in submodels}
@@ -64,18 +103,36 @@ def remove_dangling_submodel_refs() -> None:
 
 
 def delete_all_submodels(host: str = config.host) -> None:
+    """Deletes all submodels from the AAS environment.
+
+    Args:
+        host: The base URL of the AAS server. Defaults to the configured host.
+    """
     submodels = shellsmith.get_submodels(host=host)
     for submodel in submodels:
         shellsmith.delete_submodel(submodel["id"])
 
 
 def delete_all_shells(host: str = config.host) -> None:
+    """Deletes all shells from the AAS environment.
+
+    Args:
+        host: The base URL of the AAS server. Defaults to the configured host.
+    """
     shells = shellsmith.get_shells()
     for shell in shells:
         shellsmith.delete_shell(shell["id"], host=host)
 
 
 def health(timeout: float = 0.1) -> str:
+    """Checks the health status of the AAS Environment.
+
+    Args:
+        timeout: Timeout in seconds for the health check request. Defaults to 0.1.
+
+    Returns:
+        "UP" if the service is reachable, otherwise "DOWN".
+    """
     url = f"{config.host}/actuator/health"
 
     try:
@@ -88,6 +145,14 @@ def health(timeout: float = 0.1) -> str:
 
 
 def extract_shell_submodel_refs(shell: dict) -> list[str]:
+    """Extracts submodel references from the given shell.
+
+    Args:
+        shell: A dictionary representing the shell.
+
+    Returns:
+        A list of submodel IDs referenced by the shell.
+    """
     return [
         submodel["keys"][0]["value"]
         for submodel in shell["submodels"]
@@ -96,6 +161,11 @@ def extract_shell_submodel_refs(shell: dict) -> list[str]:
 
 
 def find_unreferenced_submodels() -> list[str]:
+    """Finds all submodels not referenced by any shell.
+
+    Returns:
+        A list of submodel IDs that are not referenced by any shell.
+    """
     shells = shellsmith.get_shells()
     submodels = shellsmith.get_submodels()
 
@@ -110,9 +180,13 @@ def find_unreferenced_submodels() -> list[str]:
 
 
 def find_dangling_submodel_refs() -> dict[str, list[str]]:
-    """
-    Returns a mapping of shell_id -> list of submodel IDs
-    that are referenced in the shell but do not exist anymore.
+    """Finds all dangling submodel references across all shells.
+
+    A dangling reference is a submodel reference that does not resolve to an existing
+    submodel.
+
+    Returns:
+        A dictionary mapping shell IDs to lists of missing submodel IDs.
     """
     shells = shellsmith.get_shells()
     submodels = shellsmith.get_submodels()

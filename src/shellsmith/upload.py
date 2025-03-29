@@ -1,3 +1,5 @@
+"""Module for uploading Asset Administration Shell (AAS) files to a server."""
+
 import mimetypes
 from pathlib import Path
 
@@ -7,6 +9,16 @@ from shellsmith.config import config
 
 
 def upload_aas_folder(path: Path | str) -> None:
+    """Uploads all AAS files from a specified folder.
+
+    Accepts `.json`, `.xml`, and `.aasx` files only.
+
+    Args:
+        path: The path to the folder containing AAS files.
+
+    Raises:
+        ValueError: If the provided path is not a valid directory.
+    """
     folder_path = Path(path)
 
     if not folder_path.is_dir():
@@ -19,10 +31,20 @@ def upload_aas_folder(path: Path | str) -> None:
 
 
 def upload_aas(path: Path | str) -> bool:
+    """Uploads a single AAS file to the configured server.
+
+    Acceptable formats: `.json`, `.xml`, `.aasx`.
+
+    Args:
+        path: The path to the AAS file. Can be a `Path` or string.
+
+    Returns:
+        True if the upload succeeds, otherwise False.
+    """
     path = Path(path)
     url = f"{config.host}/upload"
 
-    mime_type, _ = mimetypes.guess_type(path)
+    mime_type, _ = mimetypes.guess_type(path)  # .json, .xml
     if mime_type is None:
         # .aasx
         mime_type = "application/octet-stream"

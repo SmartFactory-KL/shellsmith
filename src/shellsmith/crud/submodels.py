@@ -1,3 +1,5 @@
+"""Submodel and submodel element CRUD operations for AAS environments."""
+
 from urllib.parse import quote
 
 import requests
@@ -7,10 +9,19 @@ from shellsmith.utils import base64_encoded
 
 
 def get_submodels(host: str = config.host) -> list[dict]:
-    """
-    Returns all Submodels
+    """Retrieves all Submodels from the AAS server.
 
+    Corresponds to:
     GET /submodels
+
+    Args:
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A list of dictionaries representing the Submodels.
+
+    Raises:
+        HTTPError: If the GET request fails.
     """
     url = f"{host}/submodels"
 
@@ -24,10 +35,21 @@ def get_submodels(host: str = config.host) -> list[dict]:
 def get_submodel(
     submodel_id: str, encode: bool = True, host: str = config.host
 ) -> dict:
-    """
-    Returns a specific Submodel
+    """Retrieves a specific Submodel by its ID.
 
+    Corresponds to:
     GET /submodels/{submodel_id}
+
+    Args:
+        submodel_id: The unique identifier of the submodel.
+        encode: Whether to Base64-encode the submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A dictionary representing the submodel.
+
+    Raises:
+        HTTPError: If the GET request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}"
@@ -43,10 +65,18 @@ def delete_submodel(
     encode: bool = True,
     host: str = config.host,
 ) -> None:
-    """
-    Deletes a specific Submodel
+    """Deletes a specific Submodel by its ID.
 
+    Corresponds to:
     DELETE /submodels/{submodel_id}
+
+    Args:
+        submodel_id: The unique identifier of the Submodel.
+        encode: Whether to Base64-encode the Submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the DELETE request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}"
@@ -63,10 +93,21 @@ def get_submodel_elements(
     encode: bool = True,
     host: str = config.host,
 ) -> list[dict]:
-    """
-    Returns all submodel elements of a specific Submodel
+    """Retrieves all Submodel elements from a specific Submodel.
 
+    Corresponds to:
     GET /submodels/{submodel_id}/submodel-elements
+
+    Args:
+        submodel_id: The unique identifier of the Submodel.
+        encode: Whether to Base64-encode the Submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A list of dictionaries representing the Submodel elements.
+
+    Raises:
+        HTTPError: If the GET request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/submodel-elements"
@@ -84,10 +125,22 @@ def get_submodel_element(
     encode: bool = True,
     host: str = config.host,
 ) -> dict:
-    """
-    Returns all submodel elements including their hierarchy
+    """Retrieves a specific Submodel element by its idShort path.
 
+    Corresponds to:
     GET /submodels/{submodel_id}/submodel-elements/{id_short_path}
+
+    Args:
+        submodel_id: The unique identifier of the Submodel.
+        id_short_path: The idShort path of the Submodel element.
+        encode: Whether to Base64-encode the Submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A dictionary representing the submodel element.
+
+    Raises:
+        HTTPError: If the GET request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
@@ -101,20 +154,28 @@ def get_submodel_element(
 def delete_submodel_element(
     submodel_id: str,
     id_short_path: str,
-    value: str,
     encode: bool = True,
     host: str = config.host,
 ) -> None:
-    """
-    Deletes a submodel element at a specified path
+    """Deletes a specific Submodel element by its idShort path.
 
+    Corresponds to:
     DELETE /submodels/{submodel_id}/submodel-elements/{idShortPath}
+
+    Args:
+        submodel_id: The unique identifier of the Submodel.
+        id_short_path: The idShort path of the Submodel element.
+        encode: Whether to Base64-encode the Submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the DELETE request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     id_short_path = quote(id_short_path)
 
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
-    response = requests.delete(url, json=value)
+    response = requests.delete(url)
     response.raise_for_status()
 
 
@@ -125,10 +186,20 @@ def patch_submodel_element_value(
     encode: bool = True,
     host: str = config.host,
 ) -> None:
-    """
-    Updates the value of an existing Submodel Element
+    """Updates the value of a specific Submodel element.
 
+    Corresponds to:
     PATCH /submodels/{submodel_id}/submodel-elements/{id_short_path}/$value
+
+    Args:
+        submodel_id: The unique identifier of the Submodel.
+        id_short_path: The idShort path of the Submodel element.
+        value: The new value to assign to the Submodel element.
+        encode: Whether to Base64-encode the Submodel ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the PATCH request fails.
     """
     submodel_id = base64_encoded(submodel_id, encode)
     id_short_path = quote(id_short_path)

@@ -15,28 +15,38 @@ def pytest_sessionstart(session) -> None:  # noqa: ANN001
 
 @dataclass
 class BaseModel:
+    """Base class for all models."""
+
     id_short: str
     id: str
 
 
 @dataclass
 class Shell(BaseModel):
+    """Represents an Asset Administration Shell."""
+
     pass
 
 
 @dataclass
 class Submodel(BaseModel):
+    """Represents a Submodel."""
+
     pass
 
 
 @dataclass
 class Product(Shell):
+    """Asset Administration Shell of assetType Product"""
+
     product_identification: Submodel
     production_plan: Submodel
 
 
 @dataclass
 class Resource(Shell):
+    """Asset Administration Shell of assetType Resource"""
+
     good_information: Submodel
     asset_location: Submodel
 
@@ -70,9 +80,11 @@ wst_a_1_resource = Resource(
 
 @pytest.fixture
 def semitrailer() -> Product:
+    """Returns the Product Shell "aas/Semitrailer.json"."""
     return semitrailer_product
 
 
 @pytest.fixture
 def workpiece_carrier_a1() -> Resource:
+    """Returns the Resource Shell "aas/WST_A_1.aasx"."""
     return wst_a_1_resource

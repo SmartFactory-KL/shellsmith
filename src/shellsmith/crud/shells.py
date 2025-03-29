@@ -1,3 +1,5 @@
+"""Shell CRUD operations for AAS environments."""
+
 import requests
 
 from shellsmith.config import config
@@ -5,6 +7,20 @@ from shellsmith.utils import base64_encoded
 
 
 def get_shells(host: str = config.host) -> list[dict]:
+    """Retrieves all Shells from the AAS server.
+
+    Corresponds to:
+    GET /shells
+
+    Args:
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A list of dictionaries representing the Shells.
+
+    Raises:
+        HTTPError: If the GET request fails.
+    """
     url = f"{host}/shells"
     response = requests.get(url)
     response.raise_for_status()
@@ -14,6 +30,22 @@ def get_shells(host: str = config.host) -> list[dict]:
 
 
 def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> dict:
+    """Retrieves a specific Shell by its ID.
+
+    Corresponds to:
+    GET /shells/{shell_id}
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        encode: Whether to Base64-encode the Shell ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A dictionary representing the Shell.
+
+    Raises:
+        HTTPError: If the GET request fails.
+    """
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}"
 
@@ -24,6 +56,19 @@ def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> di
 
 
 def delete_shell(shell_id: str, encode: bool = True, host: str = config.host) -> None:
+    """Deletes a specific Shell by its ID.
+
+    Corresponds to:
+    DELETE /shells/{shell_id}
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        encode: Whether to Base64-encode the Shell ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the DELETE request fails.
+    """
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}"
@@ -36,6 +81,22 @@ def get_submodel_refs(
     encode: bool = True,
     host: str = config.host,
 ) -> list[dict]:
+    """Retrieves all submodel references from a specific Shell.
+
+    Corresponds to:
+    GET /shells/{shell_id}/submodel-refs
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        encode: Whether to Base64-encode the Shell ID. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Returns:
+        A list of dictionaries representing the submodel references.
+
+    Raises:
+        HTTPError: If the GET request fails.
+    """
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}/submodel-refs"
@@ -51,6 +112,20 @@ def delete_submodel_ref(
     encode: bool = True,
     host: str = config.host,
 ) -> None:
+    """Deletes a specific submodel reference from a Shell.
+
+    Corresponds to:
+    DELETE /shells/{shell_id}/submodel-refs/{submodel_id}
+
+    Args:
+        shell_id: The unique identifier of the Shell.
+        submodel_id: The unique identifier of the submodel.
+        encode: Whether to Base64-encode both identifiers. Defaults to True.
+        host: The base URL of the AAS server. Defaults to the configured host.
+
+    Raises:
+        HTTPError: If the DELETE request fails.
+    """
     shell_id = base64_encoded(shell_id, encode)
     submodel_id = base64_encoded(submodel_id, encode)
 

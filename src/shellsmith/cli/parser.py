@@ -1,3 +1,5 @@
+"""Argument parser definition for the shellsmith CLI."""
+
 import argparse
 from pathlib import Path
 
@@ -5,6 +7,14 @@ from shellsmith import __version__
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Builds and returns the CLI argument parser.
+
+    Defines all available shellsmith commands and subcommands, including options
+    for managing Shells, Submodels, Submodel elements, and base64 encoding/decoding.
+
+    Returns:
+        The configured ArgumentParser instance.
+    """
     parser = argparse.ArgumentParser(description="AAS Tools CLI")
     parser.add_argument(
         "--version",

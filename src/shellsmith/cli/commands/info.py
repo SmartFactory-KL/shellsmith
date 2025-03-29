@@ -1,14 +1,18 @@
+"""Prints structured information about shells and submodels."""
+
 import shellsmith
 from shellsmith import services
 
 
 def info() -> None:
+    """Displays the current Shell tree and issues."""
     print_shells_tree()
     print_unreferenced_submodels()
     print_dangling_submodel_refs()
 
 
 def print_unreferenced_submodels() -> None:
+    """Displays Submodels that are not referenced by any Shell."""
     submodel_ids = services.find_unreferenced_submodels()
 
     if submodel_ids:
@@ -21,6 +25,7 @@ def print_unreferenced_submodels() -> None:
 
 
 def print_shells_tree() -> None:
+    """Prints a tree structure of Shells and their Submodel references."""
     shells = shellsmith.get_shells()
     for shell in shells:
         shell_id = shell["id"]
@@ -38,6 +43,7 @@ def print_shells_tree() -> None:
 
 
 def print_dangling_submodel_refs() -> None:
+    """Displays Shell-to-Submodel references that point to missing Submodels."""
     dangling = services.find_dangling_submodel_refs()
 
     if dangling:

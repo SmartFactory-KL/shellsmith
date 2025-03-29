@@ -1,3 +1,5 @@
+"""Module for interacting with the Neo4j database."""
+
 from functools import cache
 from typing import Any
 
@@ -8,10 +10,18 @@ from shellsmith.config import config
 
 @cache
 def get_driver() -> Driver:
+    """Returns a cached Neo4j driver instance.
+
+    Establishes and caches a Neo4j driver to avoid reinitialization.
+
+    Returns:
+        The Neo4j driver instance.
+    """
     return GraphDatabase.driver(config.neo4j_uri, auth=None)
 
 
 def close_driver() -> None:
+    """Closes the active Neo4j driver and clears the cache."""
     driver = get_driver()
     driver.close()
     get_driver.cache_clear()
@@ -23,6 +33,11 @@ def close_driver() -> None:
 
 
 def get_shells() -> list[dict[str, Any]]:
+    """Retrieves all Asset Administration Shells from the database.
+
+    Returns:
+        A list of dictionaries representing all shells in the database.
+    """
     query = """
     MATCH (shell:AssetAdministrationShell)
     RETURN shell;
@@ -34,6 +49,14 @@ def get_shells() -> list[dict[str, Any]]:
 
 
 def get_shell(shell_id: str) -> dict[str, Any] | None:
+    """Retrieves a specific shell by its ID.
+
+    Args:
+        shell_id: The unique identifier of the shell.
+
+    Returns:
+        A dictionary representing the shell, or None if not found.
+    """
     query = """
     MATCH (shell:AssetAdministrationShell {id: $shell_id})
     RETURN shell;
@@ -50,6 +73,11 @@ def get_shell(shell_id: str) -> dict[str, Any] | None:
 
 
 def get_submodels() -> list[dict[str, Any]]:
+    """Retrieves all submodels from the database.
+
+    Returns:
+        A list of dictionaries representing all submodels in the database.
+    """
     query = """
     MATCH (submodel:Submodel)
     RETURN submodel
@@ -61,6 +89,14 @@ def get_submodels() -> list[dict[str, Any]]:
 
 
 def get_submodel(submodel_id: str) -> dict[str, Any]:
+    """Retrieves a specific submodel by its ID.
+
+    Args:
+        submodel_id: The unique identifier of the submodel.
+
+    Returns:
+        A dictionary representing the submodel, or None if not found.
+    """
     query = """
     MATCH (submodel:Submodel {id: $submodel_id})
     RETURN submodel
@@ -72,6 +108,14 @@ def get_submodel(submodel_id: str) -> dict[str, Any]:
 
 
 def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
+    """Retrieves all submodel elements for a specific submodel.
+
+    Args:
+        submodel_id: The unique identifier of the submodel.
+
+    Returns:
+        A list of dictionaries representing submodel elements.
+    """
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id})
     RETURN sme;
@@ -82,6 +126,15 @@ def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
 
 
 def get_submodel_element(submodel_id: str, id_short_path: str) -> dict[str, Any] | None:
+    """Retrieves a specific submodel element by submodel ID and idShortPath.
+
+    Args:
+        submodel_id: The unique identifier of the submodel.
+        id_short_path: The idShortPath of the submodel element.
+
+    Returns:
+        A dictionary representing the submodel element, or None if not found.
+    """
     query = """
     MATCH (sme:SubmodelElement {smId: $submodel_id, idShortPath: $id_short_path})
     RETURN sme;
@@ -97,9 +150,9 @@ def get_submodel_element(submodel_id: str, id_short_path: str) -> dict[str, Any]
 
 
 def detach_delete_all() -> None:
-    """
-    Dangerous!
-    Deletes all nodes and relationships in the graph.
+    """Deletes all nodes and relationships from the Neo4j database.
+
+    This performs a full reset of the graph by removing all nodes and edges.
     """
     query = """
     MATCH (n)
