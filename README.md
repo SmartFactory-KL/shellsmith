@@ -107,28 +107,28 @@ The tables below show the mapping between BaSyx AAS REST API endpoints and the i
 
 ### Submodels
 
-| Method | BaSyx Endpoint                              | Shellsmith Function |
-|--------|---------------------------------------------|---------------------|
-| GET    | `/submodels`                                | `get_submodels`     |
-| POST   | `/submodels`                                | ❌                   |
-| GET    | `/submodels/{submodelIdentifier}`           | `get_submodel`      |
-| PUT    | `/submodels/{submodelIdentifier}`           | ❌                   |
-| DELETE | `/submodels/{submodelIdentifier}`           | `delete_submodel`   |
-| GET    | `/submodels/{submodelIdentifier}/$value`    | ❌                   |
-| PATCH  | `/submodels/{submodelIdentifier}/$value`    | ❌                   |
-| GET    | `/submodels/{submodelIdentifier}/$metadata` | ❌                   |
+| Method | BaSyx Endpoint                              | Shellsmith Function     |
+|--------|---------------------------------------------|-------------------------|
+| GET    | `/submodels`                                | `get_submodels`         |
+| POST   | `/submodels`                                | `post_submodel`         |
+| GET    | `/submodels/{submodelIdentifier}`           | `get_submodel`          |
+| PUT    | `/submodels/{submodelIdentifier}`           | `put_submodel`          |
+| DELETE | `/submodels/{submodelIdentifier}`           | `delete_submodel`       |
+| GET    | `/submodels/{submodelIdentifier}/$value`    | `get_submodel_value`    |
+| PATCH  | `/submodels/{submodelIdentifier}/$value`    | `patch_submodel_value`  |
+| GET    | `/submodels/{submodelIdentifier}/$metadata` | `get_submodel_metadata` |
 
 ### Submodel Elements
 
 | Method | BaSyx Endpoint                                                           | Shellsmith Function            |
 |--------|--------------------------------------------------------------------------|--------------------------------|
 | GET    | `/submodels/{submodelIdentifier}/submodel-elements`                      | `get_submodel_elements`        |
-| POST   | `/submodels/{submodelIdentifier}/submodel-elements`                      | ❌                              |
+| POST   | `/submodels/{submodelIdentifier}/submodel-elements`                      | `post_submodel_element`        |
 | GET    | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | `get_submodel_element`         |
-| PUT    | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | ❌                              |
-| POST   | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | ❌                              |
+| PUT    | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | `put_submodel_element`         |
+| POST   | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | `post_submodel_element`        |
 | DELETE | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}`        | `delete_submodel_element`      |
-| GET    | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value` | ❌                              |
+| GET    | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value` | `get_submodel_element_value`   |
 | PATCH  | `/submodels/{submodelIdentifier}/submodel-elements/{idShortPath}/$value` | `patch_submodel_element_value` |
 
 ### Upload

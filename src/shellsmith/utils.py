@@ -1,6 +1,7 @@
 """Utility functions for shellsmith."""
 
 import base64
+import uuid
 
 
 def base64_encode(text: str | None) -> str | None:
@@ -64,3 +65,8 @@ def base64_encoded(identifier: str, encode: bool) -> str:
         The encoded or original string, depending on the flag.
     """
     return base64_encode(identifier) if encode else identifier
+
+
+def generate_uuid() -> str:
+    """Generates a Universally Unique Identifier (UUID) string."""
+    return str(uuid.uuid4())
