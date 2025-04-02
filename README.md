@@ -9,14 +9,16 @@
   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
 </p>
 
-Shellsmith is a Python toolkit and CLI for managing Asset Administration Shells (AAS), Submodels, and related resources. 
-It is designed to interact with [Eclipse BaSyx](https://www.eclipse.org/basyx/), a middleware platform for AAS that follows the [Industry 4.0 standard](https://industrialdigitaltwin.org/en/content-hub/aasspecifications).
+**Shellsmith** is a Python SDK and CLI for managing [Asset Administration Shells (AAS)](https://industrialdigitaltwin.org/en/content-hub/aasspecifications), Submodels, and Submodel Elements via the [Eclipse BaSyx](https://www.eclipse.org/basyx/) REST API.  
+ 
+It provides full client-side access to AAS resources with a clean Python interface and a powerful `typer`-based CLI — ideal for scripting, automation, and digital twin integration workflows.
 
 ### Features
 
-- Python API for CRUD operations on shells, submodels, and submodel elements
-- CLI interface for quick scripting
-- `.env`-based configuration
+- 🔧 **Python SDK** for full CRUD access to Shells, Submodels, and Submodel Elements  
+- ⚡ **CLI tool** powered by [Typer](https://typer.tiangolo.com/) for fast scripting and automation  
+- ⚙️ Simple `.env`-based configuration for flexible environment switching  
+- 🔁 Seamless integration with the [Eclipse BaSyx](https://www.eclipse.org/basyx/) AAS REST API  
 
 ## 🚀 Installation
 
@@ -34,56 +36,114 @@ The default AAS environment host is:
 http://localhost:8081
 ```
 
-You can override it by setting the `SHELLSMITH_BASYX_ENV_HOST` environment variable, or by creating a `.env` file in your project root with:
+You can override it by setting the `SHELLSMITH_BASYX_ENV_HOST` environment variable, or by creating a `.env` file in the current working directory or your project root.
 
 ```bash
 SHELLSMITH_BASYX_ENV_HOST=http://your-host:1234
 ```
 
-## 🛠️ Usage
+## 🧠 CLI Usage
+
+Shellsmith provides a powerful command-line interface:
 
 ```bash
 aas --help
 ```
 
-Common commands:
+| Command  | Description                                              |
+|----------|----------------------------------------------------------|
+| `upload` | Upload a single AAS file or all AAS files from a folder. |
+| `info`   | Display the current Shell tree and identify issues.      |
+| `nuke`   | ☢️ Delete all Shells and Submodels (irrevocable).        |
+| `encode` | Encode a value (e.g. Shell ID) to Base64.                |
+| `decode` | Decode a Base64-encoded value.                           |
+| `get`    | Get Shells, Submodels, and Submodel Elements.            |
+| `delete` | Delete Shells, Submodels, or Submodel Elements.          |
+| `update` | Update Shells, Submodels, or Submodel Elements.          |
+| `create` | Create new Shells, Submodels, or Submodel Elements.      |
 
-```bash
-aas info                  # Show all shells and submodels
-aas upload <file|folder>  # Upload AAS file or folder
+> ℹ️ Run `aas <command> --help` to view subcommands and options.
 
-aas shell delete <id>     # Delete a shell
-aas submodel delete <id>  # Delete a submodel
+### 🔎 Get Commands
 
-aas sme get <id> <path>               # Get Submodel element value
-aas sme patch <id> <path> <new_value> # Set Submodel element value
-```
+| Command                                         | Description                                 |
+|-------------------------------------------------|---------------------------------------------|
+| `aas get shells`                                | 🔹 Get all available Shells.                |
+| `aas get shell <id>`                            | 🔹 Get a specific Shell by ID.              |
+| `aas get submodel-refs <shell-id>`              | 🔹 Get all Submodel References of a Shell.  |
+| `aas get submodels`                             | 🔸 Get all Submodels.                       |
+| `aas get submodel <id>`                         | 🔸 Get a specific Submodel by ID.           |
+| `aas get submodel-value <id>`                   | 🔸 Get the `$value` of a Submodel.          |
+| `aas get submodel-meta <id>`                    | 🔸 Get the `$metadata` of a Submodel.       |
+| `aas get elements <submodel-id>`                | 🔻 Get all Submodel Elements of a Submodel. |
+| `aas get element <submodel-id> <idShort>`       | 🔻 Get a specific Submodel Element.         |
+| `aas get element-value <submodel-id> <idShort>` | 🔻 Get the `$value` of a Submodel Element.  |
 
-Use `--cascade` or `--unlink` to control deletion behavior:
+### 🛠️ Create Commands
 
-```bash
-aas shell delete <id> --cascade      # Also delete referenced submodels
-aas submodel delete <id> --unlink    # Remove references from shells
-```
+| Command                                                                      | Description                             |
+|------------------------------------------------------------------------------|-----------------------------------------|
+| `aas create shell [--data <json>] [--file <path>]`                           | 🔹 Create a new Shell.                  |
+| `aas create submodel-ref <shell-id> [--data <json>] [--file <path>]`         | 🔹 Add a Submodel Reference to a Shell. |
+| `aas create submodel [--data <json>] [--file <path>]`                        | 🔸 Create a new Submodel.               |
+| `aas create element <submodel-id> [--data <json>] [--file <path>]`           | 🔻 Create a new Submodel Element.       |
+| `aas create element <submodel-id> <idShort> [--data <json>] [--file <path>]` | 🔻 Create an Element at a nested path.  |
 
-## 📡 API Usage
+> ℹ️ Input can be passed via `--data "<json>"` or `--file <*.json|*.yaml>`, but **not both**
 
-You can also use `shellsmith` as a Python package:
+### 🧬 Update Commands
+
+| Command                                                                      | Description                                                    |
+|------------------------------------------------------------------------------|----------------------------------------------------------------|
+| `aas update shell <id> [--data <json>] [--file <path>]`                      | 🔹 Update a Shell (full replacement).                          |
+| `aas update submodel <id> [--data <json>] [--file <path>]`                   | 🔸 Update a Submodel (full replacement).                       |
+| `aas update submodel-value <id> [--data <json>] [--file <path>]`             | 🔸 Update the `$value` of a Submodel (partial update).         |
+| `aas update element <submodel-id> <idShort> [--data <json>] [--file <path>]` | 🔻 Update a Submodel Element (full replacement).               |
+| `aas update element-value <submodel-id> <idShort> <value>`                   | 🔻 Update the `$value` of a Submodel Element (partial update). |
+
+> ℹ️ All updates are either full replacements (`PUT`) or partial updates (`PATCH`)
+
+### 🧹 Delete Commands
+
+| Command                                            | Description                                                    |
+|----------------------------------------------------|----------------------------------------------------------------|
+| `aas delete shell <id> [--cascade]`                | 🔹 Delete a Shell and optionally all referenced Submodels.     |
+| `aas delete submodel-ref <shell-id> <submodel-id>` | 🔹 Remove a Submodel reference from a Shell.                   |
+| `aas delete submodel <id> [--remove-refs]`         | 🔸 Delete a Submodel and optionally unlink it from all Shells. |
+| `aas delete element <submodel-id> <idShort>`       | 🔻 Delete a Submodel Element.                                  |
+
+
+## 🐍 Python API Usage
+
+You can also use `shellsmith` as a Python client library to interact with the BaSyx Environment REST API.
 
 ```python
 import shellsmith
 
-# Get all available shells
+# List all AAS Shells
 shells = shellsmith.get_shells()
 
-# Get a specific shell by ID (automatically base64-encoded)
-shell = shellsmith.get_shell("example_aas_id")
+# Fetch a specific Shell by ID
+shell = shellsmith.get_shell("https://example.com/aas/my-asset")
 
-# Disable base64 encoding if your ID is already encoded
-submodel = shellsmith.get_submodel("ZXhhbXBsZV9hYXNfaWQ=", encode=False)
+# List Submodels or Submodel References of a Shell
+submodels = shellsmith.get_submodels()
+refs = shellsmith.get_submodel_refs("https://example.com/aas/my-asset")
 
-# Use a custom AAS environment host
-submodel_refs = shellsmith.get_submodel_refs("example_aas_id", host="http://localhost:8081")
+# Fetch a specific Submodel
+submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
+
+# Read and update a Submodel Element's value
+value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
+shellsmith.patch_submodel_element_value(submodel["id"], "temperature", "42.0")
+
+# Upload a single AAS file or an entire folder (.aasx / .json / .xml)
+shellsmith.upload_aas("MyAsset.aasx")
+shellsmith.upload_aas_folder("aas_folder/")
+
+# Delete a Shell or Submodel by ID
+shellsmith.delete_shell("https://example.com/aas/my-asset")
+shellsmith.delete_submodel("https://example.com/submodels/my-submodel")
 ```
 
 > ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you set `encode=False`. This is required by the BaSyx API for identifier-based URLs.
@@ -94,7 +154,7 @@ The tables below show the mapping between BaSyx AAS REST API endpoints and the i
 
 ### Shells
 
-| Method | BaSyx Endpoint                                               | Shellsmith Function   |
+| Method | BaSyx Endpoint                                               | `shellsmith` Function |
 |--------|--------------------------------------------------------------|-----------------------|
 | GET    | `/shells`                                                    | `get_shells`          |
 | POST   | `/shells`                                                    | `post_shell`          |

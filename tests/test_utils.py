@@ -1,6 +1,8 @@
+from pathlib import Path
+
 import pytest
 
-from shellsmith.utils import base64_decode, base64_encode
+from shellsmith.utils import base64_decode, base64_encode, generate_uuid, load_data
 
 
 def test_base64_encode():
@@ -25,3 +27,13 @@ def test_base64_decode():
     assert base64_decode(None) is None
     with pytest.raises(UnicodeDecodeError):
         base64_decode("asdf")
+
+
+def test_generate_uuid():
+    assert generate_uuid()
+
+
+def test_load_data():
+    assert load_data(Path("aas/Semitrailer.json"))
+    with pytest.raises(ValueError):
+        load_data(Path("aas/WST_A_1.aasx"))

@@ -55,7 +55,9 @@ def post_submodel(submodel: dict, host: str = config.host) -> dict:
 
 
 def get_submodel(
-    submodel_id: str, encode: bool = True, host: str = config.host
+    submodel_id: str,
+    encode: bool = True,
+    host: str = config.host,
 ) -> dict:
     """Retrieves a specific Submodel by its ID.
 
@@ -162,7 +164,6 @@ def get_submodel_value(
 
 
 # TODO: Returns "Error: response status is 400"
-# See:
 def patch_submodel_value(
     submodel_id: str,
     value: dict,
@@ -217,7 +218,7 @@ def get_submodel_metadata(
     return response.json()
 
 
-# ─────────────────────────── Submodel elements ───────────────────────────
+# ─────────────────────────────── Submodel Elements ────────────────────────────────────
 
 
 def get_submodel_elements(

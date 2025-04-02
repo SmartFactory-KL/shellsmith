@@ -1,7 +1,11 @@
 """Utility functions for shellsmith."""
 
 import base64
+import json
 import uuid
+from pathlib import Path
+
+import yaml
 
 
 def base64_encode(text: str | None) -> str | None:
@@ -47,10 +51,7 @@ def base64_decode(encoded_text: str | None) -> str | None:
     if missing_padding > 0:
         encoded_text += "=" * missing_padding
 
-    try:
-        return base64.urlsafe_b64decode(encoded_text).decode("utf-8")
-    except TypeError as e:
-        raise ValueError("Incorrect Base64 formatting.") from e
+    return base64.urlsafe_b64decode(encoded_text).decode("utf-8")
 
 
 def base64_encoded(identifier: str, encode: bool) -> str:
@@ -70,3 +71,25 @@ def base64_encoded(identifier: str, encode: bool) -> str:
 def generate_uuid() -> str:
     """Generates a Universally Unique Identifier (UUID) string."""
     return str(uuid.uuid4())
+
+
+def generate_id(base: str) -> str:
+    """Generate a new AAS-compliant ID from a base."""
+    return f"{base}/{uuid.uuid4()}"
+
+
+def load_data(path: Path) -> dict | list | str | int | float | bool | None:
+    """Loads JSON or YAML data from a file.
+
+    Args:
+        path: The path to the file.
+
+    Returns:
+        The parsed content, which can be a dict, list, or primitive.
+    """
+    with path.open(encoding="utf-8") as f:
+        if path.suffix.lower() in (".yaml", ".yml"):
+            return yaml.safe_load(f)
+        if path.suffix.lower() == ".json":
+            return json.load(f)
+        raise ValueError(f"Unsupported file extension: {path.suffix}")

@@ -4,6 +4,7 @@ from functools import cache
 from typing import Any
 
 from neo4j import Driver, GraphDatabase
+from typing_extensions import LiteralString
 
 from shellsmith.config import config
 
@@ -38,7 +39,7 @@ def get_shells() -> list[dict[str, Any]]:
     Returns:
         A list of dictionaries representing all shells in the database.
     """
-    query = """
+    query: LiteralString = """
     MATCH (shell:AssetAdministrationShell)
     RETURN shell;
     """
@@ -57,7 +58,7 @@ def get_shell(shell_id: str) -> dict[str, Any] | None:
     Returns:
         A dictionary representing the shell, or None if not found.
     """
-    query = """
+    query: LiteralString = """
     MATCH (shell:AssetAdministrationShell {id: $shell_id})
     RETURN shell;
     """
@@ -78,7 +79,7 @@ def get_submodels() -> list[dict[str, Any]]:
     Returns:
         A list of dictionaries representing all submodels in the database.
     """
-    query = """
+    query: LiteralString = """
     MATCH (submodel:Submodel)
     RETURN submodel
     """
@@ -97,7 +98,7 @@ def get_submodel(submodel_id: str) -> dict[str, Any]:
     Returns:
         A dictionary representing the submodel, or None if not found.
     """
-    query = """
+    query: LiteralString = """
     MATCH (submodel:Submodel {id: $submodel_id})
     RETURN submodel
     """
@@ -116,7 +117,7 @@ def get_submodel_elements(submodel_id: str) -> list[dict[str, Any]]:
     Returns:
         A list of dictionaries representing submodel elements.
     """
-    query = """
+    query: LiteralString = """
     MATCH (sme:SubmodelElement {smId: $submodel_id})
     RETURN sme;
     """
@@ -135,7 +136,7 @@ def get_submodel_element(submodel_id: str, id_short_path: str) -> dict[str, Any]
     Returns:
         A dictionary representing the submodel element, or None if not found.
     """
-    query = """
+    query: LiteralString = """
     MATCH (sme:SubmodelElement {smId: $submodel_id, idShortPath: $id_short_path})
     RETURN sme;
     """
@@ -154,7 +155,7 @@ def detach_delete_all() -> None:
 
     This performs a full reset of the graph by removing all nodes and edges.
     """
-    query = """
+    query: LiteralString = """
     MATCH (n)
     DETACH DELETE n;
     """

@@ -5,18 +5,40 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "shellsmith"
 version = "0.2.1"
-description = "A Python toolkit and CLI for managing Asset Administration Shells"
 authors = [{ name = "Peter Stein", email = "peterstein@dfki.de" }]
+description = "Python client and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
 license = { file = "LICENSE" }
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+    "aas",
+    "asset-administration-shell",
+    "basyx",
+    "eclipse-basyx",
+    "industry40",
+    "i40",
+    "digital-twin",
+    "cli",
+    "typer",
+    "rest-client",
+    "python",
 ]
 dependencies = [
     "pydantic-settings",
+    "pyyaml",
     "requests",
+    "typer",
 ]
 
 [project.optional-dependencies]
@@ -32,7 +54,7 @@ neo4j = [
 ]
 
 [project.scripts]
-aas = "shellsmith.cli.main:main"
+aas = "shellsmith.cli.app:main"
 
 [project.urls]
 Homepage = "https://github.com/ptrstn/shellsmith"

@@ -2,10 +2,18 @@
 
 from pathlib import Path
 
+import typer
+
+from shellsmith.cli import args
 from shellsmith.upload import upload_aas, upload_aas_folder
 
+app = typer.Typer()
 
-def upload(path: Path) -> None:
+
+@app.command()
+def upload(
+    path: Path = args.AAS_PATH,
+) -> None:
     """Uploads a single AAS file or all AAS files from a folder.
 
     Accepts files with `.json`, `.xml`, or `.aasx` extensions.
@@ -21,3 +29,4 @@ def upload(path: Path) -> None:
         upload_aas_folder(path)
     else:
         print(f"❌ Path '{path}' does not exist or is invalid.")
+        raise typer.Exit(code=1)
