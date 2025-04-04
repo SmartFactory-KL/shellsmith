@@ -37,3 +37,5 @@ class Settings(BaseSettings):
 
 
 config = Settings()
+
+DEFAULT_TIMEOUT = 5.0

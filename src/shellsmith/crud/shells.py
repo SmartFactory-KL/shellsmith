@@ -2,7 +2,7 @@
 
 import requests
 
-from shellsmith.config import config
+from shellsmith.config import DEFAULT_TIMEOUT, config
 from shellsmith.utils import base64_encoded
 
 
@@ -22,7 +22,7 @@ def get_shells(host: str = config.host) -> list[dict]:
         HTTPError: If the GET request fails.
     """
     url = f"{host}/shells"
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     json_response = response.json()
     shells = json_response["result"]
@@ -46,7 +46,7 @@ def post_shell(shell: dict, host: str = config.host) -> dict:
         HTTPError: If the POST request fails.
     """
     url = f"{host}/shells"
-    response = requests.post(url, json=shell)
+    response = requests.post(url, json=shell, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
@@ -71,7 +71,7 @@ def get_shell(shell_id: str, encode: bool = True, host: str = config.host) -> di
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     shell = response.json()
     return shell
@@ -96,7 +96,7 @@ def put_shell(
     """
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}"
-    response = requests.put(url, json=shell)
+    response = requests.put(url, json=shell, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -117,7 +117,7 @@ def delete_shell(shell_id: str, encode: bool = True, host: str = config.host) ->
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}"
-    response = requests.delete(url)
+    response = requests.delete(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -145,7 +145,7 @@ def get_submodel_refs(
     shell_id = base64_encoded(shell_id, encode)
 
     url = f"{host}/shells/{shell_id}/submodel-refs"
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     submodel_refs = response.json()["result"]
     return submodel_refs
@@ -173,7 +173,7 @@ def post_submodel_ref(
     """
     shell_id = base64_encoded(shell_id, encode)
     url = f"{host}/shells/{shell_id}/submodel-refs"
-    response = requests.post(url, json=submodel_ref)
+    response = requests.post(url, json=submodel_ref, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -201,5 +201,5 @@ def delete_submodel_ref(
     submodel_id = base64_encoded(submodel_id, encode)
 
     url = f"{host}/shells/{shell_id}/submodel-refs/{submodel_id}"
-    response = requests.delete(url)
+    response = requests.delete(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()

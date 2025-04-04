@@ -4,7 +4,7 @@ from urllib.parse import quote
 
 import requests
 
-from shellsmith.config import config
+from shellsmith.config import DEFAULT_TIMEOUT, config
 from shellsmith.utils import base64_encoded
 
 
@@ -25,7 +25,7 @@ def get_submodels(host: str = config.host) -> list[dict]:
     """
     url = f"{host}/submodels"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     json_response = response.json()
     submodels = json_response["result"]
@@ -49,7 +49,7 @@ def post_submodel(submodel: dict, host: str = config.host) -> dict:
         HTTPError: If the POST request fails.
     """
     url = f"{host}/submodels"
-    response = requests.post(url, json=submodel)
+    response = requests.post(url, json=submodel, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
@@ -78,7 +78,7 @@ def get_submodel(
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     submodel = response.json()
     return submodel
@@ -106,7 +106,7 @@ def put_submodel(
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}"
-    response = requests.put(url, json=submodel)
+    response = requests.put(url, json=submodel, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -131,7 +131,7 @@ def delete_submodel(
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}"
 
-    response = requests.delete(url)
+    response = requests.delete(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -158,12 +158,11 @@ def get_submodel_value(
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/$value"
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
 
-# TODO: Returns "Error: response status is 400"
 def patch_submodel_value(
     submodel_id: str,
     value: dict,
@@ -186,7 +185,7 @@ def patch_submodel_value(
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/$value"
-    response = requests.patch(url, json=value)
+    response = requests.patch(url, json=value, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -213,7 +212,7 @@ def get_submodel_metadata(
     """
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/$metadata"
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
@@ -245,7 +244,7 @@ def get_submodel_elements(
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/submodel-elements"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     json_response = response.json()
     elements = json_response["result"]
@@ -281,7 +280,7 @@ def post_submodel_element(
     submodel_id = base64_encoded(submodel_id, encode)
     base = f"{host}/submodels/{submodel_id}/submodel-elements"
     url = f"{base}/{quote(id_short_path)}" if id_short_path else base
-    response = requests.post(url, json=element)
+    response = requests.post(url, json=element, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -311,7 +310,7 @@ def get_submodel_element(
     submodel_id = base64_encoded(submodel_id, encode)
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     element = response.json()
     return element
@@ -342,7 +341,7 @@ def put_submodel_element(
     submodel_id = base64_encoded(submodel_id, encode)
     id_short_path = quote(id_short_path)
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
-    response = requests.put(url, json=element)
+    response = requests.put(url, json=element, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -370,7 +369,7 @@ def delete_submodel_element(
     id_short_path = quote(id_short_path)
 
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}"
-    response = requests.delete(url)
+    response = requests.delete(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
 
 
@@ -400,7 +399,7 @@ def get_submodel_element_value(
     submodel_id = base64_encoded(submodel_id, encode)
     id_short_path = quote(id_short_path)
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}/$value"
-    response = requests.get(url)
+    response = requests.get(url, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
@@ -431,5 +430,5 @@ def patch_submodel_element_value(
     id_short_path = quote(id_short_path)
     url = f"{host}/submodels/{submodel_id}/submodel-elements/{id_short_path}/$value"
 
-    response = requests.patch(url, json=value)
+    response = requests.patch(url, json=value, timeout=DEFAULT_TIMEOUT)
     response.raise_for_status()

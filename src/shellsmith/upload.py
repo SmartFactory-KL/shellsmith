@@ -5,7 +5,7 @@ from pathlib import Path
 
 import requests
 
-from shellsmith.config import config
+from shellsmith.config import DEFAULT_TIMEOUT, config
 
 
 def upload_aas_folder(path: Path | str) -> None:
@@ -52,7 +52,7 @@ def upload_aas(path: Path | str) -> bool:
     with open(path, "rb") as file:
         files = [("file", (path.name, file, mime_type))]
         try:
-            response = requests.post(url, files=files)
+            response = requests.post(url, files=files, timeout=DEFAULT_TIMEOUT)
             response.raise_for_status()
             success: bool = response.json()
             print(f"✅ Successfully uploaded '{path.name}': {success}")
