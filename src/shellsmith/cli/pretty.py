@@ -25,11 +25,11 @@ def format_value(value: str | int | float | bool | None) -> str:
     """Formats a value for pretty printing."""
     if isinstance(value, str):
         return f"[white]{value}[/]"
-    elif isinstance(value, int | float):
+    if isinstance(value, int | float):
         return f"[yellow]{value}[/]"
-    elif isinstance(value, bool):
+    if isinstance(value, bool):
         return f"[green]{value}[/]"
-    elif value is None:
+    if value is None:
         return "[dim]null[/]"
     return str(value)
 
@@ -38,10 +38,9 @@ def format_key(key: str, value: dict | list) -> str:
     """Formats a key for pretty printing."""
     if key == "<no idShort>":
         return f"[dark_orange3 reverse]{key}[/]"
-    elif value:
+    if value:
         return f"[bright_blue]{key}[/]"
-    else:
-        return f"[red reverse]{key}[/]"
+    return f"[red reverse]{key}[/]"
 
 
 def make_label(identifiable: dict) -> str:
