@@ -13,7 +13,7 @@ import shellsmith
 shells = shellsmith.get_shells()
 
 # Fetch a specific Shell by ID
-shell = shellsmith.get_shell("https://example.com/submodels/my-submodel")
+shell = shellsmith.get_shell("https://example.com/shells/my-shell")
 
 # Fetch a specific Submodel by ID
 submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
@@ -23,7 +23,7 @@ value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
 shellsmith.patch_submodel_element_value(submodel["id"], "temperature", "42.0")
 ```
 
-> ℹ️ `shell_id` and `submodel_id` are base64-encoded automatically unless you pass `encode=False`.
+> ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
 
 ---
 
@@ -49,31 +49,31 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ### 🔹 Shells
 
-| Method | Endpoint                                                   | Function               |
-|--------|------------------------------------------------------------|------------------------|
-| GET    | `/shells`                                                  | `get_shells`         |
-| POST   | `/shells`                                                  | `post_shell`         |
-| GET    | `/shells/{aasIdentifier}`                                  | `get_shell`          |
-| PUT    | `/shells/{aasIdentifier}`                                  | `put_shell`          |
-| DELETE | `/shells/{aasIdentifier}`                                  | `delete_shell`       |
-| GET    | `/shells/{aasIdentifier}/submodel-refs`                    | `get_submodel_refs`  |
-| POST   | `/shells/{aasIdentifier}/submodel-refs`                    | `post_submodel_ref`  |
-| DELETE | `/shells/{aasIdentifier}/submodel-refs/{submodelId}`       | `delete_submodel_ref`|
+| Method | Endpoint                                             | Function              |
+|--------|------------------------------------------------------|-----------------------|
+| GET    | `/shells`                                            | `get_shells`          |
+| POST   | `/shells`                                            | `post_shell`          |
+| GET    | `/shells/{aasIdentifier}`                            | `get_shell`           |
+| PUT    | `/shells/{aasIdentifier}`                            | `put_shell`           |
+| DELETE | `/shells/{aasIdentifier}`                            | `delete_shell`        |
+| GET    | `/shells/{aasIdentifier}/submodel-refs`              | `get_submodel_refs`   |
+| POST   | `/shells/{aasIdentifier}/submodel-refs`              | `post_submodel_ref`   |
+| DELETE | `/shells/{aasIdentifier}/submodel-refs/{submodelId}` | `delete_submodel_ref` |
 
 ---
 
 ### 🔸 Submodels
 
-| Method | Endpoint                                      | Function                 |
-|--------|-----------------------------------------------|--------------------------|
-| GET    | `/submodels`                                  | `get_submodels`        |
-| POST   | `/submodels`                                  | `post_submodel`        |
-| GET    | `/submodels/{submodelId}`                     | `get_submodel`         |
-| PUT    | `/submodels/{submodelId}`                     | `put_submodel`         |
-| DELETE | `/submodels/{submodelId}`                     | `delete_submodel`      |
-| GET    | `/submodels/{submodelId}/$value`              | `get_submodel_value`   |
-| PATCH  | `/submodels/{submodelId}/$value`              | `patch_submodel_value` |
-| GET    | `/submodels/{submodelId}/$metadata`           | `get_submodel_metadata`|
+| Method | Endpoint                            | Function                |
+|--------|-------------------------------------|-------------------------|
+| GET    | `/submodels`                        | `get_submodels`         |
+| POST   | `/submodels`                        | `post_submodel`         |
+| GET    | `/submodels/{submodelId}`           | `get_submodel`          |
+| PUT    | `/submodels/{submodelId}`           | `put_submodel`          |
+| DELETE | `/submodels/{submodelId}`           | `delete_submodel`       |
+| GET    | `/submodels/{submodelId}/$value`    | `get_submodel_value`    |
+| PATCH  | `/submodels/{submodelId}/$value`    | `patch_submodel_value`  |
+| GET    | `/submodels/{submodelId}/$metadata` | `get_submodel_metadata` |
 
 ---
 
@@ -94,8 +94,8 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ### 📦 Upload
 
-| Method | Endpoint  | Function                                |
-|--------|-----------|-----------------------------------------|
+| Method | Endpoint  | Function                              |
+|--------|-----------|---------------------------------------|
 | POST   | `/upload` | `upload_aas` <br> `upload_aas_folder` |
 
 > 📁 Upload functions are provided via the `shellsmith.upload` submodule.
@@ -113,15 +113,19 @@ from shellsmith import services
 ```
 
 #### `get_shell_submodels(shell_id)`
+
 Returns all submodels associated with a given shell. Skips missing submodels with a warning.
 
 #### `delete_submodels_of_shell(shell_id)`
+
 Deletes all submodels referenced by the given shell.
 
 #### `remove_submodel_references(submodel_id)`
+
 Unlinks the given submodel from all referencing shells.
 
 #### `remove_dangling_submodel_refs()`
+
 Finds and removes all submodel references that point to non-existent submodels.
 
 ---
@@ -129,12 +133,15 @@ Finds and removes all submodel references that point to non-existent submodels.
 ### ☢️ Destructive Helpers
 
 #### `delete_shell_cascading(shell_id)`
+
 Deletes a shell *and* all its associated submodels. Use with caution.
 
 #### `delete_all_shells()`
+
 Deletes all Asset Administration Shells in the environment.
 
 #### `delete_all_submodels()`
+
 Deletes all Submodels in the environment.
 
 ---
@@ -142,12 +149,15 @@ Deletes all Submodels in the environment.
 ### 🧹 Cleanup & Diagnostics
 
 #### `find_unreferenced_submodels()`
+
 Returns all submodel IDs that are not referenced by any shell.
 
 #### `find_dangling_submodel_refs()`
+
 Returns all shells with broken submodel references (e.g. pointing to deleted submodels).
 
 #### `health()`
+
 Checks the BaSyx environment health. Returns `"UP"` or `"DOWN"`.
 
 ---
