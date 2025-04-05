@@ -1,0 +1,20 @@
+:root {
+  --md-primary-fg-color: #311847;
+  --md-accent-fg-color: #FF7C2A;
+}
+
+/* Light mode link color */
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: #5a2a7a;
+}
+
+/* Improve link contrast in dark mode */
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: #9c8df6;
+}
+
+/* Shadow drop */
+.md-typeset img[src$="logo-purple.png"] {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* more depth */
+  border-radius: 8px;
+}

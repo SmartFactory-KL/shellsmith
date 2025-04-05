@@ -43,10 +43,13 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
+    "mkdocs",
+    "mkdocs-material",
     "pytest",
     "pytest-cov",
     "pytest-dotenv",
     "ruff",
+    "termynal",
 ]
 
 neo4j = [

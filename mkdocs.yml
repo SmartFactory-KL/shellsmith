@@ -1,0 +1,60 @@
+site_name: shellsmith
+repo_url: https://github.com/ptrstn/shellsmith
+repo_name: ptrstn/shellsmith
+theme:
+  name: material
+  logo: images/emblem.svg
+  favicon: images/favicon.ico
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - palette.toggle
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+  icon:
+    repo: fontawesome/brands/github
+  extra:
+    version:
+      provider: pypi
+      name: shellsmith
+    manifest: images/favicon/site.webmanifest
+
+nav:
+  - Home: index.md
+  - CLI: cli.md
+  - API: api.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.inlinehilite
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - termynal
