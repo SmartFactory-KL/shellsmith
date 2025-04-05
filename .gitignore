@@ -11,4 +11,5 @@ coverage.xml
 dist
 db.sqlite3
 htmlcov
+site
 venv
