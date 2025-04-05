@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shellsmith"
-version = "0.2.1"
+version = "0.3.0"
 authors = [{ name = "Peter Stein", email = "peterstein@dfki.de" }]
 description = "Python client and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
 license = { file = "LICENSE" }
