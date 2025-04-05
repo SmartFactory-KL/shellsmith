@@ -42,10 +42,10 @@ Activate the virtual environment:
     .venv\Scripts\activate
     ```
 
-Install the package in editable mode with test dependencies:
+Install the package in editable mode with test and documentation dependencies:
 
 ```bash
-pip install -e .[test]
+pip install -e .[test,docs]
 ```
 
 ---
@@ -105,8 +105,7 @@ Then open `htmlcov/index.html` in your browser.
 ---
 
 ## 🧼 Code Style
-
-We use [Ruff](https://docs.astral.sh/ruff/) for linting, formatting, and import sorting.
+We use [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, and [mypy](https://mypy-lang.org/) for static type checking:
 
 Check code:
 
@@ -162,7 +161,6 @@ ruff check
         convention = "google"
         ```
 
-
 Auto-fix issues:
 
 ```bash
@@ -173,6 +171,12 @@ Format code:
 
 ```bash
 ruff format
+```
+
+Run static type checks:
+
+```bash
+mypy src
 ```
 
 ---
@@ -188,7 +192,7 @@ mkdocs serve
 ```
 
 !!! note  
-    Documentation lives in the `docs/` folder and uses Markdown with Material features like tabs, notes, and admonitions.
+    Documentation lives in the `docs/` folder and uses Markdown with Material features.
 
 Then open [http://localhost:8000](http://localhost:8000)
 

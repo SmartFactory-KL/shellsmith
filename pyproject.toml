@@ -6,18 +6,20 @@ build-backend = "setuptools.build_meta"
 name = "shellsmith"
 version = "0.3.0"
 authors = [{ name = "Peter Stein", email = "peterstein@dfki.de" }]
-description = "Python client and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
+description = "A Python SDK and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
 license = { file = "LICENSE" }
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -43,15 +45,19 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
-    "mkdocs",
-    "mkdocs-material",
+    "mypy",
     "pytest",
     "pytest-cov",
     "pytest-dotenv",
     "ruff",
+    "types-pyyaml",
+    "types-requests"
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
     "termynal",
 ]
-
 neo4j = [
     "neo4j",
 ]
@@ -62,6 +68,7 @@ aas = "shellsmith.cli.app:main"
 [project.urls]
 Homepage = "https://github.com/ptrstn/shellsmith"
 Issues = "https://github.com/ptrstn/shellsmith/issues"
+Documentation = "https://shellsmith.pages.dev"
 
 [tool.ruff]
 target-version = "py310"
