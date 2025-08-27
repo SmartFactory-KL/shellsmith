@@ -1,6 +1,6 @@
 """Main CLI entry point for shellsmith with Typer."""
 
-import requests
+import httpx
 import typer
 
 from .commands.decode import app as decode_app
@@ -33,7 +33,7 @@ def main() -> None:
     """Main entry point for the CLI."""
     try:
         app()
-    except requests.exceptions.ConnectionError as e:
+    except httpx.ConnectError as e:
         typer.secho(f"😩 {e}", fg=typer.colors.RED)
     except Exception as e:
         typer.secho(f"💥 Unexpected error: {e}", fg=typer.colors.RED)

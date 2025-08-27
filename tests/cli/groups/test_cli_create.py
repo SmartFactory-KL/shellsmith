@@ -2,7 +2,7 @@ import json
 
 from typer.testing import CliRunner
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli.app import app
 from shellsmith.utils import generate_id
 
@@ -96,7 +96,7 @@ def test_create_element_nested(workpiece_carrier_a1):
     submodel_id = workpiece_carrier_a1.asset_location.id
 
     # Fetch an existing element and repurpose it
-    data = crud.get_submodel_element(submodel_id, "CurrentFences[0].FenceName")
+    data = api.get_submodel_element(submodel_id, "CurrentFences[0].FenceName")
     data["idShort"] = "NestedCopy"
     data["value"] = "Hello nested"
     payload = json.dumps(data)
@@ -117,6 +117,6 @@ def test_create_element_nested(workpiece_carrier_a1):
     assert result.exit_code == 0
     assert "Created nested Element" in result.output
 
-    data = crud.get_submodel_element(submodel_id, "CurrentFences[0].NestedCopy")
+    data = api.get_submodel_element(submodel_id, "CurrentFences[0].NestedCopy")
     assert data["idShort"] == "NestedCopy"
     assert data["value"] == "Hello nested"

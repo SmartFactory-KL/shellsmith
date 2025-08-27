@@ -1,8 +1,8 @@
 """Simplification utilities for Asset Administration Shell components."""
 
-from requests import HTTPError
+import httpx
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.config import config
 from shellsmith.extract import collect_submodel_ids
 
@@ -38,9 +38,9 @@ def enrich(simplified_shell: dict, host: str = config.host) -> dict:
 
     for submodel_id in simplified_shell.get("submodels", []):
         try:
-            submodel = crud.get_submodel(submodel_id, host=host)
+            submodel = api.get_submodel(submodel_id, host=host)
             submodels.append(simplify(submodel))
-        except HTTPError:
+        except httpx.HTTPStatusError:
             # Option 1: Skip silently
             # continue
 

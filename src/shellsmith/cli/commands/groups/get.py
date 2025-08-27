@@ -2,7 +2,7 @@
 
 import typer
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli import args, opts
 from shellsmith.cli.formats import OutputFormat
 from shellsmith.cli.handlers import handle_http_error
@@ -23,7 +23,7 @@ app = typer.Typer(
 @handle_http_error()
 def get_shells(output: OutputFormat = opts.OUTPUT, host: str = opts.HOST) -> None:
     """🔹 Get all available Shells."""
-    shells = crud.get_shells(host)
+    shells = api.get_shells(host)["result"]
 
     if output == OutputFormat.SIMPLE:
         shells = [enrich(simplify(shell), host) for shell in shells]
@@ -39,7 +39,7 @@ def get_shell(
     host: str = opts.HOST,
 ) -> None:
     """🔹 Get a specific Shell."""
-    shell = crud.get_shell(shell_id, host=host)
+    shell = api.get_shell(shell_id, host=host)
 
     if output == OutputFormat.SIMPLE:
         shell = [enrich(simplify(shell), host)]
@@ -54,7 +54,7 @@ def get_submodel_refs(
     host: str = opts.HOST,
 ) -> None:
     """🔹 Get all Submodel References of a specific Shell."""
-    submodel_refs = crud.get_submodel_refs(shell_id, host=host)
+    submodel_refs = api.get_submodel_refs(shell_id, host=host)["result"]
     print_data(submodel_refs, output_format=OutputFormat.JSON)
 
 
@@ -65,7 +65,7 @@ def get_submodel_refs(
 @handle_http_error()
 def get_submodels(output: OutputFormat = opts.OUTPUT, host: str = opts.HOST) -> None:
     """🔸 Get all available Submodels."""
-    submodels = crud.get_submodels(host)
+    submodels = api.get_submodels(host)["result"]
 
     if output == OutputFormat.SIMPLE:
         submodels = [simplify(submodel) for submodel in submodels]
@@ -81,7 +81,7 @@ def get_submodel(
     host: str = opts.HOST,
 ) -> None:
     """🔸 Get a specific Submodel."""
-    submodel = crud.get_submodel(submodel_id, host=host)
+    submodel = api.get_submodel(submodel_id, host=host)
 
     if output == OutputFormat.SIMPLE:
         submodel = [enrich(simplify(submodel), host)]
@@ -96,7 +96,7 @@ def get_submodel_value(
     host: str = opts.HOST,
 ) -> None:
     """🔸 Get the $value of a specific Submodel."""
-    value = crud.get_submodel_value(submodel_id, host=host)
+    value = api.get_submodel_value(submodel_id, host=host)
     print_data(value, output_format=OutputFormat.PLAIN)
 
 
@@ -107,7 +107,7 @@ def get_submodel_meta(
     host: str = opts.HOST,
 ) -> None:
     """🔸 Get the $metadata of a specific Submodel."""
-    metadata = crud.get_submodel_metadata(submodel_id, host=host)
+    metadata = api.get_submodel_metadata(submodel_id, host=host)
     print_data(metadata, output_format=OutputFormat.PLAIN)
 
 
@@ -122,7 +122,7 @@ def get_submodel_elements(
     host: str = opts.HOST,
 ) -> None:
     """🔻 Get all Submodel Elements of a specific Submodel."""
-    submodel_elements = crud.get_submodel_elements(submodel_id, host=host)
+    submodel_elements = api.get_submodel_elements(submodel_id, host=host)["result"]
     if output == OutputFormat.SIMPLE:
         submodel_elements = [simplify_element(element) for element in submodel_elements]
         output = OutputFormat.TREE
@@ -142,7 +142,7 @@ def get_submodel_element(
     host: str = opts.HOST,
 ) -> None:
     """🔻 Get a specific Submodel Element."""
-    submodel_element = crud.get_submodel_element(submodel_id, id_short_path, host=host)
+    submodel_element = api.get_submodel_element(submodel_id, id_short_path, host=host)
     if output == OutputFormat.SIMPLE:
         submodel_element = [simplify_element(submodel_element)]
         output = OutputFormat.TREE
@@ -161,5 +161,5 @@ def get_submodel_element_value(
     host: str = opts.HOST,
 ) -> None:
     """🔻 Get the $value of a specific Submodel Element."""
-    value = crud.get_submodel_element_value(submodel_id, id_short_path, host=host)
+    value = api.get_submodel_element_value(submodel_id, id_short_path, host=host)
     print_data(value, output_format=OutputFormat.PLAIN)

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli import args, opts
 from shellsmith.cli.handlers import handle_http_error
 from shellsmith.cli.pretty import make_label
@@ -26,7 +26,7 @@ def create_shell(
 ) -> None:
     """🔹 Create a Shell from a data payload."""
     payload = resolve_input(data, file)
-    created = crud.post_shell(payload, host=host)
+    created = api.create_shell(payload, host=host)
     label = make_label(created)
     typer.secho(f"✅ Created Shell: {label}", fg=typer.colors.GREEN)
 
@@ -41,7 +41,7 @@ def create_submodel_ref(
 ) -> None:
     """🔹 Create a Submodel reference for a Shell."""
     payload = resolve_input(data, file)
-    crud.post_submodel_ref(shell_id, payload, host=host)
+    api.create_submodel_ref(shell_id, payload, host=host)
     message = f"✅ Created Submodel reference in Shell: {shell_id}"
     typer.secho(message, fg=typer.colors.GREEN)
 
@@ -55,7 +55,7 @@ def create_submodel(
 ) -> None:
     """🔸 Create a Submodel from a data payload."""
     payload = resolve_input(data, file)
-    created = crud.post_submodel(payload, host=host)
+    created = api.create_submodel(payload, host=host)
     label = make_label(created)
     typer.secho(f"✅ Created Submodel: {label}", fg=typer.colors.GREEN)
 
@@ -71,7 +71,7 @@ def create_element(
 ) -> None:
     """🔻 Create a Submodel Element (root or nested)."""
     payload = resolve_input(data, file)
-    crud.post_submodel_element(submodel_id, payload, id_short_path, host=host)
+    api.create_submodel_element(submodel_id, payload, id_short_path, host=host)
     label = (
         f"nested Element: {id_short_path}" if id_short_path else "root-level Element"
     )

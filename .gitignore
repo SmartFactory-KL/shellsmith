@@ -2,11 +2,12 @@
 .idea
 .pytest_cache
 .ruff_cache
-.venv
+.venv*
 *.egg-info
 __pycache__
 aasx
 aas-*
+build
 coverage.xml
 dist
 db.sqlite3

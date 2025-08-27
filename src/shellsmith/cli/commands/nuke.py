@@ -3,7 +3,7 @@
 import typer
 from rich.console import Console
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli import opts
 from shellsmith.cli.commands.info import print_header
 from shellsmith.cli.handlers import handle_http_error
@@ -24,8 +24,8 @@ def nuke(host: str = opts.HOST) -> None:
     print_header()
     console = Console()
 
-    shells = crud.get_shells(host=host)
-    submodels = crud.get_submodels(host=host)
+    shells = api.get_shells(host=host)["result"]
+    submodels = api.get_submodels(host=host)["result"]
 
     total_shells = len(shells)
     total_submodels = len(submodels)
@@ -51,7 +51,7 @@ def nuke(host: str = opts.HOST) -> None:
         console.print("\n🔥 Deleting Shells...")
         for shell in shells:
             label = make_label(shell)
-            crud.delete_shell(shell["id"], host=host)
+            api.delete_shell(shell["id"], host=host)
             console.print(f"  ✅ Deleted Shell: {label}", style="cyan")
 
     # Delete Submodels
@@ -59,7 +59,7 @@ def nuke(host: str = opts.HOST) -> None:
         console.print("\n🔥 Deleting Submodels...")
         for submodel in submodels:
             label = make_label(submodel)
-            crud.delete_submodel(submodel["id"], host=host)
+            api.delete_submodel(submodel["id"], host=host)
             console.print(f"  ✅ Deleted Submodel: {label}", style="magenta")
 
     message = "\n🎉 All Shells and Submodels have been deleted."

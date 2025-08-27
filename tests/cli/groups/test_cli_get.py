@@ -14,7 +14,7 @@ def test_get_shells():
 def test_get_shells_with_incorrect_host():
     result = runner.invoke(app, ["get", "shells", "--host", "https://example.com"])
     assert result.exit_code == 1
-    assert "404 Client Error: Not Found for url" in result.output
+    assert "Client error '404 Not Found" in result.output
 
 
 def test_get_shell(semitrailer):
@@ -27,7 +27,8 @@ def test_get_shell(semitrailer):
 def test_get_shell_not_found():
     result = runner.invoke(app, ["get", "shell", "123"])
     assert result.exit_code == 1
-    assert "404 Client Error" in result.output
+    assert "404" in result.output
+    assert "Client error" in result.output
 
 
 def test_get_submodel_refs(semitrailer):

@@ -1,6 +1,6 @@
 from typer.testing import CliRunner
 
-import shellsmith
+from shellsmith import api
 from shellsmith.cli.app import app
 
 runner = CliRunner()
@@ -10,8 +10,8 @@ def test_cli_upload():
     result = runner.invoke(app, ["upload", "aas"])
     assert result.exit_code == 0
     assert "Uploading all" in result.output
-    assert len(shellsmith.get_shells()) > 0
-    assert len(shellsmith.get_submodels()) > 0
+    assert len(api.get_shells()["result"]) > 0
+    assert len(api.get_submodels()["result"]) > 0
 
     result = runner.invoke(app, ["upload", "aas/Semitrailer.json"])
     assert "Uploading file" in result.output

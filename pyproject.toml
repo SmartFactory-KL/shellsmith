@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "shellsmith"
 version = "0.3.0"
-authors = [{ name = "Peter Stein", email = "peterstein@dfki.de" }]
+authors = [{ name = "Peter Stein", email = "peter.stein@dfki.de" }]
 description = "A Python SDK and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
 license = { file = "LICENSE" }
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -37,9 +37,9 @@ keywords = [
     "python",
 ]
 dependencies = [
+    "httpx",
     "pydantic-settings",
     "pyyaml",
-    "requests",
     "typer",
 ]
 
@@ -47,6 +47,7 @@ dependencies = [
 test = [
     "mypy",
     "pytest",
+    "pytest-asyncio",
     "pytest-cov",
     "pytest-dotenv",
     "ruff",
@@ -87,6 +88,10 @@ select = [
     "SIM",  # flake8-simplify
     "UP",   # pyupgrade
     "W",    # pycodestyle warnings
+]
+
+ignore = [
+    "ANN401",  # Allow Any types
 ]
 
 [tool.ruff.lint.per-file-ignores]

@@ -3,9 +3,9 @@
 import mimetypes
 from pathlib import Path
 
-import requests
+import httpx
 
-from shellsmith.config import DEFAULT_TIMEOUT, config
+from shellsmith.config import config
 
 
 def upload_aas_folder(path: Path | str) -> None:
@@ -52,11 +52,11 @@ def upload_aas(path: Path | str) -> bool:
     with open(path, "rb") as file:
         files = [("file", (path.name, file, mime_type))]
         try:
-            response = requests.post(url, files=files, timeout=DEFAULT_TIMEOUT)
+            response = httpx.post(url, files=files, timeout=config.timeout)
             response.raise_for_status()
             success: bool = response.json()
             print(f"✅ Successfully uploaded '{path.name}': {success}")
             return success
-        except requests.exceptions.HTTPError as e:
+        except httpx.HTTPStatusError as e:
             print(f"❌ Failed to upload '{path.name}': {e}")
             return False

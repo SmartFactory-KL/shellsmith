@@ -1,5 +1,5 @@
 import pytest
-from requests import HTTPError
+from httpx import HTTPStatusError
 
 import shellsmith
 from shellsmith import services
@@ -15,14 +15,14 @@ def test_get_shell_submodels(semitrailer):
 def test_delete_shell_cascading(semitrailer):
     shell_id = semitrailer.id
     services.delete_shell_cascading(shell_id)
-    with pytest.raises(HTTPError):
+    with pytest.raises(HTTPStatusError):
         shellsmith.get_shell(shell_id)
 
 
 def test_remove_submodel_references(semitrailer):
     submodel_id = semitrailer.product_identification.id
     services.remove_submodel_references(submodel_id)
-    for shell in shellsmith.get_shells():
+    for shell in shellsmith.get_shells()["result"]:
         assert submodel_id not in {
             ref["keys"][0]["value"] for ref in shell.get("submodels", [])
         }

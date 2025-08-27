@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     Attributes:
         basyx_env_host: The base URL of the BaSyx AAS Environment.
         neo4j_uri: The connection URI for the Neo4j database.
+        timeout: Default request timeout in seconds.
 
     Properties:
         host: Alias for `basyx_env_host`.
@@ -19,6 +20,7 @@ class Settings(BaseSettings):
 
     basyx_env_host: str = "http://localhost:8081"
     neo4j_uri: str = "neo4j://localhost:7687"
+    timeout: float = 5.0
 
     @property
     def host(self) -> str:
@@ -37,5 +39,3 @@ class Settings(BaseSettings):
 
 
 config = Settings()
-
-DEFAULT_TIMEOUT = 5.0

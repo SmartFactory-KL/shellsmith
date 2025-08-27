@@ -3,14 +3,14 @@
 from collections.abc import Callable
 from functools import wraps
 
+import httpx
 import typer
-from requests import HTTPError
 
 
 def handle_http_error() -> Callable:
-    """Wraps a CLI command to catch HTTPError and exit cleanly.
+    """Wraps a CLI command to catch HTTPStatusError and exit cleanly.
 
-    This decorator intercepts requests.exceptions.HTTPError raised in CLI command
+    This decorator intercepts httpx.HTTPStatusError raised in CLI command
     functions, logs the error with the provided kwargs as context,
     and exits with code 1.
     """
@@ -20,7 +20,7 @@ def handle_http_error() -> Callable:
         def wrapper(*args: object, **kwargs: object) -> None:
             try:
                 return func(*args, **kwargs)
-            except HTTPError as error:
+            except httpx.HTTPStatusError as error:
                 params = " ".join(f"{k}={v}" for k, v in kwargs.items())
                 message = f"⚠️ {error}: {params}"
                 typer.secho(message, fg=typer.colors.YELLOW)

@@ -1,8 +1,8 @@
 """Module for interacting with the AAS Environment API."""
 
-import requests
+import httpx
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.config import config
 from shellsmith.extract import collect_submodel_ids
 
@@ -22,7 +22,7 @@ def get_shell_submodels(shell_id: str) -> list[dict]:
     Raises:
         HTTPError: If the shell itself cannot be fetched.
     """
-    shell = crud.get_shell(shell_id)
+    shell = api.get_shell(shell_id)
     if "submodels" not in shell:
         return []
 
@@ -31,9 +31,9 @@ def get_shell_submodels(shell_id: str) -> list[dict]:
 
     for submodel_id in submodel_ids:
         try:
-            submodel = crud.get_submodel(submodel_id)
+            submodel = api.get_submodel(submodel_id)
             submodels.append(submodel)
-        except requests.exceptions.HTTPError:
+        except httpx.HTTPStatusError:
             print(f"⚠️  Submodel '{submodel_id}' not found")
 
     return submodels
@@ -50,7 +50,7 @@ def delete_shell_cascading(
         host: The base URL of the AAS server. Defaults to the configured host.
     """
     delete_submodels_of_shell(shell_id, host=host)
-    crud.delete_shell(shell_id, host=host)
+    api.delete_shell(shell_id, host=host)
 
 
 def delete_submodels_of_shell(shell_id: str, host: str = config.host) -> None:
@@ -62,14 +62,14 @@ def delete_submodels_of_shell(shell_id: str, host: str = config.host) -> None:
         shell_id: The unique identifier of the shell.
         host: The base URL of the AAS server. Defaults to the configured host.
     """
-    shell = crud.get_shell(shell_id, host=host)
+    shell = api.get_shell(shell_id, host=host)
 
     if "submodels" in shell:
         for submodel in shell["submodels"]:
             submodel_id = submodel["keys"][0]["value"]
             try:
-                crud.delete_submodel(submodel_id, host=host)
-            except requests.exceptions.HTTPError:
+                api.delete_submodel(submodel_id, host=host)
+            except httpx.HTTPStatusError:
                 print(f"Warning: Submodel {submodel_id} doesn't exist")
 
 
@@ -80,10 +80,10 @@ def remove_submodel_references(submodel_id: str, host: str = config.host) -> Non
         submodel_id: The unique identifier of the submodel.
         host: The base URL of the AAS server.  Defaults to the configured host.
     """
-    shells = crud.get_shells(host=host)
+    shells = api.get_shells(host=host)["result"]
     for shell in shells:
         if submodel_id in collect_submodel_ids(shell):
-            crud.delete_submodel_ref(shell["id"], submodel_id)
+            api.delete_submodel_ref(shell["id"], submodel_id)
 
 
 def remove_dangling_submodel_refs() -> None:
@@ -91,14 +91,14 @@ def remove_dangling_submodel_refs() -> None:
 
     A dangling reference is one that points to a submodel which no longer exists.
     """
-    shells = crud.get_shells()
-    submodels = crud.get_submodels()
+    shells = api.get_shells()["result"]
+    submodels = api.get_submodels()["result"]
     submodel_ids = {submodel["id"] for submodel in submodels}
 
     for shell in shells:
         for submodel_id in collect_submodel_ids(shell):
             if submodel_id not in submodel_ids:
-                crud.delete_submodel_ref(shell["id"], submodel_id)
+                api.delete_submodel_ref(shell["id"], submodel_id)
 
 
 def delete_all_submodels(host: str = config.host) -> None:
@@ -107,9 +107,9 @@ def delete_all_submodels(host: str = config.host) -> None:
     Args:
         host: The base URL of the AAS server. Defaults to the configured host.
     """
-    submodels = crud.get_submodels(host=host)
+    submodels = api.get_submodels(host=host)["result"]
     for submodel in submodels:
-        crud.delete_submodel(submodel["id"])
+        api.delete_submodel(submodel["id"])
 
 
 def delete_all_shells(host: str = config.host) -> None:
@@ -118,9 +118,9 @@ def delete_all_shells(host: str = config.host) -> None:
     Args:
         host: The base URL of the AAS server. Defaults to the configured host.
     """
-    shells = crud.get_shells()
+    shells = api.get_shells()["result"]
     for shell in shells:
-        crud.delete_shell(shell["id"], host=host)
+        api.delete_shell(shell["id"], host=host)
 
 
 def health(timeout: float = 0.1, host: str = config.host) -> str:
@@ -136,11 +136,11 @@ def health(timeout: float = 0.1, host: str = config.host) -> str:
     url = f"{host}/actuator/health"
 
     try:
-        response = requests.get(url, timeout=timeout)
+        response = httpx.get(url, timeout=timeout)
         response.raise_for_status()
         data = response.json()
         return data["status"]
-    except requests.exceptions.RequestException:
+    except httpx.RequestError:
         return "DOWN"
 
 
@@ -150,8 +150,8 @@ def find_unreferenced_submodels(host: str = config.host) -> list[str]:
     Returns:
         A list of submodel IDs that are not referenced by any shell.
     """
-    shells = crud.get_shells(host)
-    submodels = crud.get_submodels(host)
+    shells = api.get_shells(host)["result"]
+    submodels = api.get_submodels(host)["result"]
 
     submodel_ref_ids = {
         submodel_id for shell in shells for submodel_id in collect_submodel_ids(shell)
@@ -170,8 +170,8 @@ def find_dangling_submodel_refs(host: str = config.host) -> list[dict]:
     Returns:
         A list of simplified shell mappings with missing submodel IDs.
     """
-    shells = crud.get_shells(host)
-    submodels = crud.get_submodels(host)
+    shells = api.get_shells(host)["result"]
+    submodels = api.get_submodels(host)["result"]
     existing_submodel_ids = {submodel["id"] for submodel in submodels}
 
     dangling_list: list[dict] = []

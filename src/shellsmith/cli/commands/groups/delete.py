@@ -2,7 +2,7 @@
 
 import typer
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli import args, opts
 from shellsmith.cli.handlers import handle_http_error
 from shellsmith.cli.pretty import make_label
@@ -24,15 +24,15 @@ def delete_shell(
 ) -> None:
     """🔹 Delete a Shell by ID, optionally with its referenced Submodels."""
     if cascade:
-        shell = crud.get_shell(shell_id, host=host)
+        shell = api.get_shell(shell_id, host=host)
         submodel_ids = collect_submodel_ids(shell)
 
         for submodel_id in submodel_ids:
-            crud.delete_submodel(submodel_id, host=host)
+            api.delete_submodel(submodel_id, host=host)
             message = f"✅ Deleted referenced Submodel: {submodel_id}"
             typer.secho(message, fg=typer.colors.YELLOW)
 
-    crud.delete_shell(shell_id, host=host)
+    api.delete_shell(shell_id, host=host)
     typer.secho(f"✅ Deleted Shell: {shell_id}", fg=typer.colors.GREEN)
 
 
@@ -44,7 +44,7 @@ def delete_submodel_ref(
     host: str = opts.HOST,
 ) -> None:
     """🔹 Delete a Submodel reference from a Shell."""
-    crud.delete_submodel_ref(shell_id, submodel_id, host=host)
+    api.delete_submodel_ref(shell_id, submodel_id, host=host)
     message = f"✅ Deleted Submodel reference: {submodel_id} from Shell: {shell_id}"
     typer.secho(message, fg=typer.colors.GREEN)
 
@@ -58,15 +58,15 @@ def delete_submodel(
 ) -> None:
     """🔸 Delete a Submodel by ID."""
     if remove_refs:
-        shells = crud.get_shells(host=host)
+        shells = api.get_shells(host=host)["result"]
         for shell in shells:
             if submodel_id in collect_submodel_ids(shell):
                 label = make_label(shell)
-                crud.delete_submodel_ref(shell["id"], submodel_id)
+                api.delete_submodel_ref(shell["id"], submodel_id)
                 message = f"🔗 Removed reference from Shell {label}"
                 typer.secho(message, fg=typer.colors.YELLOW)
 
-    crud.delete_submodel(submodel_id, host=host)
+    api.delete_submodel(submodel_id, host=host)
     message = f"✅ Deleted Submodel: {submodel_id}"
     typer.secho(message, fg=typer.colors.GREEN)
 
@@ -78,6 +78,6 @@ def delete_element(
     host: str = opts.HOST,
 ) -> None:
     """🔻 Delete a Submodel Element by idShort path."""
-    crud.delete_submodel_element(submodel_id, id_short_path, host=host)
+    api.delete_submodel_element(submodel_id, id_short_path, host=host)
     message = f"✅ Deleted Element {id_short_path} from Submodel {submodel_id}"
     typer.secho(message, fg=typer.colors.GREEN)

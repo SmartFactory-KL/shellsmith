@@ -1,5 +1,5 @@
 import pytest
-from requests import HTTPError
+from httpx import HTTPStatusError
 
 import shellsmith
 from shellsmith import services
@@ -7,7 +7,7 @@ from shellsmith.upload import upload_aas_folder
 
 
 def test_get_submodels(semitrailer, workpiece_carrier_a1):
-    submodels = shellsmith.get_submodels()
+    submodels = shellsmith.get_submodels()["result"]
     ids = {s["id"] for s in submodels}
     assert semitrailer.product_identification.id in ids
     assert semitrailer.production_plan.id in ids
@@ -60,7 +60,7 @@ def test_get_and_patch_submodel_value(semitrailer):
     original_value = shellsmith.get_submodel_value(submodel_id)
 
     new_value = {"Identifier": "changed-id", "ProductName": "ModifiedProduct"}
-    with pytest.raises(HTTPError):  # TODO: Investigate, why
+    with pytest.raises(HTTPStatusError):  # TODO: Investigate, why
         shellsmith.patch_submodel_value(submodel_id, new_value)
         patched_value = shellsmith.get_submodel_value(submodel_id)
         assert patched_value["ProductName"] == "ModifiedProduct"
@@ -79,20 +79,23 @@ def test_get_submodel_elements(
     workpiece_carrier_a1,
 ):
     elements = shellsmith.get_submodel_elements(semitrailer.product_identification.id)
+    elements = elements["result"]
     assert elements[0]["idShort"] == "Identifier"
     assert elements[1]["idShort"] == "ProductName"
     assert elements[1]["value"] == "Semitrailer"
 
     elements = shellsmith.get_submodel_elements(
         workpiece_carrier_a1.good_information.id
-    )
+    )["result"]
     assert elements[0]["idShort"] == "CurrentProduct"
     assert elements[0]["value"] == semitrailer.id
     assert elements[1]["idShort"] == "ListTransportableProducts"
     assert elements[2]["idShort"] == "ProductName"
     assert elements[2]["value"] == "Semitrailer"
 
-    elements = shellsmith.get_submodel_elements(workpiece_carrier_a1.asset_location.id)
+    elements = shellsmith.get_submodel_elements(workpiece_carrier_a1.asset_location.id)[
+        "result"
+    ]
     assert elements[0]["idShort"] == "CurrentFences"
     assert elements[0]["value"][0]["value"][0]["idShort"] == "FenceName"
     assert elements[0]["value"][0]["value"][0]["value"] == "TSN-Module"
@@ -119,7 +122,7 @@ def test_patch_submodel_element_value(
 
     elements = shellsmith.get_submodel_elements(
         workpiece_carrier_a1.good_information.id
-    )
+    )["result"]
     assert elements[2]["value"] == new_product_name
 
     # Reset
@@ -130,7 +133,7 @@ def test_patch_submodel_element_value(
     )
     elements = shellsmith.get_submodel_elements(
         workpiece_carrier_a1.good_information.id
-    )
+    )["result"]
     assert elements[2]["value"] == old_product_name
 
 
@@ -146,7 +149,9 @@ def test_set_current_fence_name(
         value=new_fence_name,
     )
 
-    elements = shellsmith.get_submodel_elements(workpiece_carrier_a1.asset_location.id)
+    elements = shellsmith.get_submodel_elements(workpiece_carrier_a1.asset_location.id)[
+        "result"
+    ]
     assert elements[0]["idShort"] == "CurrentFences"
     assert elements[0]["value"][0]["value"][0]["idShort"] == "FenceName"
     assert elements[0]["value"][0]["value"][0]["value"] == new_fence_name
@@ -158,6 +163,7 @@ def test_set_current_fence_name(
     )
 
     elements = shellsmith.get_submodel_elements(workpiece_carrier_a1.asset_location.id)
+    elements = elements["result"]
     assert elements[0]["value"][0]["value"][0]["value"] == old_fence_name
 
 
@@ -173,7 +179,7 @@ def test_post_submodel_element_root(semitrailer):
 
     shellsmith.post_submodel_element(submodel_id, new_element)
 
-    elements = shellsmith.get_submodel_elements(submodel_id)
+    elements = shellsmith.get_submodel_elements(submodel_id)["result"]
     ids = [el["idShort"] for el in elements]
     assert "TestRootElement" in ids
 

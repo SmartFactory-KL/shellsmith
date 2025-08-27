@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from shellsmith import crud
+from shellsmith import api
 from shellsmith.cli import args, opts
 from shellsmith.cli.handlers import handle_http_error
 from shellsmith.cli.resolve import resolve_input
@@ -30,7 +30,7 @@ def update_shell(
     The provided payload must include the entire Shell object.
     """
     payload = resolve_input(data, file)
-    crud.put_shell(shell_id, payload, host=host)
+    api.update_shell(shell_id, payload, host=host)
     typer.secho(f"✅ Updated Shell: {shell_id}", fg=typer.colors.GREEN)
 
 
@@ -48,7 +48,7 @@ def update_submodel(
     The entire Submodel structure must be provided in the payload.
     """
     payload = resolve_input(data, file)
-    crud.put_submodel(submodel_id, payload, host=host)
+    api.update_submodel(submodel_id, payload, host=host)
     typer.secho(f"✅ Updated Submodel: {submodel_id}", fg=typer.colors.GREEN)
 
 
@@ -67,7 +67,7 @@ def update_submodel_value(
     ⚠️ Currently not supported by BaSyx — will result in a 400 error.
     """
     payload = resolve_input(data, file)
-    crud.patch_submodel_value(submodel_id, payload, host=host)
+    api.update_submodel_value(submodel_id, payload, host=host)
     typer.secho(f"✅ Updated Submodel value: {submodel_id}", fg=typer.colors.GREEN)
 
 
@@ -85,7 +85,7 @@ def update_element(
     This operation replaces the full Submodel Element using PUT.
     """
     payload = resolve_input(data, file)
-    crud.put_submodel_element(submodel_id, id_short_path, payload, host=host)
+    api.update_submodel_element(submodel_id, id_short_path, payload, host=host)
     typer.secho(
         f"✅ Updated Submodel Element: {id_short_path} in Submodel {submodel_id}",
         fg=typer.colors.GREEN,
@@ -104,7 +104,7 @@ def update_element_value(
 
     This uses PATCH to modify only the value field.
     """
-    crud.patch_submodel_element_value(submodel_id, id_short_path, value, host=host)
+    api.update_submodel_element_value(submodel_id, id_short_path, value, host=host)
     typer.secho(
         f"✅ Updated value of Element {id_short_path} in Submodel {submodel_id}",
         fg=typer.colors.GREEN,

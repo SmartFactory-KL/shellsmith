@@ -1,11 +1,12 @@
 import pytest
-from requests import HTTPError
+from httpx import HTTPStatusError
 
 import shellsmith
 
 
 def test_get_shells(semitrailer, workpiece_carrier_a1):
     shells = shellsmith.get_shells()
+    shells = shells["result"]
     ids = [s["id"] for s in shells]
     assert semitrailer.id in ids
     assert workpiece_carrier_a1.id in ids
@@ -69,7 +70,7 @@ def test_delete_shell():
     }
     shellsmith.post_shell(shell)
     shellsmith.delete_shell(shell_id)
-    with pytest.raises(HTTPError):
+    with pytest.raises(HTTPStatusError):
         shellsmith.get_shell(shell_id)
 
 
@@ -87,9 +88,9 @@ def test_post_and_delete_submodel_ref(semitrailer):
     }
 
     shellsmith.post_submodel_ref(shell_id, submodel_ref)
-    refs = shellsmith.get_submodel_refs(shell_id)
+    refs = shellsmith.get_submodel_refs(shell_id)["result"]
     assert any(ref["keys"][0]["value"] == test_submodel_id for ref in refs)
 
     shellsmith.delete_submodel_ref(shell_id, test_submodel_id)
-    refs = shellsmith.get_submodel_refs(shell_id)
+    refs = shellsmith.get_submodel_refs(shell_id)["result"]
     assert all(ref["keys"][0]["value"] != test_submodel_id for ref in refs)
