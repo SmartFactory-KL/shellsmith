@@ -39,6 +39,7 @@ keywords = [
 dependencies = [
     "httpx",
     "pydantic-settings",
+    "fastmcp",
     "pyyaml",
     "typer",
 ]
@@ -65,6 +66,7 @@ neo4j = [
 
 [project.scripts]
 aas = "shellsmith.cli.app:main"
+shellsmith-mcp = "shellsmith.mcp.server:cli_main"
 
 [project.urls]
 Homepage = "https://github.com/ptrstn/shellsmith"

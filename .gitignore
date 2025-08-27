@@ -14,3 +14,6 @@ db.sqlite3
 htmlcov
 site
 venv
+*_config.json
+*.log
+settings.local.json
