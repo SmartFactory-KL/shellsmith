@@ -26,7 +26,6 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
-
   icon:
     repo: fontawesome/brands/github
   extra:
@@ -57,4 +56,5 @@ extra_css:
   - stylesheets/extra.css
 
 plugins:
-  - termynal
+  - termynal:
+      buttons: windows
