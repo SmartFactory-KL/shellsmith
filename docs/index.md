@@ -20,7 +20,7 @@ It provides full client-side access to AAS resources through a clean Python inte
 ```
 $ pip install shellsmith
 ---> 100%
-Installed
+Successfully installed shellsmith
 ```
 
 ---

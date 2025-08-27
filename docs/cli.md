@@ -4,8 +4,21 @@ Shellsmith provides a powerful Typer-based command-line interface.
 
 ## Getting Started
 
-```bash
-aas --help
+<!-- termynal -->
+
+```
+$ aas --help
+╭─ Commands ──────────────────────────────────────────────────────────────╮
+│ upload   Uploads a single AAS file or all AAS files from a folder. │
+│ info     Displays the current Shell tree and issues.               │
+│ nuke     Deletes all AAS Shells and Submodels.                     │
+│ encode   Encodes a value to Base64.                                │
+│ decode   Decodes a Base64 value.                                   │
+│ get      Get Shells, Submodels and Submodel Elements.              │
+│ delete   Delete Shells, Submodels and Submodel elements.           │
+│ update   Update Shells, Submodels and Submodel elements.           │
+│ create   Create Shells, Submodels and Submodel elements.           │
+╰──────────────────────────────────────────────────────────────────────────╯
 ```
 
 ## Top-Level Commands
