@@ -714,7 +714,7 @@ class Client:
             HTTPError: If the GET request fails.
         """
         method = "GET"
-        path = "/shells?pageSize=1"
+        path = "/shells"
         response = self._request(method=method, path=path)
         json_response = response.json()
         return json_response
