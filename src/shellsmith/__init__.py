@@ -27,6 +27,7 @@ from .api import (
     update_submodel_element,
     update_submodel_element_value,
     update_submodel_value,
+    is_healthy,
 )
 from .clients import AsyncClient, Client
 from .upload import upload_aas, upload_aas_folder
