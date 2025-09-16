@@ -1,6 +1,3 @@
-import pytest
-from httpx import HTTPStatusError
-
 import shellsmith
 from shellsmith import services
 from shellsmith.upload import upload_aas_folder

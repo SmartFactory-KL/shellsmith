@@ -1,8 +1,6 @@
 import pytest
+
 from shellsmith.clients import AsyncClient
-
-
-import pytest
 
 
 @pytest.mark.asyncio

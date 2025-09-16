@@ -1,5 +1,6 @@
 import pytest
-from shellsmith.clients import Client, AsyncClient
+
+from shellsmith.clients import Client
 
 
 def test_sync_client_smoke():
