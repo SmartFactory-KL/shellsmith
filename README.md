@@ -1,10 +1,10 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/ptrstn/shellsmith/main/docs/images/logo-purple-500.png" alt="shellsmith">
+    <img src="https://raw.githubusercontent.com/SmartFactory-KL/shellsmith/main/docs/images/logo-purple-500.png" alt="shellsmith">
 </div>
 
 <div align="center">
-  <a href="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml"><img src="https://github.com/ptrstn/shellsmith/actions/workflows/test.yaml/badge.svg" alt="Test"></a>
-  <a href="https://codecov.io/gh/ptrstn/shellsmith"><img src="https://codecov.io/gh/ptrstn/shellsmith/branch/main/graph/badge.svg" alt="codecov"></a>
+  <a href="https://github.com/SmartFactory-KL/shellsmith/actions/workflows/test.yaml"><img src="https://github.com/SmartFactory-KL/shellsmith/actions/workflows/test.yaml/badge.svg" alt="Test"></a>
+  <a href="https://codecov.io/gh/SmartFactory-KL/shellsmith"><img src="https://codecov.io/gh/SmartFactory-KL/shellsmith/branch/main/graph/badge.svg" alt="codecov"></a>
   <a href="https://pypi.org/project/shellsmith"><img src="https://img.shields.io/pypi/v/shellsmith?color=%2334D058" alt="PyPI - Version"></a>
   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
 </div>
