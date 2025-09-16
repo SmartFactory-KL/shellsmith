@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/ptrstn/shellsmith/main/docs/images/logo-purple.png" alt="shellsmith" style="max-width: 100%; width: 500px;">
+    <img src="https://raw.githubusercontent.com/ptrstn/shellsmith/main/docs/images/logo-purple-500.png" alt="shellsmith">
 </div>
 
 <div align="center">
