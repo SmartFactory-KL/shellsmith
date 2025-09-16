@@ -288,10 +288,10 @@ def get_submodel_value(
 
 def update_submodel_value(
     submodel_id: str,
-    value: dict,
+    value: list[dict],
     encode: bool = True,
     host: str = config.host,
-) -> dict:
+) -> None:
     """Update the value of a specific Submodel.
 
     Args:
@@ -307,7 +307,7 @@ def update_submodel_value(
         HTTPError: If the PATCH request fails.
     """
     with Client(host=host) as client:
-        return client.update_submodel_value(submodel_id, value, encode)
+        client.update_submodel_value(submodel_id, value, encode)
 
 
 def get_submodel_metadata(

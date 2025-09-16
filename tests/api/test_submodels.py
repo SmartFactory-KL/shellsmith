@@ -57,16 +57,23 @@ def test_post_and_put_submodel(semitrailer):
 
 def test_get_and_patch_submodel_value(semitrailer):
     submodel_id = semitrailer.product_identification.id
-    original_value = shellsmith.get_submodel_value(submodel_id)
+    original_value = shellsmith.get_submodel(submodel_id)["submodelElements"]
 
-    new_value = {"Identifier": "changed-id", "ProductName": "ModifiedProduct"}
-    with pytest.raises(HTTPStatusError):  # TODO: Investigate, why
-        shellsmith.patch_submodel_value(submodel_id, new_value)
-        patched_value = shellsmith.get_submodel_value(submodel_id)
-        assert patched_value["ProductName"] == "ModifiedProduct"
+    payload = [
+        {
+            "modelType": "Property",
+            "idShort": "ProductName",
+            "valueType": "xs:string",
+            "value": "ModifiedProduct",
+        }
+    ]
 
-        # revert
-        shellsmith.patch_submodel_value(submodel_id, original_value)
+    shellsmith.patch_submodel_value(submodel_id, payload)
+    patched_value = shellsmith.get_submodel_value(submodel_id)
+    assert patched_value["ProductName"] == "ModifiedProduct"
+
+    # revert
+    shellsmith.patch_submodel_value(submodel_id, original_value)
 
 
 def test_get_submodel_metadata(semitrailer):

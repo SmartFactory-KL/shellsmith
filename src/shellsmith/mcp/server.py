@@ -322,8 +322,11 @@ async def get_submodel_value(
 
 @app.tool()
 async def update_submodel_value(
-    submodel_id: str, value: dict, encode: bool = True, host: str = config.host
-) -> dict:
+    submodel_id: str,
+    value: list[dict],
+    encode: bool = True,
+    host: str = config.host,
+) -> None:
     """Updates the value of a specific Submodel.
 
     Corresponds to:
@@ -331,7 +334,7 @@ async def update_submodel_value(
 
     Args:
         submodel_id: The unique identifier of the Submodel.
-        value: A dictionary representing the updated Submodel value.
+        value: A list[dict] representing the updated Submodel value.
         encode: Whether to Base64-encode the Submodel ID. Defaults to True.
         host: Base URL of the AAS server. Defaults to configured host.
 
@@ -342,7 +345,7 @@ async def update_submodel_value(
         HTTPError: If the PATCH request fails.
     """
     async with AsyncClient(host=host) as client:
-        return await client.update_submodel_value(submodel_id, value, encode=encode)
+        await client.update_submodel_value(submodel_id, value, encode=encode)
 
 
 @app.tool()

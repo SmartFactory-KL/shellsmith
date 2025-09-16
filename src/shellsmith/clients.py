@@ -377,9 +377,9 @@ class AsyncClient:
     async def update_submodel_value(
         self,
         submodel_id: str,
-        value: dict,
+        value: list[dict],
         encode: bool = True,
-    ) -> dict:
+    ) -> None:
         """Updates the value of a specific Submodel.
 
         Corresponds to:
@@ -387,7 +387,7 @@ class AsyncClient:
 
         Args:
             submodel_id: The unique identifier of the Submodel.
-            value: A dictionary representing the updated Submodel value.
+            value: A list[dict] of SubmodelElements with updated values.
             encode: Whether to Base64-encode the Submodel ID. Defaults to True.
 
         Raises:
@@ -396,8 +396,7 @@ class AsyncClient:
         method = "PATCH"
         submodel_id = base64_encoded(submodel_id, encode)
         path = f"/submodels/{submodel_id}/$value"
-        response = await self._request(method=method, path=path, json=value)
-        return response.json()
+        await self._request(method=method, path=path, json=value)
 
     async def get_submodel_metadata(
         self,
@@ -1007,9 +1006,9 @@ class Client:
     def update_submodel_value(
         self,
         submodel_id: str,
-        value: dict,
+        value: list[dict],
         encode: bool = True,
-    ) -> dict:
+    ) -> None:
         """Updates the value of a specific Submodel.
 
         Corresponds to:
@@ -1017,7 +1016,7 @@ class Client:
 
         Args:
             submodel_id: The unique identifier of the Submodel.
-            value: A dictionary representing the updated Submodel value.
+            value: A list[dict] of SubmodelElements with updated values.
             encode: Whether to Base64-encode the Submodel ID. Defaults to True.
 
         Raises:
@@ -1026,8 +1025,7 @@ class Client:
         method = "PATCH"
         submodel_id = base64_encoded(submodel_id, encode)
         path = f"/submodels/{submodel_id}/$value"
-        response = self._request(method=method, path=path, json=value)
-        return response.json()
+        self._request(method=method, path=path, json=value)
 
     def get_submodel_metadata(
         self,
