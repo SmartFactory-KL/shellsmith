@@ -9,18 +9,36 @@ Shellsmith provides a Python SDK to interact with the [Eclipse BaSyx](https://ww
 ```python
 import shellsmith
 
-# Get all Shells
-shells = shellsmith.get_shells()
+# Get all Shells (returns pagination metadata)
+response = shellsmith.get_shells()
+shells = response["result"]  # Extract the actual shells list
 
 # Fetch a specific Shell by ID
 shell = shellsmith.get_shell("https://example.com/shells/my-shell")
 
-# Fetch a specific Submodel by ID
+# Fetch a specific Submodel by ID  
 submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
 
 # Read and update a Submodel Element's value
 value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
-shellsmith.patch_submodel_element_value(submodel["id"], "temperature", "42.0")
+shellsmith.update_submodel_element_value(submodel["id"], "temperature", "42.0")
+```
+
+### Client-based API (Recommended for advanced usage)
+
+```python
+from shellsmith.clients import Client, AsyncClient
+
+# Synchronous client
+with Client() as client:
+    response = client.get_shells()
+    shells = response["result"]
+    
+# Asynchronous client
+async with AsyncClient() as client:
+    response = await client.get_shells() 
+    shells = response["result"]
+    health = await client.get_health_status()
 ```
 
 > ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
@@ -52,12 +70,12 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 | Method | Endpoint                                             | Function              |
 |--------|------------------------------------------------------|-----------------------|
 | GET    | `/shells`                                            | `get_shells`          |
-| POST   | `/shells`                                            | `post_shell`          |
+| POST   | `/shells`                                            | `create_shell`        |
 | GET    | `/shells/{aasIdentifier}`                            | `get_shell`           |
-| PUT    | `/shells/{aasIdentifier}`                            | `put_shell`           |
+| PUT    | `/shells/{aasIdentifier}`                            | `update_shell`        |
 | DELETE | `/shells/{aasIdentifier}`                            | `delete_shell`        |
 | GET    | `/shells/{aasIdentifier}/submodel-refs`              | `get_submodel_refs`   |
-| POST   | `/shells/{aasIdentifier}/submodel-refs`              | `post_submodel_ref`   |
+| POST   | `/shells/{aasIdentifier}/submodel-refs`              | `create_submodel_ref` |
 | DELETE | `/shells/{aasIdentifier}/submodel-refs/{submodelId}` | `delete_submodel_ref` |
 
 ---
@@ -67,12 +85,12 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 | Method | Endpoint                            | Function                |
 |--------|-------------------------------------|-------------------------|
 | GET    | `/submodels`                        | `get_submodels`         |
-| POST   | `/submodels`                        | `post_submodel`         |
+| POST   | `/submodels`                        | `create_submodel`       |
 | GET    | `/submodels/{submodelId}`           | `get_submodel`          |
-| PUT    | `/submodels/{submodelId}`           | `put_submodel`          |
+| PUT    | `/submodels/{submodelId}`           | `update_submodel`       |
 | DELETE | `/submodels/{submodelId}`           | `delete_submodel`       |
 | GET    | `/submodels/{submodelId}/$value`    | `get_submodel_value`    |
-| PATCH  | `/submodels/{submodelId}/$value`    | `patch_submodel_value`  |
+| PATCH  | `/submodels/{submodelId}/$value`    | `update_submodel_value` |
 | GET    | `/submodels/{submodelId}/$metadata` | `get_submodel_metadata` |
 
 ---
@@ -82,13 +100,13 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 | Method | Endpoint                                                               | Function                       |
 |--------|------------------------------------------------------------------------|--------------------------------|
 | GET    | `/submodels/{submodelId}/submodel-elements`                            | `get_submodel_elements`        |
-| POST   | `/submodels/{submodelId}/submodel-elements`                            | `post_submodel_element`        |
+| POST   | `/submodels/{submodelId}/submodel-elements`                            | `create_submodel_element`      |
 | GET    | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `get_submodel_element`         |
-| PUT    | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `put_submodel_element`         |
-| POST   | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `post_submodel_element`        |
+| PUT    | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `update_submodel_element`      |
+| POST   | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `create_submodel_element`      |
 | DELETE | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}`        | `delete_submodel_element`      |
 | GET    | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}/$value` | `get_submodel_element_value`   |
-| PATCH  | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}/$value` | `patch_submodel_element_value` |
+| PATCH  | `/submodels/{submodelId}/submodel-elements/`<br>`{idShortPath}/$value` | `update_submodel_element_value`|
 
 ---
 
