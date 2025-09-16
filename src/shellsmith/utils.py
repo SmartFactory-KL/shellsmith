@@ -54,7 +54,7 @@ def base64_decode(encoded_text: str | None) -> str | None:
     return base64.urlsafe_b64decode(encoded_text).decode("utf-8")
 
 
-def base64_encoded(identifier: str, encode: bool) -> str:
+def base64_encoded(identifier: str, encode: bool) -> str | None:
     """Encodes a string using Base64 if the flag is set.
 
     Args:
