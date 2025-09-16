@@ -1,6 +1,8 @@
 """Module level imports."""
 
-__version__ = "0.3.0"
+from importlib.metadata import version
+
+__version__ = version("shellsmith")
 
 from .api import (
     create_shell,
