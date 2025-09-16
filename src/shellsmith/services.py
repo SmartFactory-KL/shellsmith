@@ -2,7 +2,7 @@
 
 import httpx
 
-from shellsmith import api
+from shellsmith import Client, api
 from shellsmith.config import config
 from shellsmith.extract import collect_submodel_ids
 
@@ -133,15 +133,8 @@ def health(timeout: float = 0.1, host: str = config.host) -> str:
     Returns:
         "UP" if the service is reachable, otherwise "DOWN".
     """
-    url = f"{host}/actuator/health"
-
-    try:
-        response = httpx.get(url, timeout=timeout)
-        response.raise_for_status()
-        data = response.json()
-        return data["status"]
-    except httpx.RequestError:
-        return "DOWN"
+    with Client(host=host) as client:
+        return client.get_health_status()
 
 
 def find_unreferenced_submodels(host: str = config.host) -> list[str]:
