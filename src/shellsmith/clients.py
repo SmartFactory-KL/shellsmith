@@ -1,5 +1,7 @@
 """Sync and async client classes for AAS operations."""
 
+import mimetypes
+from pathlib import Path
 from types import TracebackType
 from typing import Any
 from urllib.parse import quote
@@ -48,8 +50,10 @@ class AsyncClient:
     @property
     def client(self) -> httpx.AsyncClient:
         """Ensure client is initialized."""
-        if not self._client:
-            raise RuntimeError("Client not initialized. Use async with statement.")
+        if not self._client or self._client.is_closed:
+            raise RuntimeError(
+                "Client not initialized or closed. Use async with statement."
+            )
         return self._client
 
     async def _request(
@@ -638,6 +642,61 @@ class AsyncClient:
         """Check if the AAS environment is ready for requests."""
         return await self.get_health_status(**kwargs) == "UP"
 
+    # ───────────────────────────────── Upload ─────────────────────────────────────────
+
+    async def upload_aas(self, path: Path | str) -> bool:
+        """Uploads a single AAS file to the configured server.
+
+        Acceptable formats: `.json`, `.xml`, `.aasx`.
+
+        Args:
+            path: The path to the AAS file. Can be a `Path` or string.
+
+        Returns:
+            True if the upload succeeds, otherwise False.
+        """
+        path = Path(path)
+        endpoint = "/upload"
+
+        mime_type, _ = mimetypes.guess_type(path)  # .json, .xml
+        if mime_type is None:
+            # .aasx
+            mime_type = "application/octet-stream"
+
+        with open(path, "rb") as file:
+            files = [("file", (path.name, file, mime_type))]
+            try:
+                response = await self._request(
+                    method="POST", path=endpoint, files=files
+                )
+                success: bool = response.json()
+                print(f"✅ Successfully uploaded '{path.name}': {success}")
+                return success
+            except httpx.HTTPStatusError as e:
+                print(f"❌ Failed to upload '{path.name}': {e}")
+                return False
+
+    async def upload_aas_folder(self, path: Path | str) -> None:
+        """Uploads all AAS files from a specified folder.
+
+        Accepts `.json`, `.xml`, and `.aasx` files only.
+
+        Args:
+            path: The path to the folder containing AAS files.
+
+        Raises:
+            ValueError: If the provided path is not a valid directory.
+        """
+        folder_path = Path(path)
+
+        if not folder_path.is_dir():
+            raise ValueError(f"{folder_path} is not a valid directory.")
+
+        for aas_file in folder_path.iterdir():
+            if aas_file.is_file() and aas_file.suffix in {".json", ".xml", ".aasx"}:
+                print(f"Uploading: '{aas_file.name}'")
+                await self.upload_aas(aas_file)
+
 
 class Client:
     """Sync client for AAS operations using httpx."""
@@ -675,8 +734,8 @@ class Client:
     @property
     def client(self) -> httpx.Client:
         """Ensure client is initialized."""
-        if not self._client:
-            raise RuntimeError("Client not initialized. Use with statement.")
+        if not self._client or self._client.is_closed:
+            raise RuntimeError("Client not initialized or closed. Use with statement.")
         return self._client
 
     def _request(
@@ -1274,3 +1333,56 @@ class Client:
             **kwargs: Additional keyword arguments to pass to the request.
         """
         return self.get_health_status(**kwargs) == "UP"
+
+    # ───────────────────────────────── Upload ─────────────────────────────────────────
+
+    def upload_aas(self, path: Path | str) -> bool:
+        """Uploads a single AAS file to the configured server.
+
+        Acceptable formats: `.json`, `.xml`, `.aasx`.
+
+        Args:
+            path: The path to the AAS file. Can be a `Path` or string.
+
+        Returns:
+            True if the upload succeeds, otherwise False.
+        """
+        path = Path(path)
+        endpoint = "/upload"
+
+        mime_type, _ = mimetypes.guess_type(path)  # .json, .xml
+        if mime_type is None:
+            # .aasx
+            mime_type = "application/octet-stream"
+
+        with open(path, "rb") as file:
+            files = [("file", (path.name, file, mime_type))]
+            try:
+                response = self._request(method="POST", path=endpoint, files=files)
+                success: bool = response.json()
+                print(f"✅ Successfully uploaded '{path.name}': {success}")
+                return success
+            except httpx.HTTPStatusError as e:
+                print(f"❌ Failed to upload '{path.name}': {e}")
+                return False
+
+    def upload_aas_folder(self, path: Path | str) -> None:
+        """Uploads all AAS files from a specified folder.
+
+        Accepts `.json`, `.xml`, and `.aasx` files only.
+
+        Args:
+            path: The path to the folder containing AAS files.
+
+        Raises:
+            ValueError: If the provided path is not a valid directory.
+        """
+        folder_path = Path(path)
+
+        if not folder_path.is_dir():
+            raise ValueError(f"{folder_path} is not a valid directory.")
+
+        for aas_file in folder_path.iterdir():
+            if aas_file.is_file() and aas_file.suffix in {".json", ".xml", ".aasx"}:
+                print(f"Uploading: '{aas_file.name}'")
+                self.upload_aas(aas_file)

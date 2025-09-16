@@ -1,15 +1,19 @@
-"""Module for uploading Asset Administration Shell (AAS) files to a server."""
+"""Module for uploading Asset Administration Shell (AAS) files to a server.
 
-import mimetypes
+Deprecated: These functions are now methods on Client and AsyncClient classes.
+Use Client().upload_aas() or AsyncClient.upload_aas() instead.
+These functions are kept for backwards compatibility.
+"""
+
 from pathlib import Path
 
-import httpx
-
-from shellsmith.config import config
+from shellsmith.clients import Client
 
 
 def upload_aas_folder(path: Path | str) -> None:
     """Uploads all AAS files from a specified folder.
+
+    Deprecated: Use Client().upload_aas_folder() instead.
 
     Accepts `.json`, `.xml`, and `.aasx` files only.
 
@@ -19,19 +23,14 @@ def upload_aas_folder(path: Path | str) -> None:
     Raises:
         ValueError: If the provided path is not a valid directory.
     """
-    folder_path = Path(path)
-
-    if not folder_path.is_dir():
-        raise ValueError(f"{folder_path} is not a valid directory.")
-
-    for aas_file in folder_path.iterdir():
-        if aas_file.is_file() and aas_file.suffix in {".json", ".xml", ".aasx"}:
-            print(f"Uploading: '{aas_file.name}'")
-            upload_aas(aas_file)
+    with Client() as client:
+        client.upload_aas_folder(path)
 
 
 def upload_aas(path: Path | str) -> bool:
     """Uploads a single AAS file to the configured server.
+
+    Deprecated: Use Client().upload_aas() instead.
 
     Acceptable formats: `.json`, `.xml`, `.aasx`.
 
@@ -41,22 +40,5 @@ def upload_aas(path: Path | str) -> bool:
     Returns:
         True if the upload succeeds, otherwise False.
     """
-    path = Path(path)
-    url = f"{config.host}/upload"
-
-    mime_type, _ = mimetypes.guess_type(path)  # .json, .xml
-    if mime_type is None:
-        # .aasx
-        mime_type = "application/octet-stream"
-
-    with open(path, "rb") as file:
-        files = [("file", (path.name, file, mime_type))]
-        try:
-            response = httpx.post(url, files=files, timeout=config.timeout)
-            response.raise_for_status()
-            success: bool = response.json()
-            print(f"✅ Successfully uploaded '{path.name}': {success}")
-            return success
-        except httpx.HTTPStatusError as e:
-            print(f"❌ Failed to upload '{path.name}': {e}")
-            return False
+    with Client() as client:
+        return client.upload_aas(path)
