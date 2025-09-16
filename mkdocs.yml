@@ -1,6 +1,6 @@
 site_name: shellsmith
-repo_url: https://github.com/ptrstn/shellsmith
-repo_name: ptrstn/shellsmith
+repo_url: https://github.com/SmartFactory-KL/shellsmith
+repo_name: SmartFactory-KL/shellsmith
 theme:
   name: material
   logo: images/emblem.svg

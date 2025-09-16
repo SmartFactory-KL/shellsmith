@@ -13,7 +13,7 @@ Follow these steps to set up your development environment:
 Clone the repository:
 
 ```bash
-git clone https://github.com/ptrstn/shellsmith
+git clone https://github.com/SmartFactory-KL/shellsmith
 ```
 
 Navigate into the project folder:
