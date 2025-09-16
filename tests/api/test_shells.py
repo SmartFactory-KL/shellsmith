@@ -4,6 +4,11 @@ from httpx import HTTPStatusError
 import shellsmith
 
 
+def test_health():
+    assert shellsmith.is_healthy()
+    assert shellsmith.get_health_status() == "UP"
+
+
 def test_get_shells(semitrailer, workpiece_carrier_a1):
     shells = shellsmith.get_shells()
     shells = shells["result"]
