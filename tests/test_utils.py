@@ -35,5 +35,6 @@ def test_generate_uuid():
 
 def test_load_data():
     assert load_data(Path("aas/Semitrailer.json"))
+    assert load_data(Path("compose.yaml"))
     with pytest.raises(ValueError):
         load_data(Path("aas/WST_A_1.aasx"))
