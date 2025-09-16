@@ -635,7 +635,7 @@ class AsyncClient:
             response = await self._request(method=method, path=path, **kwargs)
             data = response.json()
             return data["status"]
-        except httpx.RequestError:
+        except (httpx.RequestError, httpx.HTTPStatusError):
             return "DOWN"
 
     async def is_healthy(self, **kwargs: Any) -> bool:
@@ -1323,7 +1323,7 @@ class Client:
             response = self._request(method=method, path=path, **kwargs)
             data = response.json()
             return data["status"]
-        except httpx.RequestError:
+        except (httpx.RequestError, httpx.HTTPStatusError):
             return "DOWN"
 
     def is_healthy(self, **kwargs: Any) -> bool:
