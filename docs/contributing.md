@@ -6,7 +6,7 @@ Set up **Shellsmith** for local development, testing, linting, and documentation
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 Follow these steps to set up your development environment:
 
@@ -50,7 +50,7 @@ pip install -e .[test,docs]
 
 ---
 
-## 🚀 Running the App
+## Running the App
 
 You can run Shellsmith in two ways:
 
@@ -61,7 +61,7 @@ aas --help
 ```
 
 !!! note  
-    The `aas` command is installed when you install the project (e.g. via `pip install -e .`).  
+    The `aas` command is installed when you install the project (e.g., via `pip install -e .`).  
     It's declared in `pyproject.toml`:
 
     ```toml
@@ -80,7 +80,7 @@ python -m shellsmith --help
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 Start the BaSyx test environment (if needed):
 
@@ -104,7 +104,7 @@ Then open `htmlcov/index.html` in your browser.
 
 ---
 
-## 🧼 Code Style
+## Code Style
 We use [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, and [mypy](https://mypy-lang.org/) for static type checking:
 
 Check code:
@@ -181,7 +181,7 @@ mypy src
 
 ---
 
-## 📚 Docs
+## Docs
 
 We use [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) for documentation.
 
@@ -200,4 +200,101 @@ Build the static site:
 
 ```bash
 mkdocs build
+```
+
+---
+
+## Releasing
+
+### Create a release tag
+
+Write release notes in a UTF-8 text file, then create an annotated tag (e.g. `v0.4.0`):
+
+```bash
+git tag -a v0.4.0 -F RELEASE-v0.4.0.txt
+```
+
+Push the tag (e.g. `v0.4.0`) to the remote:
+
+```bash
+git push origin v0.4.0
+```
+
+!!! note  
+    You can also push all local tags at once:
+
+    ```bash
+    git push origin --tags
+    ```
+
+!!! note
+    With `hatch-vcs`, the package version is derived automatically from Git.
+
+### Build the distribution
+
+Use Hatch to build sdist and wheel:
+
+```bash
+hatch build
+```
+
+Artifacts are written to `dist/`.
+
+!!! note  
+    If you see leftovers from previous builds, clean first:
+
+    ```bash
+    rm -rf dist build *.egg-info    
+    ```
+
+### Verify the package
+
+Run Twine checks on the built files:
+
+```bash
+twine check dist/*
+```
+
+### Upload to TestPyPI
+
+Try the upload on TestPyPI:
+
+```bash
+twine upload --repository testpypi dist/*
+```
+
+??? note "Configure API tokens"
+    Twine asks for an API token when uploading the distributions. 
+    You can either provide it directly after running the command or you can configure your API tokens in a [`.pypirc`](https://packaging.python.org/en/latest/specifications/pypirc/) at `$HOME/.pypirc`
+    
+    ```toml
+    [distutils]
+    index-servers =
+        pypi
+        testpypi
+    
+    [pypi]
+    username = __token__
+    password = <PyPI token>
+    
+    [testpypi]
+    username = __token__
+    password = <TestPyPI token>
+    ```
+
+Test install (e.g. `shellsmith==0.4.0`) with `--no-deps` in another virtual environment:
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ --no-deps shellsmith==0.4.0
+```
+
+!!! note  
+    The `--no-deps` tells pip to only install the built wheel or sdist and skips dependency resolution
+
+### Upload to PyPI
+
+Publish to the main index:
+
+```bash
+twine upload dist/*
 ```
