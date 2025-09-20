@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "shellsmith"
 dynamic = ["version"]
 authors = [{ name = "Peter Stein", email = "peter.stein@dfki.de" }]
-description = "A Python SDK and CLI for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
+description = "A Python SDK for Eclipse BaSyx to manage Asset Administration Shells (AAS)"
 license = { file = "LICENSE" }
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -31,8 +31,6 @@ keywords = [
     "industry40",
     "i40",
     "digital-twin",
-    "cli",
-    "typer",
     "rest-client",
     "python",
 ]
@@ -40,7 +38,6 @@ dependencies = [
     "httpx",
     "pydantic-settings",
     "pyyaml",
-    "typer",
 ]
 
 [project.optional-dependencies]
@@ -54,6 +51,9 @@ test = [
     "types-pyyaml",
     "types-requests"
 ]
+cli = [
+    "aas-cli",
+]
 docs = [
     "mkdocs",
     "mkdocs-material",
@@ -65,9 +65,6 @@ mcp = [
 neo4j = [
     "neo4j",
 ]
-
-[project.scripts]
-aas = "shellsmith.cli.app:main"
 
 [project.urls]
 Homepage = "https://github.com/SmartFactory-KL/shellsmith"
