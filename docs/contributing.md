@@ -1,4 +1,4 @@
-# 🧑‍💻 Development Guide
+# Development Guide
 
 Set up **Shellsmith** for local development, testing, linting, and documentation.
 
@@ -50,37 +50,7 @@ pip install -e .[test,docs]
 
 ---
 
-## Running the App
-
-You can run Shellsmith in two ways:
-
-### Using the `aas` CLI script
-
-```bash
-aas --help
-```
-
-!!! note  
-    The `aas` command is installed when you install the project (e.g., via `pip install -e .`).  
-    It's declared in `pyproject.toml`:
-
-    ```toml
-    [project.scripts]
-    aas = "shellsmith.cli.app:main"
-    ```
-
-### Running the module directly
-
-```bash
-python -m shellsmith --help
-```
-
-!!! note  
-    This executes the package’s `__main__.py` entry point.
-
----
-
-## Running Tests
+## Testing
 
 Start the BaSyx test environment (if needed):
 

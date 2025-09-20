@@ -1,10 +1,10 @@
-# 🐍 Python API
+# Python Application Programming Interface
 
 Shellsmith provides a Python SDK to interact with the [Eclipse BaSyx](https://www.eclipse.org/basyx/) AAS REST API.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```python
 import shellsmith
@@ -24,7 +24,7 @@ value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
 shellsmith.update_submodel_element_value(submodel["id"], "temperature", "42.0")
 ```
 
-### Client-based API (Recommended for advanced usage)
+### Client-based API
 
 ```python
 from shellsmith.clients import Client, AsyncClient
@@ -41,11 +41,12 @@ async with AsyncClient() as client:
     health = await client.get_health_status()
 ```
 
-> ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
+!!! note  
+    `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
 
 ---
 
-## 📦 Uploading
+## Uploading
 
 ```python
 shellsmith.upload_aas("example.aasx")
@@ -54,7 +55,7 @@ shellsmith.upload_aas_folder("my-aas-folder/")
 
 ---
 
-## 🗑️ Deleting
+## Deleting
 
 ```python
 shellsmith.delete_shell("https://example.com/shells/abc123")
@@ -63,9 +64,9 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ---
 
-## 🔗 REST Endpoint Mapping
+## REST Endpoint Mapping
 
-### 🔹 Shells
+### Shells
 
 | Method | Endpoint                                             | Function              |
 |--------|------------------------------------------------------|-----------------------|
@@ -80,7 +81,7 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ---
 
-### 🔸 Submodels
+### Submodels
 
 | Method | Endpoint                            | Function                |
 |--------|-------------------------------------|-------------------------|
@@ -95,7 +96,7 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ---
 
-### 🔻 Submodel Elements
+### Submodel Elements
 
 | Method | Endpoint                                                               | Function                       |
 |--------|------------------------------------------------------------------------|--------------------------------|
@@ -110,21 +111,19 @@ shellsmith.delete_submodel("https://example.com/submodels/def456")
 
 ---
 
-### 📦 Upload
+### Upload
 
 | Method | Endpoint  | Function                              |
 |--------|-----------|---------------------------------------|
 | POST   | `/upload` | `upload_aas` <br> `upload_aas_folder` |
 
-> 📁 Upload functions are provided via the `shellsmith.upload` submodule.
-
 ---
 
-## 🛠️ Advanced Utilities (`shellsmith.services`)
+##️ Advanced Utilities
 
 The `services` module provides high-level operations for bulk management, cleanup, and environment diagnostics.
 
-### 🔁 Submodel Utilities
+### Submodel Utilities
 
 ```python
 from shellsmith import services
@@ -148,7 +147,7 @@ Finds and removes all submodel references that point to non-existent submodels.
 
 ---
 
-### ☢️ Destructive Helpers
+### Destructive Helpers
 
 #### `delete_shell_cascading(shell_id)`
 
@@ -164,7 +163,7 @@ Deletes all Submodels in the environment.
 
 ---
 
-### 🧹 Cleanup & Diagnostics
+### Cleanup & Diagnostics
 
 #### `find_unreferenced_submodels()`
 
@@ -180,6 +179,6 @@ Checks the BaSyx environment health. Returns `"UP"` or `"DOWN"`.
 
 ---
 
-## 📚 Reference
+## Reference
 
-- 🔗 [Plattform Industrie 4.0 Swagger Docs](https://app.swaggerhub.com/apis/Plattform_i40/Entire-API-Collection)
+- [Plattform Industrie 4.0 Swagger Docs](https://app.swaggerhub.com/apis/Plattform_i40/Entire-API-Collection)

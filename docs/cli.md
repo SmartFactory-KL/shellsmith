@@ -1,6 +1,19 @@
-# 🧠 CLI Usage
+# Command-Line Interface
 
-Shellsmith provides a powerful Typer-based command-line interface.
+**aas-cli** provides a powerful Typer-based command-line interface for interacting with Asset Administration Shells through the Shellsmith ecosystem.
+
+---
+
+## Installation
+
+**aas-cli** is automatically installed when you install Shellsmith with the optional `cli` dependency `shellsmith[cli]`.
+You can also install **aas-cli** independently:
+
+```bash
+pip install aas-cli
+```
+
+---
 
 ## Getting Started
 
@@ -35,11 +48,12 @@ $ aas --help
 | `update` | Update Shells, Submodels, or Submodel Elements.          |
 | `create` | Create new Shells, Submodels, or Submodel Elements.      |
 
-> 💡 Use `aas <command> --help` to explore subcommands and options.
+!!! note  
+    Use `aas <command> --help` to explore subcommands and options.
 
 ---
 
-## 🔎 Get Commands
+## Get Commands
 
 | Command                  | Description                                 |
 |--------------------------|---------------------------------------------|
@@ -56,7 +70,7 @@ $ aas --help
 
 ---
 
-## 🛠️ Create Commands
+## Create Commands
 
 | Command                   | Description                             |
 |---------------------------|-----------------------------------------|
@@ -66,11 +80,12 @@ $ aas --help
 | `aas create element`      | 🔻 Create a new Submodel Element.       |
 | `aas create element`      | 🔻 Create an Element at a nested path.  |
 
-> ℹ️ Use either `--data` or `--file` — not both.
+!!! note  
+    Use either `--data` or `--file`, not both.
 
 ---
 
-## 🧬 Update Commands
+## Update Commands
 
 | Command                     | Description                                                    |
 |-----------------------------|----------------------------------------------------------------|
@@ -82,7 +97,7 @@ $ aas --help
 
 ---
 
-## 🧹 Delete Commands
+## Delete Commands
 
 | Command                    | Description                                                    |
 |----------------------------|----------------------------------------------------------------|

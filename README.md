@@ -17,22 +17,44 @@
  
 It provides full client-side access to AAS resources with a clean Python interface and a powerful `typer`-based CLI — ideal for scripting, automation, and digital twin integration workflows.
 
-### Features
-
-- 🐍 **Python SDK** for full CRUD access to Shells, Submodels, and Submodel Elements  
-- ⚡ **CLI tool** powered by [Typer](https://typer.tiangolo.com/) for fast scripting and automation  
-- ⚙️ Simple `.env`-based configuration for flexible environment switching  
-- 🔁 Seamless integration with the [Eclipse BaSyx](https://www.eclipse.org/basyx/) Environment REST API  
-
-## 🚀 Installation
+## Installation
 
 ```bash
 pip install shellsmith
 ```
 
+For CLI and MCP server support, install with optional dependencies:
+
+```bash
+pip install shellsmith[cli,mcp]
+```
+
 **Requires**: Python 3.10+
 
-## 🧠 CLI Usage
+
+## Python API Usage
+
+You can also use `shellsmith` as a Python client library to interact with the BaSyx Environment REST API.
+
+```python
+import shellsmith
+
+# Fetch all AAS Shells
+shells = shellsmith.get_shells()
+
+# Fetch a specific Submodel
+submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
+
+# Read and update a Submodel Element's value
+value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
+shellsmith.patch_submodel_element_value(submodel["id"], "temperature", "42.0")
+```
+
+> ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
+
+➡️ Full Python API reference: [shellsmith.pages.dev/api](https://shellsmith.pages.dev/api)
+
+## CLI Usage
 
 Shellsmith provides a powerful command-line interface:
 
@@ -56,29 +78,15 @@ aas --help
 
 ➡️ Full CLI reference: [shellsmith.pages.dev/cli](https://shellsmith.pages.dev/cli)
 
-## 🐍 Python API Usage
+## MCP Integration
 
-You can also use `shellsmith` as a Python client library to interact with the BaSyx Environment REST API.
+Shellsmith provides a Model Context Protocol (MCP) server that enables AI assistants to interact with Asset Administration Shells. The server exposes 25+ tools for comprehensive AAS management through a standardized interface.
 
-```python
-import shellsmith
+Configure with Claude Desktop or other MCP clients to get AI-powered AAS operations.
 
-# Fetch all AAS Shells
-shells = shellsmith.get_shells()
+➡️ Full MCP reference: [shellsmith.pages.dev/mcp](https://shellsmith.pages.dev/mcp)
 
-# Fetch a specific Submodel
-submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
-
-# Read and update a Submodel Element's value
-value = shellsmith.get_submodel_element_value(submodel["id"], "temperature")
-shellsmith.patch_submodel_element_value(submodel["id"], "temperature", "42.0")
-```
-
-> ℹ️ `shell_id` and `submodel_id` are automatically base64-encoded unless you pass `encode=False`.
-
-➡️ Full Python API reference: [shellsmith.pages.dev/api](https://shellsmith.pages.dev/api)
-
-## 🔧 Configuration
+## Configuration
 
 The default AAS environment host is:
 
@@ -108,9 +116,9 @@ You can override it in several ways:
   shellsmith.get_shells(host="https://your-host:1234")
   ```
 
-> 💡 The `--host` CLI flag and `host=` Python argument **take precedence** over environment variables and `.env`.
+> ℹ️ The `--host` CLI flag and `host=` Python argument **take precedence** over environment variables and `.env`.
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions!
 
