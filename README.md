@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/SmartFactory-KL/shellsmith/main/docs/images/logo-purple-500.png" alt="shellsmith">
+    <img src="https://raw.githubusercontent.com/SmartFactory-KL/shellsmith/main/docs/images/banner-purple-500.png" alt="shellsmith">
 </div>
 
 <div align="center">
