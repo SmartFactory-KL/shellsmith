@@ -39,7 +39,6 @@ keywords = [
 dependencies = [
     "httpx",
     "pydantic-settings",
-    "fastmcp",
     "pyyaml",
     "typer",
 ]
@@ -60,13 +59,15 @@ docs = [
     "mkdocs-material",
     "termynal",
 ]
+mcp = [
+    "aas-mcp",
+]
 neo4j = [
     "neo4j",
 ]
 
 [project.scripts]
 aas = "shellsmith.cli.app:main"
-shellsmith-mcp = "shellsmith.mcp.server:cli_main"
 
 [project.urls]
 Homepage = "https://github.com/SmartFactory-KL/shellsmith"
