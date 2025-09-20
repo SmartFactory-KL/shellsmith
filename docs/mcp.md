@@ -1,4 +1,8 @@
-# 🤖 MCP Integration
+<div style="margin: 2rem auto 1rem auto; text-align: center;">
+  <img src="../images/banner-aas-mcp-purple-h167.png" alt="Shellsmith logo">
+</div>
+
+# MCP Integration
 
 **aas-mcp** provides a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that enables AI assistants to interact with Asset Administration Shells through the Shellsmith ecosystem.
 

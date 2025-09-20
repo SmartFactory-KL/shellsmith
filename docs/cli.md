@@ -1,3 +1,7 @@
+<div style="margin: 2rem auto 1rem auto; text-align: center;">
+  <img src="../images/banner-aas-cli-purple-h167.png" alt="Shellsmith logo">
+</div>
+
 # Command-Line Interface
 
 **aas-cli** provides a powerful Typer-based command-line interface for interacting with Asset Administration Shells through the Shellsmith ecosystem.

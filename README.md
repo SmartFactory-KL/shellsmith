@@ -13,9 +13,7 @@
     <b>Documentation</b>: <a href="https://shellsmith.pages.dev/" target="_blank">https://shellsmith.pages.dev</a>
 </p>
 
-**Shellsmith** is a Python SDK and CLI for managing [Asset Administration Shells (AAS)](https://industrialdigitaltwin.org/en/content-hub/aasspecifications), Submodels, and Submodel Elements via the [Eclipse BaSyx](https://www.eclipse.org/basyx/) REST API.  
- 
-It provides full client-side access to AAS resources with a clean Python interface and a powerful `typer`-based CLI — ideal for scripting, automation, and digital twin integration workflows.
+**Shellsmith** is a Python SDK for managing [Asset Administration Shells (AAS)](https://industrialdigitaltwin.org/en/content-hub/aasspecifications) via the [Eclipse BaSyx](https://www.eclipse.org/basyx/) REST API.
 
 ## Installation
 
@@ -30,7 +28,6 @@ pip install shellsmith[cli,mcp]
 ```
 
 **Requires**: Python 3.10+
-
 
 ## Python API Usage
 
