@@ -36,8 +36,9 @@ theme:
 
 nav:
   - Home: index.md
-  - CLI: cli.md
   - API: api.md
+  - CLI: cli.md
+  - MCP: mcp.md
   - Contributing: contributing.md
 
 markdown_extensions:
