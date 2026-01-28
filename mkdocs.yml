@@ -36,6 +36,7 @@ theme:
 
 nav:
   - Home: index.md
+  - Learn: learn.md
   - API: api.md
   - CLI: cli.md
   - MCP: mcp.md
