@@ -9,6 +9,8 @@ theme:
     - navigation.instant
     - navigation.tabs
     - navigation.sections
+    - navigation.expand
+    - navigation.indexes
     - search.highlight
     - search.suggest
     - content.code.copy
@@ -36,7 +38,22 @@ theme:
 
 nav:
   - Home: index.md
-  - Learn: learn.md
+  - Learn:
+      - learn/index.md
+      - BaSyx:
+          - learn/basyx/index.md
+          - AAS Environment: learn/basyx/aas-environment.md
+          - AAS Repository: learn/basyx/aas-repository.md
+          - Submodel Repository: learn/basyx/submodel-repository.md
+          - Concept Description Repository: learn/basyx/concept-description-repository.md
+          - AAS Registry: learn/basyx/aas-registry.md
+          - Submodel Registry: learn/basyx/submodel-registry.md
+          - Discovery Service: learn/basyx/discovery-service.md
+          - Web UI: learn/basyx/web-ui.md
+      - FA3ST:
+          - learn/fa3st/index.md
+      - Asset Administration Shell:
+          - learn/asset-administration-shell/index.md
   - API: api.md
   - CLI: cli.md
   - MCP: mcp.md

@@ -1,4 +1,4 @@
-# Learn
+# BaSyx
 
 This page gives a quick, practical introduction to Asset Administration Shells (AAS) and the core BaSyx components you will encounter. In the BaSyx docs, these server-side building blocks are called **components**.
 
