@@ -1,0 +1,19 @@
+Fragen fuer Claude Desktop
+
+1. Hallo, ist der VWS-Server erreichbar und welche Produkte sind aktuell verfuegbar?
+
+2. Welche Produkte sind aktuell in Arbeit, welche sind bereits fertig, und welches Produkt wurde zuletzt angelegt?
+
+3. Zeig mir bitte zum zuletzt angelegten Produkt eine kurze Management-Zusammenfassung:
+Produktname, Auftragsnummer, Anlagezeitpunkt, aktueller Bearbeitungsstand, bisherige Produktionszeit und offene Schritte.
+
+4. Wie hoch ist die durchschnittliche Produktionszeit der letzten 5 Produkte, und welches Produkt hat am laengsten gedauert?
+
+5. Vergleiche die letzten zwei Produkte:
+Worin unterscheiden sie sich bei Aufbau, Produktionsschritten und benoetigten Faehigkeiten?
+
+6. Gibt es im aktuellen Bestand einen auffaelligen oder problematischen Produktionsfall?
+Bitte begruende kurz, woran du das festmachst.
+
+7. Wenn du die aktuelle Lage fuer einen Werksleiter in drei Punkten zusammenfassen muesstest:
+Was laeuft gut, wo gibt es Verzoegerungen und welches Produkt braucht gerade die meiste Aufmerksamkeit?

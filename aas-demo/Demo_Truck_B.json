@@ -1,0 +1,676 @@
+{
+  "assetAdministrationShells": [
+    {
+      "idShort": "Demo_Truck_B",
+      "id": "https://smartfactory.de/demo/shells/demo-truck-b",
+      "assetInformation": {
+        "assetKind": "Instance",
+        "globalAssetId": "https://smartfactory.de/demo/assets/demo-truck-b",
+        "assetType": "product"
+      },
+      "submodels": [
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/product-identification"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/bill-of-material"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/required-capability-description"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/production-plan"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/quality-information"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://smartfactory.de/demo/submodels/demo-truck-b/management-summary"
+            }
+          ]
+        }
+      ],
+      "modelType": "AssetAdministrationShell"
+    }
+  ],
+  "submodels": [
+    {
+      "idShort": "ProductIdentification",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/product-identification",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "Identifier",
+          "valueType": "xs:string",
+          "value": "https://smartfactory.de/demo/shells/demo-truck-b",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "ProductName",
+          "valueType": "xs:string",
+          "value": "Truck",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Auftragsnummer",
+          "valueType": "xs:string",
+          "value": "VID-1004",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "AngelegtAm",
+          "valueType": "xs:string",
+          "value": "2026-04-23T11:00:00Z",
+          "modelType": "Property"
+        }
+      ],
+      "modelType": "Submodel"
+    },
+    {
+      "idShort": "BillOfMaterial",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/bill-of-material",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "ArcheType",
+          "valueType": "xs:string",
+          "value": "Full",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Truck",
+          "statements": [
+            {
+              "idShort": "Name",
+              "valueType": "xs:string",
+              "value": "Truck",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Quantity",
+              "valueType": "xs:string",
+              "value": "1",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Cab",
+              "statements": [
+                {
+                  "idShort": "Name",
+                  "valueType": "xs:string",
+                  "value": "Cab",
+                  "modelType": "Property"
+                },
+                {
+                  "idShort": "Quantity",
+                  "valueType": "xs:string",
+                  "value": "1",
+                  "modelType": "Property"
+                }
+              ],
+              "entityType": "CoManagedEntity",
+              "modelType": "Entity"
+            },
+            {
+              "idShort": "Semitrailer",
+              "statements": [
+                {
+                  "idShort": "Name",
+                  "valueType": "xs:string",
+                  "value": "Semitrailer",
+                  "modelType": "Property"
+                },
+                {
+                  "idShort": "Quantity",
+                  "valueType": "xs:string",
+                  "value": "1",
+                  "modelType": "Property"
+                }
+              ],
+              "entityType": "CoManagedEntity",
+              "modelType": "Entity"
+            },
+            {
+              "idShort": "Truck_Chassis",
+              "statements": [
+                {
+                  "idShort": "Name",
+                  "valueType": "xs:string",
+                  "value": "Truck_Chassis",
+                  "modelType": "Property"
+                },
+                {
+                  "idShort": "Quantity",
+                  "valueType": "xs:string",
+                  "value": "1",
+                  "modelType": "Property"
+                }
+              ],
+              "entityType": "CoManagedEntity",
+              "modelType": "Entity"
+            }
+          ],
+          "entityType": "CoManagedEntity",
+          "modelType": "Entity"
+        }
+      ],
+      "modelType": "Submodel"
+    },
+    {
+      "idShort": "RequiredCapabilityDescription",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/required-capability-description",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "CapabilitySet",
+          "value": [
+            {
+              "idShort": "CapabilityContainer0001",
+              "value": [
+                {
+                  "idShort": "FullyAutomatedAssembly",
+                  "modelType": "Capability"
+                },
+                {
+                  "idShort": "CapabilityComment",
+                  "value": [
+                    {
+                      "language": "de",
+                      "text": "Montage des Trucks."
+                    }
+                  ],
+                  "modelType": "MultiLanguageProperty"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            },
+            {
+              "idShort": "CapabilityContainer0002",
+              "value": [
+                {
+                  "idShort": "MaterialTransfer",
+                  "modelType": "Capability"
+                },
+                {
+                  "idShort": "CapabilityComment",
+                  "value": [
+                    {
+                      "language": "de",
+                      "text": "Materialfluss fuer Lade- und Entladeschritte."
+                    }
+                  ],
+                  "modelType": "MultiLanguageProperty"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            },
+            {
+              "idShort": "CapabilityContainer0003",
+              "value": [
+                {
+                  "idShort": "AASLabelPrint",
+                  "modelType": "Capability"
+                },
+                {
+                  "idShort": "CapabilityComment",
+                  "value": [
+                    {
+                      "language": "de",
+                      "text": "Abschliessende Kennzeichnung."
+                    }
+                  ],
+                  "modelType": "MultiLanguageProperty"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        }
+      ],
+      "modelType": "Submodel"
+    },
+    {
+      "idShort": "ProductionPlan",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/production-plan",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "IsFinished",
+          "valueType": "xs:string",
+          "value": "false",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "QuantityInformation",
+          "value": [
+            {
+              "idShort": "TotalNumberOfPieces",
+              "valueType": "xs:integer",
+              "value": "1",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "idShort": "Step0001",
+          "value": [
+            {
+              "idShort": "StepTitle",
+              "valueType": "xs:string",
+              "value": "Assemble",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Status",
+              "valueType": "xs:string",
+              "value": "done",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "RequiredCapability",
+              "valueType": "xs:string",
+              "value": "FullyAutomatedAssembly",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Actions",
+              "value": [
+                {
+                  "idShort": "Action001",
+                  "value": [
+                    {
+                      "idShort": "ActionTitle",
+                      "valueType": "xs:string",
+                      "value": "AssembleTruck",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "Status",
+                      "valueType": "xs:string",
+                      "value": "done",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "SkillReferenceName",
+                      "valueType": "xs:string",
+                      "value": "Skill_Assembly_03",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "FinalResultData",
+                      "value": [
+                        {
+                          "idShort": "StartTime",
+                          "valueType": "xs:string",
+                          "value": "2026-04-23T11:02:00Z",
+                          "modelType": "Property"
+                        },
+                        {
+                          "idShort": "EndTime",
+                          "valueType": "xs:string",
+                          "value": "2026-04-23T11:09:00Z",
+                          "modelType": "Property"
+                        }
+                      ],
+                      "modelType": "SubmodelElementCollection"
+                    }
+                  ],
+                  "modelType": "SubmodelElementCollection"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "idShort": "Step0002",
+          "value": [
+            {
+              "idShort": "StepTitle",
+              "valueType": "xs:string",
+              "value": "Load",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Status",
+              "valueType": "xs:string",
+              "value": "done",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "RequiredCapability",
+              "valueType": "xs:string",
+              "value": "MaterialTransfer",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Actions",
+              "value": [
+                {
+                  "idShort": "Action001",
+                  "value": [
+                    {
+                      "idShort": "ActionTitle",
+                      "valueType": "xs:string",
+                      "value": "RetrieveToPortLogistic",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "Status",
+                      "valueType": "xs:string",
+                      "value": "done",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "SkillReferenceName",
+                      "valueType": "xs:string",
+                      "value": "Skill_Transfer_01",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "FinalResultData",
+                      "value": [
+                        {
+                          "idShort": "StartTime",
+                          "valueType": "xs:string",
+                          "value": "2026-04-23T11:09:15Z",
+                          "modelType": "Property"
+                        },
+                        {
+                          "idShort": "EndTime",
+                          "valueType": "xs:string",
+                          "value": "2026-04-23T11:11:45Z",
+                          "modelType": "Property"
+                        }
+                      ],
+                      "modelType": "SubmodelElementCollection"
+                    }
+                  ],
+                  "modelType": "SubmodelElementCollection"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "idShort": "Step0003",
+          "value": [
+            {
+              "idShort": "StepTitle",
+              "valueType": "xs:string",
+              "value": "Unload",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Status",
+              "valueType": "xs:string",
+              "value": "open",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "RequiredCapability",
+              "valueType": "xs:string",
+              "value": "MaterialTransfer",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Actions",
+              "value": [
+                {
+                  "idShort": "Action001",
+                  "value": [
+                    {
+                      "idShort": "ActionTitle",
+                      "valueType": "xs:string",
+                      "value": "RetrieveFromPortLogisticToAMR",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "Status",
+                      "valueType": "xs:string",
+                      "value": "open",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "SkillReferenceName",
+                      "valueType": "xs:string",
+                      "value": "Skill_Transfer_02",
+                      "modelType": "Property"
+                    }
+                  ],
+                  "modelType": "SubmodelElementCollection"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "idShort": "Step0004",
+          "value": [
+            {
+              "idShort": "StepTitle",
+              "valueType": "xs:string",
+              "value": "LabelPrint",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Status",
+              "valueType": "xs:string",
+              "value": "open",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "RequiredCapability",
+              "valueType": "xs:string",
+              "value": "AASLabelPrint",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "Actions",
+              "value": [
+                {
+                  "idShort": "Action001",
+                  "value": [
+                    {
+                      "idShort": "ActionTitle",
+                      "valueType": "xs:string",
+                      "value": "AASLabelPrint",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "Status",
+                      "valueType": "xs:string",
+                      "value": "open",
+                      "modelType": "Property"
+                    },
+                    {
+                      "idShort": "SkillReferenceName",
+                      "valueType": "xs:string",
+                      "value": "Skill_Label_01",
+                      "modelType": "Property"
+                    }
+                  ],
+                  "modelType": "SubmodelElementCollection"
+                }
+              ],
+              "modelType": "SubmodelElementCollection"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        }
+      ],
+      "modelType": "Submodel"
+    },
+    {
+      "idShort": "QualityInformation",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/quality-information",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "LifecycleCount",
+          "valueType": "xs:integer",
+          "value": "0",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "InspectionDate",
+          "valueType": "xs:string",
+          "value": "",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "QualityStatus",
+          "valueType": "xs:string",
+          "value": "Noch nicht geprueft",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "HistoricalData",
+          "value": [
+            {
+              "idShort": "LastInspectionResult",
+              "valueType": "xs:string",
+              "value": "pending",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "LastInspectionComment",
+              "valueType": "xs:string",
+              "value": "Produkt befindet sich noch in Bearbeitung.",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        }
+      ],
+      "modelType": "Submodel"
+    },
+    {
+      "idShort": "ManagementSummary",
+      "id": "https://smartfactory.de/demo/submodels/demo-truck-b/management-summary",
+      "kind": "Instance",
+      "submodelElements": [
+        {
+          "idShort": "Produktname",
+          "valueType": "xs:string",
+          "value": "Truck",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Auftragsnummer",
+          "valueType": "xs:string",
+          "value": "VID-1004",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "AngelegtAm",
+          "valueType": "xs:string",
+          "value": "2026-04-23T11:00:00Z",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Bearbeitungsstand",
+          "valueType": "xs:string",
+          "value": "In Bearbeitung",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "GesamtproduktionszeitSekunden",
+          "valueType": "xs:integer",
+          "value": "570",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "GesamtproduktionszeitText",
+          "valueType": "xs:string",
+          "value": "9 Minuten 30 Sekunden",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "AnzahlProduktionsschritte",
+          "valueType": "xs:integer",
+          "value": "4",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "AbgeschlosseneSchritte",
+          "valueType": "xs:integer",
+          "value": "2",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "OffeneSchritte",
+          "valueType": "xs:integer",
+          "value": "2",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Qualitaetsstatus",
+          "valueType": "xs:string",
+          "value": "Noch nicht geprueft",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Aufmerksamkeitsstufe",
+          "valueType": "xs:string",
+          "value": "Mittel",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Auffaellig",
+          "valueType": "xs:string",
+          "value": "false",
+          "modelType": "Property"
+        },
+        {
+          "idShort": "Auffaelligkeitsgrund",
+          "valueType": "xs:string",
+          "value": "Normaler Arbeitsfortschritt, zwei Schritte noch offen.",
+          "modelType": "Property"
+        }
+      ],
+      "modelType": "Submodel"
+    }
+  ]
+}
