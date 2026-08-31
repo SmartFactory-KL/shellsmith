@@ -9,6 +9,7 @@ from urllib.parse import quote
 import httpx
 from httpx import Response
 
+from shellsmith.auth import Auth
 from shellsmith.config import config
 from shellsmith.types import JSON
 from shellsmith.utils import base64_encoded
@@ -21,20 +22,23 @@ class AsyncClient:
         self,
         host: str = config.host,
         timeout: float = config.timeout,
+        auth: Auth | None = None,
     ) -> None:
         """Initialize async client.
 
         Args:
             host: Base URL of the AAS server. Defaults to configured host.
             timeout: Request timeout in seconds.
+            auth: Authentication configuration for requests.
         """
         self.host = host
         self.timeout = timeout
         self._client: httpx.AsyncClient | None = None
+        self._auth = auth
 
     async def __aenter__(self) -> "AsyncClient":
         """Enter async context manager."""
-        self._client = httpx.AsyncClient(timeout=self.timeout)
+        self._client = httpx.AsyncClient(timeout=self.timeout, auth=self._auth)
         return self
 
     async def __aexit__(
@@ -705,20 +709,23 @@ class Client:
         self,
         host: str = config.host,
         timeout: float = config.timeout,
+        auth: Auth | None = None,
     ) -> None:
         """Initialize sync client.
 
         Args:
             host: Base URL of the AAS server. Defaults to configured host.
             timeout: Request timeout in seconds.
+            auth: Authentication configuration for requests.
         """
         self.host = host
         self.timeout = timeout
         self._client: httpx.Client | None = None
+        self._auth = auth
 
     def __enter__(self) -> "Client":
         """Enter context manager."""
-        self._client = httpx.Client(timeout=self.timeout)
+        self._client = httpx.Client(timeout=self.timeout, auth=self._auth)
         return self
 
     def __exit__(
