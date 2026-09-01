@@ -2,7 +2,7 @@
 
 import time
 import typing
-from enum import Enum
+from dataclasses import dataclass
 
 import httpx
 from httpx import Request, Response
@@ -11,61 +11,76 @@ from typing_extensions import override
 from shellsmith.config import config
 
 
-class GrantType(str, Enum):
-    """Supported grant types."""
+@dataclass
+class UserAuthentication:
+    """Authentication data for user-based authentication.
 
-    CLIENT_CREDENTIALS = "client_credentials"
-    PASSWORD = "password"
+    Args:
+        username: Username used for authentication.
+        password: Password used for authentication.
+    """
 
-    def __str__(self) -> str:
-        """Return the enum member's value as its string representation."""
-        return self.value
+    username: str
+    password: str
+
+
+@dataclass
+class ClientAuthentication:
+    """Authentication data for client-based authentication.
+
+    Args:
+        client_id: The unique identifier of the client used for authentication.
+        client_secret: The secret associated with the client used for authentication.
+    """
+
+    client_id: str
+    client_secret: str
 
 
 class TokenProvider:
     """Base class for token providers.
 
     To implement a custom token provider scheme, subclass `TokenProvider`
-    and add data elements in self._data.
+    and provide data.
     """
 
     def __init__(
         self,
         token_url: str,
-        grant_type: GrantType,
+        data: dict[str, str],
         timeout: float = config.timeout,
     ) -> None:
         """Initialize a token provider.
 
         Args:
             token_url: URL of the token endpoint.
-            grant_type: Grant type used to obtain the token.
+            data: Data required to request an access token,
+                including the grant type and authentication credentials.
             timeout: Request timeout in seconds.
         """
         self._token_url = token_url
-        self._grant_type = grant_type
         self._timeout = timeout
 
         self._token = None
         self._expires_at = 0
 
-        self._data = {"grant_type": self._grant_type}
+        self._data = data
 
     def _token_valid(self) -> bool:
         """Return whether the current token exists and has not expired."""
         return self._token and time.time() < self._expires_at
 
-    def _save_token(self, payload: dict[str, typing.Any]) -> None:
+    def _save_token(self, data: dict[str, typing.Any]) -> None:
         """Save the access token and calculate its expiration time.
 
         Args:
-            payload: Token response containing ``access_token`` and optionally
+            data: Token response containing ``access_token`` and optionally
                 ``expires_in`` in seconds.
         """
-        self._token = payload["access_token"]
-        self._expires_at = time.time() + payload.get("expires_in", 3600)
+        self._token = data["access_token"]
+        self._expires_at = time.time() + data.get("expires_in", 3600)
 
-    def get_token_sync(self) -> str:
+    def sync_get_token(self) -> str:
         """Return a valid access token synchronously, refreshing it when necessary."""
         if self._token_valid():
             return self._token
@@ -79,7 +94,7 @@ class TokenProvider:
 
         return self._token
 
-    async def get_token_async(self) -> str:
+    async def async_get_token(self) -> str:
         """Return a valid access token asynchronously, refreshing it when necessary."""
         if self._token_valid():
             return self._token
@@ -96,77 +111,64 @@ class TokenProvider:
 
 
 class PasswordTokenProvider(TokenProvider):
-    """Token provider using password."""
+    """Token provider using password grant type (see https://www.rfc-editor.org/info/rfc6749/#section-4.3)."""
 
     def __init__(
         self,
         token_url: str,
-        client_id: str,
-        client_secret: str,
-        username: str,
-        password: str,
+        user_authentication: UserAuthentication,
+        client_authentication: ClientAuthentication | None = None,
         timeout: float = config.timeout,
     ) -> None:
         """Initialize a password token provider.
 
         Args:
             token_url: URL of the token endpoint.
-            client_id: Client identifier.
-            client_secret: Client secret.
-            username: Username.
-            password: Password.
+            user_authentication: Username and password.
+            client_authentication: Optional client identifier and client secret.
             timeout: Request timeout in seconds.
         """
-        super().__init__(
-            token_url=token_url, timeout=timeout, grant_type=GrantType.PASSWORD
-        )
+        _data = {
+            "username": user_authentication.username,
+            "password": user_authentication.password,
+            "grant_type": "password",
+        }
 
-        self._client_id = client_id
-        self._client_secret = client_secret
-        self._username = username
-        self._password = password
+        if client_authentication:
+            _data.update(
+                {
+                    "client_id": client_authentication.client_id,
+                    "client_secret": client_authentication.client_secret,
+                }
+            )
 
-        self._data.update(
-            {
-                "username": self._username,
-                "password": self._password,
-                "client_id": self._client_id,
-                "client_secret": self._client_secret,
-            }
-        )
+        super().__init__(token_url=token_url, data=_data, timeout=timeout)
 
 
 class ClientCredentialsTokenProvider(TokenProvider):
-    """Token provider using client credentials."""
+    """Token provider using client credentials grant type (see https://www.rfc-editor.org/info/rfc6749/#section-2.3)."""
 
     def __init__(
         self,
         token_url: str,
-        client_id: str,
-        client_secret: str,
+        client_authentication: ClientAuthentication,
         timeout: float = config.timeout,
     ) -> None:
         """Initialize a client credentials token provider.
 
         Args:
             token_url: URL of the token endpoint.
-            client_id: Client identifier.
-            client_secret: Client secret.
+            client_authentication: Client identifier and client secret.
             timeout: Request timeout in seconds.
         """
         super().__init__(
             token_url=token_url,
+            data={
+                "client_id": client_authentication.client_id,
+                "client_secret": client_authentication.client_secret,
+                "grant_type": "client_credentials",
+            },
             timeout=timeout,
-            grant_type=GrantType.CLIENT_CREDENTIALS,
-        )
-        self._client_id = client_id
-        self._client_secret = client_secret
-
-        self._data.update(
-            {
-                "client_id": self._client_id,
-                "client_secret": self._client_secret,
-            }
         )
 
 
@@ -186,7 +188,7 @@ class Auth(httpx.Auth):
         self, request: Request
     ) -> typing.Generator[Request, Response, None]:
         """Synchronously fetch a token and add it to the request header."""
-        token = self.token_provider.get_token_sync()
+        token = self.token_provider.sync_get_token()
         request.headers["Authorization"] = f"Bearer {token}"
         yield request
 
@@ -195,6 +197,6 @@ class Auth(httpx.Auth):
         self, request: Request
     ) -> typing.Generator[Request, Response, None]:
         """Asynchronously fetch a token and add it to the request header."""
-        token = await self.token_provider.get_token_async()
+        token = await self.token_provider.async_get_token()
         request.headers["Authorization"] = f"Bearer {token}"
         yield request

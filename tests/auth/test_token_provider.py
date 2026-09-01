@@ -1,10 +1,11 @@
 from unittest.mock import Mock, patch
 
 from shellsmith.auth import (
+    ClientAuthentication,
     ClientCredentialsTokenProvider,
-    GrantType,
     PasswordTokenProvider,
     TokenProvider,
+    UserAuthentication,
 )
 
 
@@ -19,7 +20,7 @@ def verify_provider(token_provider: TokenProvider):
     }
 
     with patch("httpx.Client.post", return_value=response):
-        token = token_provider.get_token_sync()
+        token = token_provider.sync_get_token()
 
     assert token == "test-token"
     token_provider._expires_at = now + expires
@@ -34,11 +35,11 @@ def verify_provider(token_provider: TokenProvider):
 def test_client_credentials_provider():
 
     client_credentials_provider = ClientCredentialsTokenProvider(
-        token_url="token_url", client_id="client_id", client_secret="client_secret"
+        token_url="token_url",
+        client_authentication=ClientAuthentication(
+            client_id="client_id", client_secret="client_secret"
+        ),
     )
-
-    assert client_credentials_provider._grant_type == GrantType.CLIENT_CREDENTIALS
-    assert client_credentials_provider._grant_type.value == "client_credentials"
 
     verify_provider(client_credentials_provider)
 
@@ -47,13 +48,12 @@ def test_password_provider():
 
     password_provider = PasswordTokenProvider(
         token_url="token_url",
-        client_id="client_id",
-        client_secret="client_secret",
-        username="username",
-        password="password",
+        user_authentication=UserAuthentication(
+            username="username", password="password"
+        ),
+        client_authentication=ClientAuthentication(
+            client_id="client_id", client_secret="client_secret"
+        ),
     )
-
-    assert password_provider._grant_type == GrantType.PASSWORD
-    assert password_provider._grant_type.value == "password"
 
     verify_provider(password_provider)
