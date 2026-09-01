@@ -16,7 +16,7 @@ shells = response["result"]  # Extract the actual shells list
 # Fetch a specific Shell by ID
 shell = shellsmith.get_shell("https://example.com/shells/my-shell")
 
-# Fetch a specific Submodel by ID  
+# Fetch a specific Submodel by ID
 submodel = shellsmith.get_submodel("https://example.com/submodels/my-submodel")
 
 # Read and update a Submodel Element's value
@@ -33,10 +33,10 @@ from shellsmith.clients import Client, AsyncClient
 with Client() as client:
     response = client.get_shells()
     shells = response["result"]
-    
+
 # Asynchronous client
 async with AsyncClient() as client:
-    response = await client.get_shells() 
+    response = await client.get_shells()
     shells = response["result"]
     health = await client.get_health_status()
 ```
